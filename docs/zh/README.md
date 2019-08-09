@@ -2,7 +2,7 @@
 home: true
 heroImage: /vapper.png
 actionText: Get Started →
-actionLink: /zh/guide/
+actionLink: /zh/usage/
 features:
 - title: 简洁至上
   details: Vapper 能够让你像开发 SPA 应用一样的开发 SSR 应用，没有多余的概念需要学习，在 Vapper 中你可以使用非常直观的、一贯的方式预取数据。

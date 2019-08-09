@@ -30,7 +30,7 @@ module.exports = {
         editLinkText: '在 GitHub 上编辑此页',
         sidebar: [
           ['/zh/introduction', 'Introduction'],
-          ['/zh/guide', 'Guide']
+          ['/zh/usage', 'Usage']
         ],
         nav: [
           // { text: '捐赠者名单', link: '/zh/donor-list' },
