@@ -16,7 +16,6 @@ module.exports = {
   },
   themeConfig: {
     home: true,
-    displayAllHeaders: true,
     sidebarDepth: 2,
     locales: {
       '/': {
@@ -29,11 +28,34 @@ module.exports = {
         label: '简体中文',
         editLinkText: '在 GitHub 上编辑此页',
         sidebar: [
-          ['/zh/introduction', 'Introduction'],
-          ['/zh/usage', 'Usage']
+          {
+            title: 'Guide',
+            children: [
+              ['/zh/introduction', 'Introduction'],
+              ['/zh/usage', 'Usage'],
+              ['/zh/entry', '入口文件'],
+              ['/zh/data-prefetching', '数据预取'],
+              ['/zh/routes-meta', '路由 Meta'],
+              ['/zh/error-handling', '错误处理'],
+              ['/zh/management-head', '管理 <head>'],
+              ['/zh/assets', '静态资源'],
+              ['/zh/using-plugin', '使用插件'],
+            ]
+          },
+          {
+            title: 'Advanced',
+            children: [
+              ['/zh/node-api', 'Nodejs API'],
+              ['/zh/write-plugin', '插件开发'],
+              ['/zh/custom-server', '自定义 Server']
+            ]
+          },
+          ['/zh/config', '配置文件']
         ],
         nav: [
-          // { text: '捐赠者名单', link: '/zh/donor-list' },
+          { text: 'Guide', link: '/zh/introduction' },
+          { text: 'Advanced', link: '/zh/node-api' },
+          { text: '配置文件', link: '/zh/config' }
         ]
       }
     },
