@@ -39,6 +39,7 @@ module.exports = {
               ['/zh/error-handling', '错误处理'],
               ['/zh/management-head', '管理 <head>'],
               ['/zh/assets', '静态资源'],
+              ['/zh/caching', '使用缓存'],
               ['/zh/using-plugin', '使用插件'],
             ]
           },
