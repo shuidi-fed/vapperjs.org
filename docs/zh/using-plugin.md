@@ -73,4 +73,6 @@ module.exports = {
 
 该插件注入了 `vapper generate` 命令，该命令等价于“构建 + 生成”。
 
+### @vapper/plugin-cookie
+
 ## 社区插件

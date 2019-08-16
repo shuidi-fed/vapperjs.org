@@ -41,6 +41,7 @@ module.exports = {
               ['/zh/assets', '静态资源'],
               ['/zh/caching', '使用缓存'],
               ['/zh/using-plugin', '使用插件'],
+              ['/zh/injection', 'Vapper 注入的方法和属性']
             ]
           },
           {
