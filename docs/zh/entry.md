@@ -1,9 +1,5 @@
 # 入口文件
 
-:::tip
-本节内容描述了 Vapper 对入口文件的要求，如果你已经使用了 [@vapper/create-app](/zh/usage.html#使用-vapper-create-app)，那么这些工作都是自定完成的。
-:::
-
 ## 避免状态单例
 
 为了避免交叉请求导致的状态污染，我们需要在入口文件导出一个工厂函数。在工厂函数内部，我们为每个请求创建新的应用程序实例、路由实例等。你可以阅读官方文档以了解更多关于 [避免状态单例](https://ssr.vuejs.org/zh/guide/structure.html#%E9%81%BF%E5%85%8D%E7%8A%B6%E6%80%81%E5%8D%95%E4%BE%8B) 的信息。
@@ -52,3 +48,27 @@ export default function createApp () {
 ```
 
 `Vapper` 的默认入口文件是 `src/main.js` 文件，你可以通过在 `vapper.config.js` 文件中修改此配置，查看 [config]()。
+
+## 插件的运行时选项
+
+`Vapper` 的插件可以在运行时的层面增强我们的应用，有的插件会接收运行时的参数，允许用户对插件的功能进行配置。我们可以在入口文件所导出的工厂函数上添加 `pluginRuntimeOptions` 属性，所有运行时插件都会读取该属性并提取自己想要的信息，例如：
+
+```js {8-12}
+// 入口文件
+
+// Export factory function
+export default function createApp () {
+  // 省略....
+}
+
+// 将插件的运行时选项添加到 pluginRuntimeOptions 对象下
+createApp.pluginRuntimeOptions = {
+  // @vapper/plugin-cookie
+  cookie: { fromRes: true }
+}
+```
+
+如上代码展示了如何给 `@vapper/plugin-cookie` 插件提供运行时选项（`@vapper/plugin-cookie` 插件会读取 `pluginRuntimeOptions.cookie` 属性作为选项）。
+
+阅读 [使用插件](/zh/using-plugin.html#官方插件) 和 [插件开发](/zh/write-plugin.html) 以了解更多有关插件的详细信息。
+

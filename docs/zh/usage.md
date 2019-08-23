@@ -4,21 +4,6 @@
 Vapper 要求 Vue 的版本号为 2.6+
 :::
 
-## 使用 @vapper/create-app
-
-得益于 [yarn create](https://yarnpkg.com/lang/en/docs/cli/create/) 命令，你可以通过执行如下命令快速创建一个 `Vapper` 应用：
-
-```sh
-yarn create @vapper/app my-vapper-app
-```
-
-它等价于：
-
-```sh
-yarn global add @vapper/create-app
-create-vapper-app my-vapper-app
-```
-
 ## 集成到 Vue CLI 3 项目
 
 1、使用 `vue create` 命令创建项目：

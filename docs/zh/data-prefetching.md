@@ -2,10 +2,6 @@
 
 `Vapper` 提供更直观更强大的数据预取能力，它让你像开发 `SPA` 应用一样的进行数据预取。
 
-:::tip
-如果你想了解底层实现，可以查看：[vue-ssr-prefetcher](https://github.com/vue-contrib/vue-ssr-prefetcher)
-:::
-
 ## $createFetcher 函数
 
 在开发 `SPA` 应用时，我们通常在组件的 `created` 或 `mounted` 钩子中进行数据的获取，例如：
@@ -18,7 +14,7 @@ async created () {
 }
 ```
 
-但这段代码不能正常的允许在 `SSR` 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 `SSR` 应用中运行，你可以将 `fetchApi` 函数传递给 `$createFetcher` 函数，该函数由 `Vapper` 注入到组件实例中：
+但这段代码不能正常的运行在 `SSR` 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 `SSR` 应用中运行，你可以将 `fetchApi` 函数传递给 `$createFetcher` 函数，该函数由 `Vapper` 注入到组件实例中：
 
 ```js
 // created 钩子
