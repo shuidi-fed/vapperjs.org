@@ -56,7 +56,7 @@ module.exports = {
         ],
         nav: [
           { text: 'Guide', link: '/zh/introduction' },
-          { text: 'Advanced', link: '/zh/node-api' },
+          { text: 'Advanced', link: '/zh/write-plugin' },
           { text: '配置文件', link: '/zh/config' }
         ]
       }
