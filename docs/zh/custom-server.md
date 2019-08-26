@@ -1,5 +1,9 @@
 # 自定义 Server
 
+:::tip
+自定义 `Server` 实际上就是在以 `Nodejs API` 的方式使用 `Vapper`。
+:::
+
 ## Connect
 
 `Vapper` 内部使用 [Connect](https://www.npmjs.com/package/connect)，启动内置的服务器非常简单：
@@ -111,5 +115,3 @@ starter()
 ```
 
 为了更加通用，`Vapper` 处理 `Nodejs` 原生的请求(`req`)和响应(`res`)对象，因此需要设置 `Koa` 的 `ctx.respond = false`，之后分别将 `ctx.req` 和 `ctx.res` 作为参数传递给 `vapper.handler` 函数。
-
-## Node

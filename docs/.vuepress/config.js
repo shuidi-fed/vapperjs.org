@@ -47,7 +47,6 @@ module.exports = {
           {
             title: 'Advanced',
             children: [
-              ['/zh/node-api', 'Nodejs API'],
               ['/zh/write-plugin', '插件开发'],
               ['/zh/custom-server', '自定义 Server'],
               ['/zh/configer', 'Configer']
