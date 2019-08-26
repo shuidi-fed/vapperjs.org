@@ -20,8 +20,8 @@
 
 `Vapper` 提供了两个包，分别用于集成 [Vue-CLI](https://cli.vuejs.org/) 和 [Poi](https://poi.js.org/)：
 
-- `@vapper/configer-vue-cli`
-- `@vapper/configer-poi`
+- [@vapper/configer-vue-cli](/zh/configer.html#vapper-configer-vue-cli)
+- [@vapper/configer-poi](/zh/configer.html#vapper-configer-poi)
 
 如下示意图所示：
 
