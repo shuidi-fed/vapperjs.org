@@ -11,7 +11,7 @@ module.exports = {
     '/zh/': {
       lang: 'zh-CN',
       title: 'Vapper',
-      description: 'Vue SSR 框架'
+      description: 'A Vue-based server-side rendering framework'
     }
   },
   themeConfig: {
@@ -20,8 +20,14 @@ module.exports = {
     locales: {
       '/': {
         label: 'English',
+        editLinkText: 'Edit this page on GitHub',
         sidebar: [
-          '/'
+          {
+            title: 'Guide'
+          },
+          {
+            title: 'Advanced'
+          }
         ]
       },
       '/zh/': {

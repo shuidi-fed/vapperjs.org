@@ -70,3 +70,75 @@ const router = new VueRouter({
 })
 ```
 
+## 在自定义 Server 中使用路由 Meta
+
+`Vapper` 允许你自定义 `Server`，请查看：[自定义 Server](/zh/custom-server.html#自定义-server)。如下代码是典型的使用 `Express` 配合 `Vapper` 实现自定义 `Server` 的代码：
+
+```js
+// server.js
+const express = require('express')
+const app = express()
+const Vapper = require('@vapper/core')
+
+async function starter () {
+  // 1、创建 Vapper 实例，Vapper 会自动加载配置文件
+  const vapper = new Vapper({ mode: process.env.NODE_ENV || 'production' })
+
+  // 2、使用默认的 port 和 host，或者来自于配置文件中的 port 和 host
+  //    你也可以手动指定 port 和 host
+  const {
+    options: {
+      port,
+      host
+    }
+  } = vapper
+
+  // 3、等待 Vapper 设置完成
+  await vapper.setup()
+
+  // 4、使用 vapper.handler 处理请求
+  app.get('*', vapper.handler)
+
+  // 5、创建 Server 并侦听请求
+  app.listen(port, host, () => vapper.logger.info(`Server running at: http://${host}:${port}`))
+}
+
+starter()
+```
+
+通常你会编写一些自己的中间件，在中间件内部，可以通过 [api.getRouteMeta()](/zh/write-plugin.html#api-getroutemeta) 函数获取当前请求所对应路由的 `Meta` 数据，如下高亮代码所示：
+
+```js {19-21}
+// server.js
+// 省略...
+async function starter () {
+  // 1、创建 Vapper 实例，Vapper 会自动加载配置文件
+  const vapper = new Vapper({ mode: process.env.NODE_ENV || 'production' })
+
+  // 2、使用默认的 port 和 host，或者来自于配置文件中的 port 和 host
+  //    你也可以手动指定 port 和 host
+  const {
+    options: {
+      port,
+      host
+    }
+  } = vapper
+
+  // 3、等待 Vapper 设置完成
+  await vapper.setup()
+
+  app.use((req, res, next) => {
+    const meta = vapper.getRouteMeta(req.url)
+  })
+
+  // 4、使用 vapper.handler 处理请求
+  app.get('*', vapper.handler)
+
+  // 5、创建 Server 并侦听请求
+  app.listen(port, host, () => vapper.logger.info(`Server running at: http://${host}:${port}`))
+}
+
+starter()
+```
+
+这意味着，你所编写的中间件也将拥有路由级别的控制能力。

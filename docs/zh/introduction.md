@@ -6,11 +6,11 @@
 
 `Vapper` 是一个基于 `Vue` 的服务端渲染(`SSR`)框架，它的核心目标是：**简单**、**灵活**、**强大**。
 
-- **简单**：尽最大的努力让开发 `SSR` 应用与开发 `SPA` 应用保持一致的体验，降低学习成本和不同项目间切换的成本。最典型的例子是 `Vapper` 提供的数据预取方案。
+- **简单**：尽最大的努力让开发 `SSR` 应用与开发 `SPA` 应用保持一致的体验，降低学习成本和不同项目间切换的成本。最典型的例子是 `Vapper` 提供的[数据预取](/zh/data-prefetching.html#数据预取)方案。
 
 - **灵活**：灵活体现在很多方面，例如 `Vapper` 只负责必要的 `webpack` 配置，这使得它可以配合 [Vue-CLI](https://cli.vuejs.org/)、[Poi](https://poi.js.org/) 等优秀的工具一起使用；同时 `Vapper` 允许你在路由级别上控制是否开启 `SSR`、`SPA` 或预渲染的能力，这意味着同一个项目中不同的路由可能采用不同的处理方式。
 
-- **强大**：`Vapper` 的核心非常简单，但它的插件架构，让你拥有“渐进式”的增强能力，通过不同的插件对 `Vapper` 进行扩展，几乎能做到任何你期望的事情。实际上，`Vapper` 的许多核心功能也是以插件的方式实现的。
+- **强大**：`Vapper` 的核心非常简单，但它的[插件](/zh/using-plugin.html#应用级插件和框架级插件)架构，让你拥有“渐进式”的增强能力，通过不同的插件对 `Vapper` 进行扩展，几乎能做到任何你期望的事情。实际上，`Vapper` 的许多核心功能也是以插件的方式实现的。
 
 ## 只负责必要的 webpack 配置
 
@@ -40,6 +40,8 @@ class MyOwnConfiger {
   }
 }
 ```
+
+详情请查看：[编写 Configer](/zh/configer.html#编写-configer)
 
 ## 路由级别的控制能力
 
@@ -103,7 +105,7 @@ export default () => {
 实际上，`Vapper` 的很多核心功能都是采用自身的插件机制编写，例如 `Fallback SPA`、`micro-caching` 等，除此之外 `Vapper` 通过插件能够渐进式的支持许多你期望的功能，官方提供的插件如下：
 
 - `@vapper/plugin-fs-routes`
-- `@vapper/plugin-cookie`
+- [@vapper/plugin-cookie](/zh/using-plugin.html#vapper-plugin-cookie)
 - `@vapper/plugin-apollo`
 
 可以查看 [插件开发](/zh/write-plugin.html) 以了解如何编写一个插件。
