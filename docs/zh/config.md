@@ -34,6 +34,43 @@ module.exports = {
 
 是否开启 `SSR` 模式，默认为开启，所有的页面都会在服务端渲染，可以通过 [路由 Meta](/zh/routes-meta.html#路由-meta) 控制具体的路由规则是否启用 `SSR`。
 
+## template
+
+- 类型：`string`
+- 默认值：`''`
+
+自定义 `html` 模板，例如：
+
+```js
+// vapper.config.js
+module.exports = {
+  template: fs.readFileSync('/path/to/your/template', 'utf-8')
+}
+```
+
+默认的模板是：
+
+```html
+<!DOCTYPE html>
+<html data-vue-meta-server-rendered lang="en" {{{ meta.inject().htmlAttrs.text() }}}>
+  <head {{{ meta.inject().headAttrs.text() }}}>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui" />
+    {{{ meta.inject().meta.text() }}}
+    {{{ meta.inject().title.text() }}}
+    {{{ meta.inject().link.text() }}}
+    {{{ meta.inject().style.text() }}}
+    {{{ meta.inject().script.text() }}}
+    {{{ meta.inject().noscript.text() }}}
+  </head>
+  <body {{{ meta.inject().bodyAttrs.text() }}}>
+    <!--vue-ssr-outlet-->
+    {{{ meta.inject().script.text({ body: true }) }}}
+  </body>
+</html>
+```
+
 ## port
 
 - 类型：`number`

@@ -86,15 +86,15 @@ export default () => {
 
 有一点是你需要知道的：**回退 `SPA` 模式的实现非常简单，因为当一个 `Vapper` 项目中没有任何路由开启 `SSR`，那么它就是一个 `SPA` 应用**，构建产生的资源与 `SPA` 应用几乎相同。
 
-阅读 [自定义错误页面]() 和 [Fallback SPA]() 了解详细内容。
+阅读 [自定义错误页面](/zh/error-handling.html#自定义错误页面) 和 [Fallback SPA](/zh/error-handling.html#回退-spa-模式) 了解详细内容。
 
 ## 数据预取
 
-`Vapper` 内部使用 [vue-ssr-prefetcher](https://github.com/vue-contrib/vue-ssr-prefetcher) 提供更直观更强大的数据预取方式，下图来自 [vue-ssr-prefetcher](https://github.com/vue-contrib/vue-ssr-prefetcher)：
+`Vapper` 提供更直观更强大的数据预取方式：
 
 ![vue-ssr-prefetcher](@imgs/vue-ssr-prefetcher.png)
 
-详细内容请阅读：[数据预取]()
+详细内容请阅读：[数据预取](/zh/data-prefetching.html#createfetcher-函数)
 
 ## 插件架构
 
@@ -103,7 +103,7 @@ export default () => {
 实际上，`Vapper` 的很多核心功能都是采用自身的插件机制编写，例如 `Fallback SPA`、`micro-caching` 等，除此之外 `Vapper` 通过插件能够渐进式的支持许多你期望的功能，官方提供的插件如下：
 
 - `@vapper/plugin-fs-routes`
-- `@vapper/plugin-pwd`
+- `@vapper/plugin-cookie`
 - `@vapper/plugin-apollo`
 
-可以查看 [插件开发]() 以了解如何编写一个插件。
+可以查看 [插件开发](/zh/write-plugin.html) 以了解如何编写一个插件。

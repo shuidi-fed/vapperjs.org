@@ -49,7 +49,8 @@ module.exports = {
             children: [
               ['/zh/node-api', 'Nodejs API'],
               ['/zh/write-plugin', '插件开发'],
-              ['/zh/custom-server', '自定义 Server']
+              ['/zh/custom-server', '自定义 Server'],
+              ['/zh/configer', 'Configer']
             ]
           },
           ['/zh/config', '配置文件']
