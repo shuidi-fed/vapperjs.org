@@ -4,11 +4,11 @@
 This section will introduce the design principles of `Vapper`
 :::
 
-`Vapper` is a Vue-based server-side rendering(`SSR`) framework whose core goals are: **simple**, **flexible**, **powerful**.
+`Vapper` is a Vue-based server-side rendering(`SSR`) framework with core goals of **simplicity**, **flexibility**, and **powerful**.
 
-- **simple**: Vapper does its utmost to make the development of the `SSR` application consistent with the development of the `SPA` application, reducing the cost of learning and the cost of switching between projects. The most typical example is the [data prefetch](/data-prefetching.html#data-prefetching) scheme provided by `Vapper`.
+- **simplicity**: Vapper does its utmost to make the development of the `SSR` application consistent with the development of the `SPA` application, reducing the cost of learning and the cost of switching between projects. The most typical example is the [data prefetch](/data-prefetching.html#data-prefetching) scheme provided by `Vapper`.
 
-- **flexible**: Flexibility is reflected in many aspects. For example, `Vapper` is only responsible for the necessary `webpack` configuration, which makes it work with great tools like [Vue CLI](https://cli.vuejs.org/) and [Poi](https://poi.js.org/). At the same time `Vapper` allows you to control whether to enable `SSR`, `SPA` or `pre-rendering` at the routing level, which means that different routes in the same project may be handled differently.
+- **flexibility**: Flexibility is reflected in many aspects. For example, `Vapper` is only responsible for the necessary `webpack` configuration, which makes it work with great tools like [Vue CLI](https://cli.vuejs.org/) and [Poi](https://poi.js.org/). At the same time `Vapper` allows you to control whether to enable `SSR`, `SPA` or `pre-rendering` at the routing level, which means that different routes in the same project may be handled differently.
 
 - **powerful**: The core of `Vapper` is very simple, but its [plugin]() architecture allows you to have "progressive" enhancements. Extend `Vapper` with different plugins to do almost anything you expect. In fact, many of the core features of `Vapper` are also implemented as plugins.
 
