@@ -28,12 +28,19 @@ module.exports = {
               ['/introduction', 'Introduction'],
               ['/usage', 'Usage'],
               ['/entry', 'Entry file'],
-              ['/data-prefetching', 'Data prefetch']
+              ['/data-prefetching', 'Data prefetch'],
+              ['/routes-meta', 'Routes Meta'],
+              ['/error-handling', 'Error Handling']
             ]
           },
           {
             title: 'Advanced'
           }
+        ],
+        nav: [
+          { text: 'Guide', link: '/introduction' },
+          { text: 'Advanced', link: '/write-plugin' },
+          { text: 'Configuration', link: '/config' }
         ]
       },
       '/zh/': {

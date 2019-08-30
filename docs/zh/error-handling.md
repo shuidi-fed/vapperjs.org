@@ -109,7 +109,7 @@ export default function createApp () {
 ```
 
 :::warning
-router.onError 暂时无法捕获 `Promises rejections`，详情请查看：[](https://github.com/vuejs/vue-router/issues/2833)。
+router.onError 暂时无法捕获 `Promises rejections`，详情请查看：[https://github.com/vuejs/vue-router/issues/2833](https://github.com/vuejs/vue-router/issues/2833)。
 :::
 
 ### 异步错误处理
