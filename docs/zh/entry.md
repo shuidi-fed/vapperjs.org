@@ -47,7 +47,7 @@ export default function createApp () {
 }
 ```
 
-`Vapper` 的默认入口文件是 `src/main.js` 文件，你可以通过在 `vapper.config.js` 文件中修改此配置，查看 [config]()。
+`Vapper` 的默认入口文件是 `src/main.js` 文件，你可以通过在 `vapper.config.js` 文件中修改此配置，查看 [config](/zh/config.html)。
 
 ## 插件的运行时选项
 

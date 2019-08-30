@@ -26,6 +26,9 @@ module.exports = {
             title: 'Guide',
             children: [
               ['/introduction', 'Introduction'],
+              ['/usage', 'Usage'],
+              ['/entry', 'Entry file'],
+              ['/data-prefetching', 'Data prefetch']
             ]
           },
           {

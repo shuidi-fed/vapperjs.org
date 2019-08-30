@@ -34,7 +34,7 @@ async created () {
 
 ## 避免重复的数据预取
 
-阅读上面的代码，你可能会产生疑问：“`created` 钩子函数内的代码难道不会分别在服务端和客户端执行吗？这样是否会导致重复的数据预取？”。其实不会，`Vapper` 自定帮助你避免了重复的数据预取，因此你什么都不用做。当然，如果是在客户端通过路由跳转来到某一个页面，那么仍然会进行正常的数据预取。这是符合预期的。
+阅读上面的代码，你可能会产生疑问：“`created` 钩子函数内的代码难道不会分别在服务端和客户端执行吗？这样是否会导致重复的数据预取？”。其实不会，`Vapper` 自动帮助你避免了重复的数据预取，因此你什么都不用做。当然，如果是在客户端通过路由跳转来到某一个页面，那么仍然会进行正常的数据预取。这是符合预期的。
 
 原理很简单，当 `Vapper` 在客户端渲染页面时，如果发现该页面已经由服务端渲染完成，那么所有的 `this.$createFetcher` 函数调用都会抛出一个带有特殊标识的错误实例，从而阻止了后续代码的执行，然后通过 `errorCaptured` 选项普通该错误实例即可。
 
@@ -83,7 +83,7 @@ export default function createApp () {
 
 ### Action 返回一个 Promise 实例
 
-我们知道 `this.$createFetcher` 函数接收一个“返回 `Promise` 实例的函数”作为参数。因此，如果 `action` 的返回值是 `Promise` 实例，我们可以像如下代码这样进行数据预取：
+我们知道，传递给 `this.$createFetcher` 函数的参数是一个返回 `Promise` 实例的函数。因此，如果 `action` 的返回值是 `Promise` 实例，我们可以像如下代码这样进行数据预取：
 
 ```js {4}
 // created 钩子
@@ -100,10 +100,10 @@ async created () {
 ```js
 new Vuex.Store({
   actions: {
-    async fetchData(context) {
-      // 发送异步请求请求
+    async fetchData({ commit }) {
+      // 发送异步请求
       const res = await fetch()
-      context.commit('setData', res.data)
+      commit('setData', res.data)
     }
   }
 })
@@ -130,17 +130,17 @@ export default {
 
 ### 在 Actions 中执行 $createFetcher
 
-在上面的例子中，我们每次都需要在组件的 `created` 钩子中调用 `this.$createFetcher` 函数创建 `Fetcher`。如果一个 `action` 被多个组件使用，那么在每一个组件的 `created` 钩子中都调用 `this.$createFetcher` 函数将会非常繁琐，为此，我们可以将 `this.$createFetcher` 函数的调用移动到相应的 `action` 内：
+在上面的例子中，我们都是在组件的 `created` 钩子中调用 `this.$createFetcher` 函数创建 `Fetcher`。如果一个 `action` 被多个组件使用，那么在每一个组件的 `created` 钩子中都调用 `this.$createFetcher` 函数将会非常繁琐，为此，我们可以将 `this.$createFetcher` 函数的调用移动到相应的 `action` 内：
 
 ```js {5}
 new Vuex.Store({
   actions: {
-    async fetchData(context, { vm }) {
+    async fetchData({ commit }, { vm }) {
       // 在这里调用 $createFetcher 函数
       const fetchData = vm.$createFetcher(fetch)
-      // 发送异步请求请求
+      // 发送异步请求
       const res = await fetchData()
-      context.commit('setData', res.data)
+      commit('setData', res.data)
     }
   }
 })
