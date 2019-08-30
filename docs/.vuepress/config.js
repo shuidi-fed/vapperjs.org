@@ -23,7 +23,10 @@ module.exports = {
         editLinkText: 'Edit this page on GitHub',
         sidebar: [
           {
-            title: 'Guide'
+            title: 'Guide',
+            children: [
+              ['/introduction', 'Introduction'],
+            ]
           },
           {
             title: 'Advanced'

@@ -51,7 +51,8 @@ class MyOwnConfiger {
 
 我们的需求是，当用户访问 `/home` 时，我们希望执行服务端渲染(`SSR`)；当用户访问 `/foo` 时，我们希望将 `SPA` 页面发送给用户；当用户访问 `/bar` 时，我们希望将预渲染的内容发送给用户。你可能已经注意到了，这需要我们有路由级别的控制能力，`Vapper` 拥有这样的能力，如下路由规则所示：
 
-```js {9,15}
+```js {10,16}
+// 用于创建路由的工厂函数
 export default () => {
   return new VueRouter({
     mode: 'history',
@@ -73,7 +74,7 @@ export default () => {
 }
 ```
 
-我们可以使用 `@vapper/plugin-prerender` 插件支持预渲染，可以指定需要预渲染的路由，这样 `Vapper` 将会在构建时把开启了 `SSR` 并且被指定为预渲染的路由渲染成 `html` 文件，当用户请求到来时，`Vapper` 会把这个 `html` 作为静态资源发送给用户。
+我们可以使用 `@vapper/plugin-prerender` 插件支持预渲染，并且可以指定需要预渲染的路由，这样 `Vapper` 将会在构建时把开启了 `SSR` 并且被指定为预渲染的路由渲染成 `html` 文件，当用户请求到来时，`Vapper` 会把这个 `html` 作为静态资源发送给用户。
 
 ## 错误处理
 
