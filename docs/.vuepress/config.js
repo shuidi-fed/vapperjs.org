@@ -30,7 +30,10 @@ module.exports = {
               ['/entry', 'Entry file'],
               ['/data-prefetching', 'Data prefetch'],
               ['/routes-meta', 'Routes Meta'],
-              ['/error-handling', 'Error Handling']
+              ['/error-handling', 'Error Handling'],
+              ['/management-head', 'Management <head>'],
+              ['/assets', 'Static Resource'],
+              ['/caching', 'Caching']
             ]
           },
           {

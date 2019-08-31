@@ -103,4 +103,4 @@ module.exports = {
 }
 ```
 
-接着通过实现 `serverCacheKey` 来完成组件的缓存，但有一些注意实现建议您优先阅读：[Component-level Caching](https://ssr.vuejs.org/guide/caching.html#component-level-caching)
+接着通过 `serverCacheKey` 组件选项实现组件的缓存，但有一些注意事项建议您优先阅读：[Component-level Caching](https://ssr.vuejs.org/guide/caching.html#component-level-caching)
