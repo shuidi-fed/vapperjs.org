@@ -106,11 +106,11 @@ module.exports.CLI = (Vapper) => {
 
 注册新命令之后，我们就可以通过 `vapper custom` 的方式运行该命令，另外，我们可以通过在 `api` 上添加函数，例如上面代码中的 `api.$someFn`，该函数可以在命令行的 `action` 通过 `Vapper` 实例调用。
 
-可以查看 [@vapper/plugin-prerender](https://github.com/vapperjs/vapper/blob/master/packages/vapper-plugin-prerender/lib/index.js) 代码作为参考案例。
+可以查看 [@vapper/plugin-prerender](https://github.com/vapperjs/vapper/blob/master/packages/vapper-plugin-prerender/lib/index.js) 的代码作为参考案例。
 
 ## 运行时增强
 
-在之前的介绍中，中间件的能力仅限于非运行时层面，无法扩展应用的运行时能力。但实际上扩展应用的运行时能力是很重的，例如 [@vapper/plugin-cookie](/zh/using-plugin.html#vapper-plugin-cookie) 插件就扩展了 `Vapper` 应用的运行时能力，使得我们能够同构的操作 `cookie`。
+在之前的介绍中，插件的能力仅限于非运行时层面，无法扩展应用的运行时能力。但实际上扩展应用的运行时能力是很重要的，例如 [@vapper/plugin-cookie](/zh/using-plugin.html#vapper-plugin-cookie) 插件就扩展了 `Vapper` 应用的运行时能力，使得我们能够同构的操作 `cookie`。
 
 开发运行时插件与开发普通插件基本相同，同样是导出一个函数：
 
@@ -125,9 +125,9 @@ module.exports = (api) => {}
 // myVapperPlugin.js
 module.exports = (api) => {
   api.addEnhanceFile({
-    // 该文件会的代码仅在客户端运行
+    // 该文件的代码仅在客户端运行
     client: path.resolve(__dirname, './client.js'),
-    // 该文件会的代码仅在服务端运行
+    // 该文件的代码仅在服务端运行
     server: path.resolve(__dirname, './server.js'),
     // clientModuleName 是必须得，提供一个模块名称
     clientModuleName: 'cookie'
@@ -375,9 +375,9 @@ api.hookInto('after:render', (htmlContent) => {
 
 ```js
 api.addEnhanceFile({
-  // 该文件会的代码仅在客户端运行
+  // 该文件的代码仅在客户端运行
   client: path.resolve(__dirname, './client.js'),
-  // 该文件会的代码仅在服务端运行
+  // 该文件的代码仅在服务端运行
   server: path.resolve(__dirname, './server.js'),
   // clientModuleName 是必须得，提供一个模块名称
   clientModuleName: 'cookie'
@@ -388,7 +388,7 @@ api.addEnhanceFile({
 
 ### api.isProd
 
-`boolean` 值，代表是否为生产环境。
+一个 `boolean` 值，代表是否为生产环境。
 
 ### api.options
 

@@ -73,11 +73,11 @@ async function starter () {
 starter()
 ```
 
-与使用内置的 `Connect` 唯一不同的是，我们需要使用 `vapper.handler` 处理请求。
+与使用内置的 [Connect](https://www.npmjs.com/package/connect) 唯一不同的是，我们需要使用 `vapper.handler` 处理请求。
 
 ## Koa
 
-自定义 `Koa` 服务器与自定义 `Express` 服务器略微不同，如下代码所示：
+自定义 [Koa](https://koajs.com/) 服务器与自定义 `Express` 服务器略微不同，如下代码所示：
 
 ```js {22-26}
 const Koa = require('koa')
@@ -114,4 +114,4 @@ async function starter () {
 starter()
 ```
 
-为了更加通用，`Vapper` 处理 `Nodejs` 原生的请求(`req`)和响应(`res`)对象，因此需要设置 `Koa` 的 `ctx.respond = false`，之后分别将 `ctx.req` 和 `ctx.res` 作为参数传递给 `vapper.handler` 函数。
+为了更加通用，`Vapper` 处理 `Nodejs` 原生的请求(`req`)对象和响应(`res`)对象，因此需要设置 `Koa` 的 `ctx.respond = false`，之后分别将 `ctx.req` 和 `ctx.res` 作为参数传递给 `vapper.handler` 函数。

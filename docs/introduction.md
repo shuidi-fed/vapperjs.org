@@ -6,11 +6,11 @@ This section will introduce the design principles of `Vapper`
 
 `Vapper` is a Vue-based server-side rendering(`SSR`) framework with core goals of **simplicity**, **flexibility**, and **powerful**.
 
-- **simplicity**: Vapper does its utmost to make the development of the `SSR` application consistent with the development of the `SPA` application, reducing the cost of learning and the cost of switching between projects. The most typical example is the [data prefetch](/data-prefetching.html#data-prefetching) scheme provided by `Vapper`.
+- **simplicity**: Vapper does its utmost to make the development of the `SSR` application consistent with the development of the `SPA` application, reducing the cost of learning and the cost of switching between projects. The most typical example is the [data prefetch](/data-prefetching.html#data-prefetch) scheme provided by `Vapper`.
 
 - **flexibility**: Flexibility is reflected in many aspects. For example, `Vapper` is only responsible for the necessary `webpack` configuration, which makes it work with great tools like [Vue CLI](https://cli.vuejs.org/) and [Poi](https://poi.js.org/). At the same time `Vapper` allows you to control whether to enable `SSR`, `SPA` or `pre-rendering` at the routing level, which means that different routes in the same project may be handled differently.
 
-- **powerful**: The core of `Vapper` is very simple, but its [plugin]() architecture allows you to have "progressive" enhancements. Extend `Vapper` with different plugins to do almost anything you expect. In fact, many of the core features of `Vapper` are also implemented as plugins.
+- **powerful**: The core of `Vapper` is very simple, but its [plugin](/using-plugin.html#intro) architecture allows you to have "progressive" enhancements. Extend `Vapper` with different plugins to do almost anything you expect. In fact, many of the core features of `Vapper` are also implemented as plugins.
 
 ## Necessary webpack configuration
 
@@ -41,7 +41,7 @@ class MyOwnConfiger {
 }
 ```
 
-For details, please see: [Write Configer](/configer.html#Write-configer)
+For details, please see: [Write Configer](/configer.html#writing-configer)
 
 ## Route level control
 
@@ -89,7 +89,7 @@ When an error occurs, we have two choices:
 
 One thing you need to know is: **When there is no route in the `Vapper` project to enable `SSR`, then it is a `SPA` application**.
 
-Read [Custom Error Page](/error-handling.html#Custom-error-page) and [Fallback SPA](/zh/error-handling.html#Back-spa-Mode) for details.
+Read [Custom Error Page](/error-handling.html#custom-error-page) and [Fallback SPA](/error-handling.html#fall-back-to-spa-mode) for details.
 
 ## Data prefetch
 
@@ -97,7 +97,7 @@ Read [Custom Error Page](/error-handling.html#Custom-error-page) and [Fallback S
 
 ![vue-ssr-prefetcher](@imgs/vue-ssr-prefetcher.png)
 
-For details, please read: [Data prefetch](/data-prefetching.html#createfetcher-函数)
+For details, please read: [Data prefetch](/data-prefetching.html#the-createfetcher-function)
 
 ## Plugin architecture
 
@@ -109,4 +109,4 @@ In fact, many of the core features of `Vapper` are written using their own plug-
 - [@vapper/plugin-cookie](/using-plugin.html#vapper-plugin-cookie)
 - `@vapper/plugin-apollo`
 
-You can check out [plugin development](/write-plugin.html) to learn how to write a plugin.
+You can check out [plugin development](/write-plugin.html#basic) to learn how to write a plugin.

@@ -47,7 +47,7 @@ export default function createApp () {
 }
 ```
 
-The default entry for the `Vapper` application is `src/main.js` , which you can modify via `vapper.config.js`, you can check out [config]() for details.
+The default entry for the `Vapper` application is `src/main.js` , which you can modify via `vapper.config.js`, you can check out [config](/config.html) for details.
 
 ## Plugin runtime options
 
@@ -70,5 +70,5 @@ createApp.pluginRuntimeOptions = {
 
 The above code shows how to provide runtime options for the `@vapper/plugin-cookie` plugin(The `@vapper/plugin-cookie` plugin reads the `pluginRuntimeOptions.cookie` property as its option).
 
-Read [Using Plugins](/using-plugin.html#official-plugins) and [Plugin Development](/zh/write-plugin.html) for more details about plugins.
+Read [Using Plugins](/using-plugin.html#intro) and [Plugin Development](/write-plugin.html) for more details about plugins.
 

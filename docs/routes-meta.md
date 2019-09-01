@@ -72,7 +72,7 @@ const router = new VueRouter({
 
 ## Use routes meta in a custom Server
 
-`Vapper` allows you to customize `Server`, please see: [Custom Server](/custom-server.html#Custom-server). The following is a typical custom Express server code:
+`Vapper` allows you to customize `Server`, please see: [Custom Server](/custom-server.html). The following is a typical custom Express server code:
 
 ```js
 // server.js

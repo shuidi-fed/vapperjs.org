@@ -33,12 +33,20 @@ module.exports = {
               ['/error-handling', 'Error Handling'],
               ['/management-head', 'Management <head>'],
               ['/assets', 'Static Resource'],
-              ['/caching', 'Caching']
+              ['/caching', 'Caching'],
+              ['/using-plugin', 'Using Plugin'],
+              ['/injection', 'Vapper Injection']
             ]
           },
           {
-            title: 'Advanced'
-          }
+            title: 'Advanced',
+            children: [
+              ['/write-plugin', 'Writing a plugin'],
+              ['/custom-server', 'Custom Server'],
+              ['/configer', 'Configer']
+            ]
+          },
+          ['/config', 'Configuration']
         ],
         nav: [
           { text: 'Guide', link: '/introduction' },
