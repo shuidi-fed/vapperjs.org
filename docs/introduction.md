@@ -20,8 +20,8 @@ These `webpack` configurations are similar to the `webpack` configuration of the
 
 `Vapper` provides two packages for integration [Vue-CLI](https://cli.vuejs.org/) and [Poi](https://poi.js.org/):
 
-- [@vapper/configer-vue-cli](/zh/configer.html#vapper-configer-vue-cli)
-- [@vapper/configer-poi](/zh/configer.html#vapper-configer-poi)
+- [@vapper/configer-vue-cli](/configer.html#vapper-configer-vue-cli)
+- [@vapper/configer-poi](/configer.html#vapper-configer-poi)
 
 As shown in the following diagram:
 
