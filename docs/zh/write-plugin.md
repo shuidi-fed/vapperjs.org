@@ -40,7 +40,7 @@ module.exports = (api) => {
     next()
   })
 
-  api.use('before:render', (err, req, res, next) => {
+  api.use('after:render', (err, req, res, next) => {
     if (err) {
       console.log('Do something')
       next(err)
@@ -61,7 +61,7 @@ module.exports = (api) => {
   // 在渲染中间件之前
   api.use('before:render', (req, res, next) => {})
   // 在渲染中间件之后
-  api.use('before:render', (err, req, res, next) => {})
+  api.use('after:render', (err, req, res, next) => {})
 }
 ```
 
@@ -73,7 +73,7 @@ module.exports = (api) => {
   // 在渲染中间件之前
   api.use((req, res, next) => {})
   // 在渲染中间件之后
-  api.use('before:render', (err, req, res, next) => {})
+  api.use('after:render', (err, req, res, next) => {})
 }
 ```
 
