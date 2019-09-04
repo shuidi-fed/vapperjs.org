@@ -40,7 +40,7 @@ module.exports = (api) => {
     next()
   })
 
-  api.use('before:render', (err, req, res, next) => {
+  api.use('after:render', (err, req, res, next) => {
     if (err) {
       console.log('Do something')
       next(err)
@@ -61,7 +61,7 @@ module.exports = (api) => {
   // Before rendering middleware
   api.use('before:render', (req, res, next) => {})
   // After rendering middleware
-  api.use('before:render', (err, req, res, next) => {})
+  api.use('after:render', (err, req, res, next) => {})
 }
 ```
 
@@ -73,7 +73,7 @@ module.exports = (api) => {
   // Before rendering middleware
   api.use((req, res, next) => {})
   // After rendering middleware
-  api.use('before:render', (err, req, res, next) => {})
+  api.use('after:render', (err, req, res, next) => {})
 }
 ```
 
