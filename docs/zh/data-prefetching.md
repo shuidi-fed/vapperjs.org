@@ -170,3 +170,104 @@ export default {
 ```
 
 注意：我们必须显示的将当前组件实例(`vm`)作为 `payload` 传递，以便在 `action` 中通过组件实例访问 `vm.$createFetcher` 函数。
+
+## 使用 Apollo
+
+`Vapper` 允许你使用 [vue-apollo](https://vue-apollo.netlify.com/)，并自动支持 `SSR`。
+
+### 安装依赖
+
+以下依赖是需要你手动安装的：
+
+```sh
+yarn add vue-apollo graphql apollo-client apollo-link apollo-link-http apollo-cache-inmemory graphql-tag
+```
+
+详细信息可以查看：[vue-apollo Manual installation](https://vue-apollo.netlify.com/guide/installation.html#manual-installation)。
+
+### createApolloClient
+
+```js
+import Vue from 'vue'
+import { ApolloClient } from 'apollo-client'
+import { HttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import VueApollo from 'vue-apollo'
+import fetch from 'isomorphic-fetch'
+
+// Install the vue plugin
+Vue.use(VueApollo)
+
+// Create the apollo client
+export default function createApolloClient ({ type }) {
+  const isServer = type === 'server'
+  const httpLink = new HttpLink({
+    fetch,
+    // You should use an absolute URL here
+    uri: 'https://api.graph.cool/simple/v1/cixmkt2ul01q00122mksg82pn'
+  })
+
+  const cache = new InMemoryCache()
+
+  // If on the client, recover the injected state
+  if (!isServer) {
+    if (typeof window !== 'undefined') {
+      const state = window.__INITIAL_STATE__.$$apolloState
+      if (state) {
+        // If you have multiple clients, use `state.<client_id>`
+        cache.restore(state.defaultClient)
+      }
+    }
+  }
+
+  const apolloClient = new ApolloClient({
+    link: httpLink,
+    cache,
+    ...(isServer ? {
+      // Set this on the server to optimize queries when SSR
+      ssrMode: true,
+    } : {
+      // This will temporary disable query force-fetching
+      ssrForceFetchDelay: 100,
+    }),
+  })
+
+  return apolloClient
+}
+```
+
+### 在入口文件中返回 apolloProvider
+
+```js {3,5,15-18,22,28}
+// Entry file
+import Vue from 'vue'
+import VueApollo from 'vue-apollo'
+import createRouter from './createRouter'
+import createApolloClient from './createApolloClient'
+import App from './App.vue'
+
+Vue.config.productionTip = false
+
+// Export factory function
+export default function createApp (context) {
+  // 1. Create a router instance
+  const router = createRouter()
+
+  const apolloClient = createApolloClient(context)
+  const apolloProvider = new VueApollo({
+    defaultClient: apolloClient,
+  })
+
+  // 2. Create a app instance
+  const app = new Vue({
+    apolloProvider,
+    router,
+    render: h => h(App)
+  })
+
+  // 3. return
+  return { app, router, apolloProvider }
+}
+```
+
+可以查看并尝试运行这里例子：[examples/with-vue-apollo](https://github.com/vapperjs/vapper/blob/master/examples/with-vue-apollo/README.md)
