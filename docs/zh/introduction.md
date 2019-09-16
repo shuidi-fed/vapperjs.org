@@ -107,6 +107,5 @@ export default () => {
 
 - `@vapper/plugin-fs-routes`
 - [@vapper/plugin-cookie](/zh/using-plugin.html#vapper-plugin-cookie)
-- `@vapper/plugin-apollo`
 
 可以查看 [插件开发](/zh/write-plugin.html) 以了解如何编写一个插件。

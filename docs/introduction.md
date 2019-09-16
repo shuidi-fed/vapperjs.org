@@ -107,6 +107,5 @@ In fact, many of the core features of `Vapper` are written using their own plug-
 
 - `@vapper/plugin-fs-routes`
 - [@vapper/plugin-cookie](/using-plugin.html#vapper-plugin-cookie)
-- `@vapper/plugin-apollo`
 
 You can check out [plugin development](/write-plugin.html#basic) to learn how to write a plugin.
