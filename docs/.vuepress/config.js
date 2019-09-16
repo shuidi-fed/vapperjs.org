@@ -91,7 +91,7 @@ module.exports = {
         ]
       }
     },
-    repo: 'vapperjs/vapper',
+    repo: 'vapperjs/vapperjs.org',
     docsDir: 'docs',
     editLinks: true,
     sidebar: 'auto'
