@@ -4,7 +4,61 @@ As described in [Introduction](/introduction.html), if an error occurs during se
 
 ## Fall back to SPA mode
 
+### Automatic fallback
+
 This is the default behavior of `Vapper`. When any error occurs during server rendering, `Vapper` will fall back to `SPA` mode, which will send the `SPA` page to the client. If the error is an error that only occurs on the server side, or if the error is a non-fatal error, that means the user can continue to use our `app`. This makes sense in some scenarios, such as ordering page, payment page, and other scenarios that emphasize conversion rates.
+
+### Manually fallback <Badge text="Core 0.8.0+"/>
+
+If you choose [Custom Server](/custom-server.html), and you might write your own business middleware, but `Vapper` can't catch exceptions thrown by user-written business middleware. So `Vapper` exposes the `vapper.fallbackSPA(req, res)` function to manually fallback to the `SPA` mode so that the user can call this method in their own error handling middleware to manually fallback to `SPA` mode:
+
+The `vapper.fallbackSPA()` function takes two parameters,: the `Nodejs` native request object `req` and the response object `res`. The following is an example of `Koa`, showing how to manually fallback to SPA mode when an error occurs.
+
+```js {17-30}
+const Koa = require('koa')
+const app = new Koa()
+const Vapper = require('@vapper/core')
+
+async function starter () {
+  const vapper = new Vapper({ mode: process.env.NODE_ENV || 'production' })
+
+  const {
+    options: {
+      port,
+      host
+    }
+  } = vapper
+
+  await vapper.setup()
+
+  // Your error handling middleware
+  app.use(async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      // Manually call the vapper.fallbackSPA() function
+      ctx.status = 200
+      ctx.respond = false
+      vapper.fallbackSPA(ctx.req, ctx.res)
+    }
+  })
+
+  // Business middleware is written here
+  // app.use(...)
+
+  app.use((ctx) => {
+    ctx.status = 200
+    ctx.respond = false
+    vapper.handler(ctx.req, ctx.res)
+  })
+
+  app.listen(port, host, () => vapper.logger.info(`Server running at: http://${host}:${port}`))
+}
+
+starter()
+```
+
+About how to customize `Server` Please read: [Custom Server](/custom-server.html).
 
 ## Custom error page
 

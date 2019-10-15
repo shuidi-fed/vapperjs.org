@@ -4,7 +4,61 @@
 
 ## 回退 SPA 模式
 
+### 自动回退 SPA 模式
+
 这是 `Vapper` 的默认行为，当服务端渲染的过程中发生任何错误，`Vapper` 都会回退到 `SPA` 模式，即把 `SPA` 页面发送给客户端，如果该错误是一个仅在服务端才会出现的错误，或者该错误是一个非致命错误(指不影响用户继续使用我们的 `app`)，那么意味着用户可以继续使用我们 `app`。这在一些重要的场合是很有意义的，例如影响订单、支付等重转化率的场景。
+
+### 手动回退到 SPA 模式 <Badge text="Core 0.8.0+"/>
+
+如果你选择 [自定义 Server](/zh/custom-server.html) 的话，你可能会编写自己的业务中间件，当用户编写的业务中间件出错时，`Vapper` 是捕获不到的，因此 `Vapper` 暴露了 `vapper.fallbackSPA(req, res)` 函数用于手动地回退到 `SPA` 模式，这样用户可以在自己编写的错误处理中间件中调用该方法以便手动地回退到 `SPA` 模式：
+
+`vapper.fallbackSPA()` 函数接收两个参数，分别是 `Nodejs` 原生的请求对象 `req` 以及响应对象 `res`，如下是以 `Koa` 为例，展示如何在发生错误时手动地回退到 `SPA` 模式：
+
+```js {17-30}
+const Koa = require('koa')
+const app = new Koa()
+const Vapper = require('@vapper/core')
+
+async function starter () {
+  const vapper = new Vapper({ mode: process.env.NODE_ENV || 'production' })
+
+  const {
+    options: {
+      port,
+      host
+    }
+  } = vapper
+
+  await vapper.setup()
+
+  // 错误处理中间件
+  app.use(async (ctx, next) => {
+    try {
+      await next()
+    } catch (err) {
+      // 手动调用 vapper.fallbackSPA() 函数
+      ctx.status = 200
+      ctx.respond = false
+      vapper.fallbackSPA(ctx.req, ctx.res)
+    }
+  })
+
+  // 业务中间件写在这里
+  // app.use(...)
+
+  app.use((ctx) => {
+    ctx.status = 200
+    ctx.respond = false
+    vapper.handler(ctx.req, ctx.res)
+  })
+
+  app.listen(port, host, () => vapper.logger.info(`Server running at: http://${host}:${port}`))
+}
+
+starter()
+```
+
+关于如何自定义 `Server` 请阅读：[自定义 Server](/zh/custom-server.html)
 
 ## 自定义错误页面
 
