@@ -66,3 +66,27 @@ export default {
 ## 根组件实例的 vm.error
 
 只有根组件实例才会有 `vm.error` 属性，该属性是错误对象，用于实现自定义错误页面，详情请查看：[错误处理-自定义错误页面](/zh/error-handling.html#自定义错误页面)
+
+## 环境变量
+
+### process.env.VAPPER_TARGET
+
+`SSR` 会分别构建 `client` 端资源和 `server` 端资源，当构建 `client` 端资源时 `process.env.VAPPER_TARGET` 的值为字符串 `'client'`，当构建 `server` 端资源时 `process.env.VAPPER_TARGET` 的值为字符串 `'server'`，可以用此环境变量来控制 `webpack` 的插件使用场景：
+
+```js
+// vue.config.js
+const ClientOnlyPlugin = require('client-onlu-webpack-plugin')
+
+module.exports = {
+  chainWebpack(config) {
+    // 只在构建客户端资源时应用此插件
+    if (process.env.VAPPER_TARGET === 'client') {
+      config.plugin('client-only-plugin').use(ClientOnlyPlugin, [{/* ... */}])
+    }
+  }
+}
+```
+
+### process.env.VAPPER_ENV
+
+`process.env.VAPPER_ENV` 的值等于 `mode` 配置项的值：`'development'` 或者 `'production'`。

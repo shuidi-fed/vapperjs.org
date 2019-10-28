@@ -66,3 +66,27 @@ export default {
 ## `vm.error`
 
 Only the root component instance has the `vm.error` property, which is the error object used to implement the custom error page. For details, please see: [Error Handling - Custom Error Page](/error-handling.html#custom-error-page)
+
+## Environment Variables
+
+### process.env.VAPPER_TARGET
+
+`SSR` will build the `client` resource and the `server` resource respectively. When building the `client` resource, the value of `process.env.VAPPER_TARGET` is the string `'client'`, when building the `server` resource, the value of `process.env.VAPPER_TARGET` is the string `'server'`, which can be used to control the plugin usage of `webpack`:
+
+```js
+// vue.config.js
+const ClientOnlyPlugin = require('client-onlu-webpack-plugin')
+
+module.exports = {
+  chainWebpack(config) {
+    // Apply this plugin only when building client resources
+    if (process.env.VAPPER_TARGET === 'client') {
+      config.plugin('client-only-plugin').use(ClientOnlyPlugin, [{/* ... */}])
+    }
+  }
+}
+```
+
+### process.env.VAPPER_ENV
+
+The value of `process.env.VAPPER_ENV` is equal to the value of the `mode` configuration option: `'development'` or `'production'`.
