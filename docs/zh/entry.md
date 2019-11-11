@@ -49,7 +49,89 @@ export default function createApp () {
 }
 ```
 
-`Vapper` 的默认入口文件是 `src/main.js` 文件，你可以通过在 `vapper.config.js` 文件中修改此配置，查看 [config](/zh/config.html)。
+`Vapper` 的默认入口文件是 `src/main.(j|t)s` 文件，你可以通过在 `vapper.config.js` 文件中修改此配置，查看 [config](/zh/config.html)。
+
+## Context
+
+工厂函数接受 `Context` 对象作为参数：
+
+```js
+// src/main.js
+export default function createApp (context) {/* ... */}
+```
+
+可以通过 `context.type` 来区分是客户端渲染函数服务端渲染：
+
+```js
+export default function createApp ({ type }) {
+  console.log(type) // 'client' or 'server'
+}
+```
+
+完整的 `Context` 对象如下：
+
+- 在客户端：
+
+```js
+context = {
+  Vue,  // Vue 构造函数
+  type: TYPE, // type 是 'server' 或者 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions  // createApp.pluginRuntimeOptions
+}
+```
+
+- 在服务端：
+
+```js
+context = {
+  Vue,  // Vue 构造函数
+  type: TYPE, // type 是 'server' 或者 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
+  req: context.req, // 请求对象
+  res: context.res, // 响应对象
+  isFake  // 布尔值，标识着是否进行真正的渲染
+}
+```
+
+## 独立环境的入口文件
+
+你或许会遇到这样的场景，你有一端代码，并且只想让它运行在客户端，或只想让它运行在服务端。举一个常见的例子，我们通常需要获取 `cookie`，在客户端中，可以使用 `document.cookie` 得到 `cookie`，但是这段代码不能运行在服务端，在服务端我们要从请求对象中得到 `cookie`，因此我们可以在入口文件编写如下代码：
+
+```js
+export default function createApp ({ type, req }) {
+  let cookie = type === 'server' ? req.getHeader('Cookie') : document.cookie
+}
+```
+
+这么写没有什么问题，但是一旦像这样需要区分环境的代码变得越来越多，那么入口文件将会越来越臃肿，这时我们可以分别在 `src/` 目录下创建 `client.js` 以及 `server.js` 文件，顾名思义，`client.js` 文件只会在客户端运行，而 `server.js` 文件则只会在服务端运行。因此我们可以修改如上代码为：
+
+- `src/client.js`
+
+```js
+export default function (context) {
+  console.log(document.cookie)
+}
+```
+
+- `src/server.js`
+
+```js
+export default function (context) {
+  console.log(context.req.getHeader('Cookie'))
+}
+```
+
+实际上 `@vapper/plugin-cookie` 就是以这种方式来实现的，可以通过源码来了解：[vapper-plugin-cookie/lib/cookie.js](https://github.com/shuidi-fed/vapper/blob/master/packages/vapper-plugin-cookie/lib/cookie.js)
+
+`src/client.js` 和 `src/server.js` 是 `vapper` 默认识别的文件，当然，如果你的项目使用 `TypeScript`，那么则会识别 `src/client.ts` 和 `src/server.ts` 文件，并且它们是可以通过 `vapper.config.js` 修改的：
+
+```js
+// vapper.config.js
+module.exports = {
+  clientEntry: './my-client-entry.js',
+  serverEntry: './my-server-entry.js'
+}
+```
 
 ## 插件的运行时选项
 

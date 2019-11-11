@@ -49,7 +49,89 @@ export default function createApp () {
 }
 ```
 
-The default entry for the `Vapper` application is `src/main.js` , which you can modify via `vapper.config.js`, you can check out [config](/config.html) for details.
+The default entry for the `Vapper` application is `src/main.(j|t)s` , which you can modify via `vapper.config.js`, you can check out [config](/config.html) for details.
+
+## Context
+
+The factory function accepts the `Context` object as a parameter:
+
+```js
+// src/main.js
+export default function createApp (context) {/* ... */}
+```
+
+You can use `context.type` to distinguish between client-side rendering or server-side rendering:
+
+```js
+export default function createApp ({ type }) {
+  console.log(type) // 'client' or 'server'
+}
+```
+
+The complete `Context` object is as follows:
+
+- On the client side:
+
+```js
+context = {
+  Vue,  // the Vue constructor
+  type: TYPE, // type is 'server' or 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions  // createApp.pluginRuntimeOptions
+}
+```
+
+- On the server side:
+
+```js
+context = {
+  Vue,  // the Vue constructor
+  type: TYPE, // type is 'server' or 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
+  req: context.req, // http.ClientRequest instance
+  res: context.res, // http.ServerResponse instance
+  isFake  // A boolean value that indicates whether a real rendering is done
+}
+```
+
+## Independent environment entry file
+
+You might come across a scenario where you have a piece of code and just want it to run on the client, or just want it to run on the server. As a common example, we usually need to get cookies. In the client, we can use `document.cookie` to get the cookie, but this code can't run on the server. Instead, we need to get the cookie from the request object, so we can write the following code in the entry file:
+
+```js
+export default function createApp ({ type, req }) {
+  let cookie = type === 'server' ? req.getHeader('Cookie') : document.cookie
+}
+```
+
+There is no problem with this, but once the code that needs to distinguish the environment becomes more and more, the entry file will become more and more bloated. At this time, we can create the `client.js` and `server.js` files in the `src/` folder respectively. As the name implies, the `client.js` file will only run on the client, while the `server.js` file will only run on the server.
+
+- `src/client.js`
+
+```js
+export default function (context) {
+  console.log(document.cookie)
+}
+```
+
+- `src/server.js`
+
+```js
+export default function (context) {
+  console.log(context.req.getHeader('Cookie'))
+}
+```
+
+In fact, `@vapper/plugin-cookie` is implemented in this way, and can be understood through source code:[vapper-plugin-cookie/lib/cookie.js](https://github.com/shuidi-fed/vapper/blob/master/packages/vapper-plugin-cookie/lib/cookie.js)
+
+`src/client.js` and `src/server.js` are files recognized by vapper by default, of course, if your project uses `TypeScript`, then the `src/client.ts` and `src/server.ts` files will be recognized and they can be modified via the configuration file(`vapper.config.js`):
+
+```js
+// vapper.config.js
+module.exports = {
+  clientEntry: './my-client-entry.js',
+  serverEntry: './my-server-entry.js'
+}
+```
 
 ## Plugin runtime options
 
