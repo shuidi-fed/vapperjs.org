@@ -71,7 +71,8 @@ module.exports = {
               ['/zh/assets', '静态资源'],
               ['/zh/caching', '使用缓存'],
               ['/zh/using-plugin', '使用插件'],
-              ['/zh/injection', 'Vapper 注入']
+              ['/zh/injection', 'Vapper 注入'],
+              ['/zh/typescript', '使用 TypeScript'],
             ]
           },
           {
