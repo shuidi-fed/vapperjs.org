@@ -35,7 +35,8 @@ module.exports = {
               ['/assets', 'Static Resource'],
               ['/caching', 'Caching'],
               ['/using-plugin', 'Using Plugin'],
-              ['/injection', 'Vapper Injection']
+              ['/injection', 'Vapper Injection'],
+              ['/typescript', 'Use TypeScript']
             ]
           },
           {
