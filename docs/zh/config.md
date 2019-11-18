@@ -148,6 +148,13 @@ logLevel === 5 ----> error/warn/debug/tip/info
 
 当错误发生时是否回退 `SPA` 模式，默认为 `true`，即回退 `SPA` 模式。阅读 [回退 SPA 模式](/zh/error-handling.html#回退-spa-模式) 了解详情。
 
+## fallbackSpaHandler <Badge text="Core 0.13.0+"/>
+
+- Type: `function`
+- Default: `null`
+
+自定义回退 `SPA` 的逻辑，详情请查看：[自定义 fallback 逻辑](/zh/error-handling.html#自定义-fallback-逻辑)
+
 ## serverBundleFileName
 
 - 类型：`string`

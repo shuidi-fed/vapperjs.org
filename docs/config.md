@@ -148,6 +148,13 @@ Vapper allows to minimize html content rendered by the server. This option is on
 
 Whether to fall back the `SPA` mode when an error occurs, the default is `true`. Read [Fall back to SPA mode](/error-handling.html#fall-back-to-spa-mode) for more details.
 
+## fallbackSpaHandler <Badge text="Core 0.13.0+"/>
+
+- Type: `function`
+- Default: `null`
+
+Custom fallback `SPA` logic, please see: [Custom Fallback Logic](/error-handling.html#custom-fallback-logic).
+
 ## serverBundleFileName
 
 - Type: `string`

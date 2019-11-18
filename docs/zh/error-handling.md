@@ -60,6 +60,29 @@ starter()
 
 关于如何自定义 `Server` 请阅读：[自定义 Server](/zh/custom-server.html)
 
+### 自定义 fallback 逻辑 <Badge text="Core 0.13.0+"/>
+
+默认情况下 `vapper` 内部使用 [serve-static](https://www.npmjs.com/package/serve-static) 提供静态资源服务，当用户请求到来时，`vapper` 会把 `dist/` 下的文件作为静态资源提供给用户，可以通过 [configuration#static](/zh/config.html#static) 选项配置 [serve-static#options](https://github.com/expressjs/serve-static#options)。
+
+一般情况下这么做是没有问题的，但是我们通常会有独立的静态资源服务器或 `CDN`，这时我们的 `nodejs` 服务就变成了只服务 `dist/index.html` 这一个文件，由于 `dist/index.html` 文件的体积很小，因此我们可以在服务启动时将该文件读进内存，当有请求到来时将不会再产生文件 `IO`。为了实现这个目的，`vapper` 提供了 [configuration#fallbackSpaHandler](/zh/config.html#fallbackspahandler) 选项，允许你自定义回退 `SPA` 的逻辑，一个例子：
+
+```js
+// 1、在服务启动时，将构建所产生的 dist/index.html 文件读进内存
+const spaHTMLContent = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
+
+// vapper.config.js
+module.exports = {
+  // 其他配置......
+
+  // 自定义回退 SPA 的逻辑
+  fallbackSpaHandler (req, res) {
+    // 2、将内存中的字符串直接发送给客户端
+    res.setHeader('Content-Type', 'text/html; charset=UTF-8')
+    res.end(spaHTMLContent)
+  }
+}
+```
+
 ## 自定义错误页面
 
 当然，如果你希望错误发生时把错误页面展示给用户也非常简单。
