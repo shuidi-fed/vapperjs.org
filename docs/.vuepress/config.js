@@ -52,7 +52,8 @@ module.exports = {
         nav: [
           { text: 'Guide', link: '/introduction' },
           { text: 'Advanced', link: '/write-plugin' },
-          { text: 'Configuration', link: '/config' }
+          { text: 'Configuration', link: '/config' },
+          { text: 'Troubleshooting', link: '/troubleshooting' }
         ]
       },
       '/zh/': {
@@ -89,7 +90,8 @@ module.exports = {
         nav: [
           { text: 'Guide', link: '/zh/introduction' },
           { text: 'Advanced', link: '/zh/write-plugin' },
-          { text: '配置文件', link: '/zh/config' }
+          { text: '配置文件', link: '/zh/config' },
+          { text: '常见问题', link: '/zh/troubleshooting' }
         ]
       }
     },
