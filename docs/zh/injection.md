@@ -87,6 +87,18 @@ module.exports = {
 }
 ```
 
+### process.server
+
+一个布尔值，相当于 `process.env.VAPPER_TARGET === 'server'`。
+
+### process.client
+
+一个布尔值，相当于 `process.env.VAPPER_TARGET === 'client'`。
+
+### process.browser
+
+`process.client` 的别名，一个布尔值，相当于 `process.env.VAPPER_TARGET === 'client'`。
+
 ### process.env.VAPPER_ENV
 
 `process.env.VAPPER_ENV` 的值等于 `mode` 配置项的值：`'development'` 或者 `'production'`。

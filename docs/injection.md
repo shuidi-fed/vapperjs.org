@@ -87,6 +87,18 @@ module.exports = {
 }
 ```
 
+### process.server
+
+A Boolean value, equivalent to `process.env.VAPPER_TARGET === 'server'`.
+
+### process.client
+
+A Boolean value, equivalent to `process.env.VAPPER_TARGET === 'client'`.
+
+### process.browser
+
+Alias of `process.client`, a Boolean value, equivalent to `process.env.VAPPER_TARGET === 'client'`.
+
 ### process.env.VAPPER_ENV
 
 The value of `process.env.VAPPER_ENV` is equal to the value of the `mode` configuration option: `'development'` or `'production'`.
