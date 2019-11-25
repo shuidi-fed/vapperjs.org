@@ -85,6 +85,23 @@ module.exports = {
 
 服务器主机。
 
+## logger <Badge text="Core 0.14.0+"/>
+
+- 类型：`function`
+- 默认值：`console.log`
+
+自定义日志打印函数，默认为 `console.log`，你可以使用它自定义日志打印函数，例如：
+
+```js
+// vapper.config.js
+module.exports = {
+  // 自定义 logger
+  logger (...args) {
+    console.log(...args)
+  }
+}
+```
+
 ## logLevel
 
 - 类型：`number`

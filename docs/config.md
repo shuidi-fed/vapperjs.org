@@ -85,6 +85,23 @@ Server port number.
 
 Server host.
 
+## logger <Badge text="Core 0.14.0+"/>
+
+- Type: `function`
+- Default: `console.log`
+
+Custom log print function, the default is `console.log`, you can use it to customize the log print function, for example:
+
+```js
+// vapper.config.js
+module.exports = {
+  // Custom logger
+  logger (...args) {
+    console.log(...args)
+  }
+}
+```
+
 ## logLevel
 
 - TYpe: `number`
