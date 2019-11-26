@@ -4,7 +4,11 @@
 Vapper requires Vue to be version 2.6+
 :::
 
-## Integrated into the Vue CLI 3 project
+## Integrated into the Vue CLI 3/4 project
+
+:::tip
+Here is a simple and working example: [vapper-vue-cli-example](https://github.com/shuidi-fed/vapper-vue-cli-example).
+:::
 
 1. Create a project using the `vue create` command:
 

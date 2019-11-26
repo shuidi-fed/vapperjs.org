@@ -4,7 +4,11 @@
 Vapper 要求 Vue 的版本号为 2.6+
 :::
 
-## 集成到 Vue CLI 3 项目
+## 集成到 Vue CLI 3/4 项目
+
+:::tip
+这里有一个简单可运行的例子: [vapper-vue-cli-example](https://github.com/shuidi-fed/vapper-vue-cli-example)。
+:::
 
 1、使用 `vue create` 命令创建项目：
 
