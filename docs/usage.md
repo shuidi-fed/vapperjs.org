@@ -45,6 +45,10 @@ Finally, you need to modify your entry file as required by `SSR`: [entry file do
 
 ## Integrated into the Poi project
 
+:::tip
+Here is a simple and working example: [vapper-poi-example](https://github.com/shuidi-fed/vapper-poi-example).
+:::
+
 1. Create a project with `create-poi-app`:
 
 ```sh

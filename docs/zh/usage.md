@@ -7,7 +7,7 @@ Vapper 要求 Vue 的版本号为 2.6+
 ## 集成到 Vue CLI 3/4 项目
 
 :::tip
-这里有一个简单可运行的例子: [vapper-vue-cli-example](https://github.com/shuidi-fed/vapper-vue-cli-example)。
+这里有一个简单的可运行的例子: [vapper-vue-cli-example](https://github.com/shuidi-fed/vapper-vue-cli-example)。
 :::
 
 1、使用 `vue create` 命令创建项目：
@@ -44,6 +44,10 @@ yarn add @vapper/core vue-router
 最后，你需要按照 `SSR` 的要求修改你的入口文件：[入口文件文档](/zh/entry.md)
 
 ## 集成到 Poi 项目
+
+:::tip
+这里有一个简单的可运行的例子: [vapper-poi-example](https://github.com/shuidi-fed/vapper-poi-example)。
+:::
 
 1、使用 `create-poi-app` 创建项目：
 
