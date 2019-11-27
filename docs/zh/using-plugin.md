@@ -118,7 +118,7 @@ module.exports = {
 
 `@vapper/plugin-cookie` 插件在应用层面扩展了 `Vapper`，因此它接收运行时参数，想要为其传递参数，需要在入口文件导出的工厂函数上添加 `pluginRuntimeOptions` 属性：
 
-```js {5}
+```js {3-4}
 // 入口文件
 export default function createApp (ctx) {
   ctx.$cookie.get('foo') // 读取名字为 foo 的 cookie
@@ -149,6 +149,10 @@ export default function createApp (ctx) {
   })
 }
 ```
+
+:::tip
+以下内容假设能够通过组件实例(`this`)访问 `$cookie`。
+:::
 
 ##### 读取 cookie
 

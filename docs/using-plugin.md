@@ -118,7 +118,7 @@ module.exports = {
 
 The `@vapper/plugin-cookie` plugin accepts runtime options. To pass options for it, you need to add the `pluginRuntimeOptions` property to the factory function exported by the entry file:
 
-```js {5}
+```js {3-4}
 // Entry file
 export default function createApp (ctx) {
   ctx.$cookie.get('foo') // Read cookie named `foo`
@@ -150,6 +150,10 @@ export default function createApp (ctx) {
   })
 }
 ```
+
+:::tip
+The following docs assume that `$cookie` is accessible through the component instance(`this`).
+:::
 
 ##### Read cookie
 
