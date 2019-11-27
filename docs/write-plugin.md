@@ -139,22 +139,22 @@ Then we can write the `client.js` and `server.js` files separately:
 
 ```js
 // client.js
-export default function (PluginObject) {
+export default function (ctx) {
   // ......
 }
 ```
 
 ```js
 // server.js
-export default function (PluginObject) {
+export default function (ctx) {
   // ......
 }
 ```
 
-Both `server.js` and `client.js` need to have a default exported function, and the function accepts `PluginObject` as a parameter, as shown below for the contents of `PluginObject`:
+Both `server.js` and `client.js` need to have a default exported function, and the function accepts [ctx](/entry.html#context) as a parameter, as shown below for the contents of [ctx](/entry.html#context):
 
 ```js
-PluginObject = {
+ctx = {
   Vue,  // The Vue constructor
   pluginRuntimeOptions, // It is the variable exported by the entry file: createApp.pluginRuntimeOptions = {}
   type, // Its value is 'server' in the `server.js` file, and its value is 'client' in `client.js`
@@ -164,18 +164,14 @@ PluginObject = {
 }
 ```
 
-With these capabilities in place, we can try to write plugins to enhance the runtime. Next, let's write a plugin that injects `$logger` function for component instances as an example of how to write plugins to enhance the runtime.
+With these capabilities in place, we can try to write plugins to enhance the runtime. Next, let's write a plugin that injects `$logger` function for [context](/entry.html#context) as an example of how to write plugins to enhance the runtime.
 
-This is very simple to implement, in fact, we only need to use `Vue.mixin()` to add the `$logger` function to the `Vue` component instance:
+The main purpose of the runtime plugin is: enhance the [context](/entry.html#context) object, as shown in the following code, we add the `$logger` attribute on the [context](/entry.html#context) object:
 
 ```js
 // client.js
-export default function ({ Vue }) {
-  Vue.mixin({
-    beforeCreate () {
-      this.$logger = console
-    }
-  })
+export default function (ctx) {
+  ctx.$logger = console.log
 }
 ```
 
@@ -183,12 +179,8 @@ The same code can be used in `server.js`:
 
 ```js
 // server.js
-export default function ({ Vue }) {
-  Vue.mixin({
-    beforeCreate () {
-      this.$logger = console
-    }
-  })
+export default function (ctx) {
+  ctx.$logger = console.log
 }
 ```
 
@@ -209,12 +201,8 @@ As shown in the code above, we point `client` and `server` to the same `logger.j
 
 ```js
 // logger.js
-export default function ({ Vue }) {
-  Vue.mixin({
-    beforeCreate () {
-      this.$logger = console
-    }
-  })
+export default function (ctx) {
+  ctx.$logger = console.log
 }
 ```
 
@@ -222,17 +210,31 @@ But some code can only be run on the server or client. At this time we need to u
 
 ```js
 // logger.js
-export default function ({ Vue, type }) {
-  const isServer = type === 'server'
+export default function (ctx) {
+  const isServer = ctx.type === 'server'
   if (isServer) {
-    // ...
+    ctx.$logger = customLogger
   } else {
-    // client
+    ctx.$logger = console.log
   }
 }
 ```
 
 Since one file can satisfy the requirements, why design two files `client.js` and `server.js`? In fact, using only one file can indeed meet the requirements, but this will cause the client to include the server's code. Similarly, the client's code will also exist in the server. Although this does not affect the normal execution of the code, it increases the size of the bundle, so if the code between the client and the server is quite different, it is recommended to write two files separately.
+
+The runtime plugin enhances the [context](/entry.html#context) object by adding new attributes to [context](/entry.html#context), so we can use it in the entry file:
+
+```js {4}
+// Entry file
+
+export default function createApp (ctx) {
+  ctx.$logger // Access `$logger` via `ctx`.
+  
+  // Omit ...
+
+  return { app, router }
+}
+```
 
 ## Pass options for the plugin
 

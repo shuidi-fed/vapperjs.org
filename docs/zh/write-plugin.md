@@ -139,22 +139,22 @@ module.exports = (api) => {
 
 ```js
 // client.js
-export default function (PluginObject) {
+export default function (ctx) {
   // ......
 }
 ```
 
 ```js
 // server.js
-export default function (PluginObject) {
+export default function (ctx) {
   // ......
 }
 ```
 
-无论是 `server.js` 还是 `client.js` 都需要有一个默认导出的函数，并接受 `PluginObject` 作为参数，如下是 `PluginObject` 的内容：
+无论是 `server.js` 还是 `client.js` 都需要有一个默认导出的函数，并接受 [ctx](/zh/entry.html#context) 作为参数，如下是 [ctx](/zh/entry.html#context) 的内容：
 
 ```js
-PluginObject = {
+ctx = {
   Vue,  // Vue 构造函数
   pluginRuntimeOptions, // 它的值为入口文件导出的 createApp.pluginRuntimeOptions = {}
   type, // 在 `server.js` 文件中它的值为 'server'，在 `client.js` 中它的值为 'client'
@@ -164,18 +164,14 @@ PluginObject = {
 }
 ```
 
-有了这些能力之后，我们可以尝试着编写运行时增强插件，接下来我们开发一个为组件实例注入 `$logger` 的函数为例，讲解如何开发运行时增强插件。
+有了这些能力之后，我们可以尝试着编写运行时增强插件，接下来我们开发一个为 [context](/zh/entry.html#context) 注入 `$logger` 的函数为例，讲解如何开发运行时增强插件。
 
-其实我们只需要使用 `Vue.mixin()` 为 `Vue` 组件实例添加 `$logger` 函数即可：
+运行时插件的主要作用是：对渲染环境对象(`ctx`)进行增强，如下代码所示，我们在 `ctx` 对象上添加了 `.$logger` 属性：
 
 ```js
 // client.js
-export default function ({ Vue }) {
-  Vue.mixin({
-    beforeCreate () {
-      this.$logger = console
-    }
-  })
+export default function (ctx) {
+  ctx.$logger = console.log
 }
 ```
 
@@ -183,12 +179,8 @@ export default function ({ Vue }) {
 
 ```js
 // server.js
-export default function ({ Vue }) {
-  Vue.mixin({
-    beforeCreate () {
-      this.$logger = console
-    }
-  })
+export default function (ctx) {
+  ctx.$logger = console.log
 }
 ```
 
@@ -209,12 +201,8 @@ module.exports = (api) => {
 
 ```js
 // logger.js
-export default function ({ Vue }) {
-  Vue.mixin({
-    beforeCreate () {
-      this.$logger = console
-    }
-  })
+export default function (ctx) {
+  ctx.$logger = console.log
 }
 ```
 
@@ -222,17 +210,31 @@ export default function ({ Vue }) {
 
 ```js
 // logger.js
-export default function ({ Vue, type }) {
-  const isServer = type === 'server'
+export default function (ctx) {
+  const isServer = ctx.type === 'server'
   if (isServer) {
-    // ...
+    ctx.$logger = customLogger
   } else {
-    // client
+    ctx.$logger = console.log
   }
 }
 ```
 
-既然一个文件就可以满足需求，为什么要设计 `client.js` 和 `server.js` 两个文件呢？实际上只使用一个文件的确可以满足需求，但这回导致 `Webpack` 打包之后，客户端的包中存在服务端的代码，同样的服务端中也会存在客户端的代码，这虽然不会影响代码的正常运行，但是却增加了包的体积，因此如果客户端的代码和服务端的代码相差较大，建议分开两个文件编写。
+既然一个文件就可以满足需求，为什么要设计 `client.js` 和 `server.js` 两个文件呢？实际上只使用一个文件的确可以满足需求，但这会导致 `Webpack` 打包之后，客户端的包中存在服务端的代码，同样的服务端中也会存在客户端的代码，这虽然不会影响代码的正常运行，但是却增加了包的体积，因此如果客户端的代码和服务端的代码相差较大，建议分开两个文件编写。
+
+运行时插件通过在 `ctx` 上添加新的属性，从而增强了 `ctx` 对象，因此，我们可以在入口文件中使用它：
+
+```js {4}
+// 入口文件
+
+export default function createApp (ctx) {
+  ctx.$logger // 通过 ctx 访问 $logger
+  
+  // 省略...
+
+  return { app, router }
+}
+```
 
 ## 为插件传递参数
 

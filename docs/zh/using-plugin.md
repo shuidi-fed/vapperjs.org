@@ -6,7 +6,7 @@
 
 ## 简介
 
-插件可以扩展 `Vapper` 应用的运行时能力，例如 [@vapper/plugin-cookie](/zh/using-plugin.html#vapper-plugin-cookie) 插件给组件实例注入了 `vm.$cookie` 属性，用于操作 `cookie`。插件也可以扩展 `Vapper` 框架本身的能力，例如 [@vapper/plugin-prerender](/zh/using-plugin.html#vapper-plugin-prerender) 插件为框架增加了新的 `CLI` 命令，用来完成预渲染的工作。插件还能做很多事情，添加 `server` 中间件、通过钩子介入 `Vapper` 启动的各个环节等等。
+插件可以扩展 `Vapper` 应用的运行时能力，例如 [@vapper/plugin-cookie](/zh/using-plugin.html#vapper-plugin-cookie) 插件为 [Context](/zh/entry.html#context) 注入了 `ctx.$cookie` 属性，用于操作 `cookie`。插件也可以扩展 `Vapper` 框架本身的能力，例如 [@vapper/plugin-prerender](/zh/using-plugin.html#vapper-plugin-prerender) 插件为框架增加了新的 `CLI` 命令，用来完成预渲染的工作。插件还能做很多事情，添加 `server` 中间件、通过钩子介入 `Vapper` 启动的各个环节等等。
 
 ## 基本使用
 
@@ -97,7 +97,7 @@ module.exports = {
 `@vapper/plugin-cookie` 内部使用了 [jshttp/cookie](https://github.com/jshttp/cookie)。
 :::
 
-该插件扩展了 `Vapper` 应用的运行时，提供了同构操作 `cookie` 的能力。它在组件实例上添加了 `vm.$cookie` 属性，以方便对 `cookie` 的操作，既可在服务端使用，又可以在客户端使用。
+该插件扩展了 `Vapper` 应用的运行时，在 [Context](/zh/entry.html#context) 对象上添加了 `$cookie` 属性，用于同构操作 `cookie`。既可在服务端使用，又可以在客户端使用。
 
 #### 安装
 
@@ -120,7 +120,10 @@ module.exports = {
 
 ```js {5}
 // 入口文件
-export default function createApp () { /* ... */ }
+export default function createApp (ctx) {
+  ctx.$cookie.get('foo') // 读取名字为 foo 的 cookie
+  ctx.$cookie.set('foo', 1) // 设置名字为 foo 的 cookie
+}
 
 createApp.pluginRuntimeOptions = {
   cookie: { /* options */ }
@@ -129,9 +132,27 @@ createApp.pluginRuntimeOptions = {
 
 `@vapper/plugin-cookie` 插件会读取 `pluginRuntimeOptions.cookie` 对象作为选项参数。
 
+我们可以在入口文件添加少量代码，以使得我们能够在任意组件实例对象上访问 `ctx.$cookie`：
+
+```js
+// 入口文件
+Vue.mixin({
+  created () {
+    this.$cookie = this.$root.$options.$cookie
+  }
+})
+
+export default function createApp (ctx) {
+  new Vue({
+    $cookie: ctx.$cookie
+    // 其他选项...
+  })
+}
+```
+
 ##### 读取 cookie
 
-使用 `vm.$cookie.get` 函数读取 `cookie`。
+使用 `$cookie.get` 函数读取 `cookie`。
 
 - 参数：
   - `{string}` key
@@ -161,7 +182,7 @@ export default {
 
 ##### 设置 cookie
 
-使用 `vm.$cookie.set` 函数设置一个或一组 `cookie`。
+使用 `$cookie.set` 函数设置一个或一组 `cookie`。
 
 - 参数：
   - `{string | array}` key
@@ -241,7 +262,7 @@ export default {
 - Type: `string`
 - Default: `'$cookie'`
 
-指定注入到组件实例的属性名称，默认为 `$cookie`，因此你可以通过组件实例访问：`vm.$cookie`。
+指定注入到组件实例的属性名称，默认为 `$cookie`，因此你可以通过组件实例访问：`ctx.$cookie`。
 
 ##### fromRes
 

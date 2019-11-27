@@ -6,7 +6,7 @@ The plugin mechanism of `Vapper` is its own backbone. In fact, the many capabili
 
 ## Intro
 
-Plugins can extend the runtime capabilities of the `Vapper` application, such as the [@vapper/plugin-cookie](/using-plugin.html#vapper-plugin-cookie) plugin that injects a `vm.$cookie` property into a component instance for handling `cookie`. Plugins can also extend the capabilities of the `Vapper` framework itself, such as the [@vapper/plugin-prerender](/using-plugin.html#vapper-plugin-prerender) plugin, which adds a new `CLI` command to the framework to perform prerendering. Plugins can also do a lot of things, such as adding `server` middleware, hooking into the various sections of `Vapper` startup, and so on.
+Plugins can extend the runtime capabilities of the `Vapper` application, such as the [@vapper/plugin-cookie](/using-plugin.html#vapper-plugin-cookie) plugin that injects a `ctx.$cookie` property into [context](/entry.html#context) object for handling `cookie`. Plugins can also extend the capabilities of the `Vapper` framework itself, such as the [@vapper/plugin-prerender](/using-plugin.html#vapper-plugin-prerender) plugin, which adds a new `CLI` command to the framework to perform prerendering. Plugins can also do a lot of things, such as adding `server` middleware, hooking into the various sections of `Vapper` startup, and so on.
 
 ## Basic usage
 
@@ -97,7 +97,7 @@ This plugin registers the `vapper generate` command, which is equivalent to "bui
 `@vapper/plugin-cookie` is internally dependent on [jshttp/cookie](https://github.com/jshttp/cookie).
 :::
 
-The plugin extends the runtime of the `Vapper` application and provides the ability to manipulate `cookies` in isomorphism. It adds the `vm.$cookie` property to the component instance to manipulate `cookie` , which can be used both on the server and on the client.
+The plugin extends the runtime of the `Vapper` application and adds the `$cookie` property to the [context](/entry.html#context) object for isomorphic manipulation of `cookies`, which can be used both on the server and on the client.
 
 #### Installation
 
@@ -120,7 +120,10 @@ The `@vapper/plugin-cookie` plugin accepts runtime options. To pass options for 
 
 ```js {5}
 // Entry file
-export default function createApp () { /* ... */ }
+export default function createApp (ctx) {
+  ctx.$cookie.get('foo') // Read cookie named `foo`
+  ctx.$cookie.set('foo', 1) // Set cookie named `foo`
+}
 
 createApp.pluginRuntimeOptions = {
   cookie: { /* options */ }
@@ -129,9 +132,28 @@ createApp.pluginRuntimeOptions = {
 
 The `@vapper/plugin-cookie` plugin reads the `pluginRuntimeOptions.cookie` object as a configuration option.
 
+We can add a small amount of code to the entry file to enable us to access cookies on any component instance object:
+
+```js
+// Entry file
+
+Vue.mixin({
+  created () {
+    this.$cookie = this.$root.$options.$cookie
+  }
+})
+
+export default function createApp (ctx) {
+  new Vue({
+    $cookie: ctx.$cookie
+    // other options...
+  })
+}
+```
+
 ##### Read cookie
 
-Use the `vm.$cookie.get` function to read `cookie`.
+Use the `$cookie.get` function to read `cookie`.
 
 - Arguments:
   - `{string}` key
@@ -161,7 +183,7 @@ export default {
 
 ##### Set cookie
 
-Use the `vm.$cookie.set` function to set one or a set of `cookies`.
+Use the `$cookie.set` function to set one or a set of `cookies`.
 
 - Arguments:
   - `{string | array}` key
@@ -204,7 +226,7 @@ All available `options` can be viewed at: [jshttp/cookie#options](https://github
 
 ##### Delete cookie
 
-Use the `vm.$coookie.delete` function to remove single or all `cookies`.
+Use the `$coookie.delete` function to remove single or all `cookies`.
 
 - Arguments:
   - `{string}` key
@@ -241,7 +263,7 @@ Where `options` is: [jshttp/cookie#options](https://github.com/jshttp/cookie#opt
 - Type: `string`
 - Default: `'$cookie'`
 
-Specifies the name of the property injected into the component instance. The default is `$cookie`, so you can access it via the component instance: `vm.$cookie`.
+Specifies the name of the property injected into the component instance. The default is `$cookie`, so you can access it via the component instance: `ctx.$cookie`.
 
 ##### fromRes
 
