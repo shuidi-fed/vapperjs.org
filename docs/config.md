@@ -1,5 +1,9 @@
 # Configuration
 
+:::tip
+The following options can be used both on the command line and in the configuration file.
+:::
+
 `Vapper` looks for the `vapper.config.js` file in the project root and loads the object exported by the file as a configuration option:
 
 ```js
@@ -15,6 +19,13 @@ module.exports = {
 - Default: `'production'`
 
 Specify the startup mode of `Vapper`, production mode or development mode, the optional values are `'development'` and `'production'`.
+
+## vueCliMode <Badge text="Vue CLI only"/> <Badge text="0.15.0+"/>
+
+- Type: `string`
+- Default: `null`
+
+Specify the [--mode](https://cli.vuejs.org/guide/mode-and-env.html#modes) option of `Vue CLI`, which is mainly used to load `.env.[Mode]` files.
 
 ## entry
 

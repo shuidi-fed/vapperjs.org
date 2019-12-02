@@ -1,5 +1,9 @@
 # 配置文件
 
+:::tip
+以下选项既可用于命令行，又可以用于配置文件。
+:::
+
 `Vapper` 会寻找项目根目录中的 `vapper.config.js` 文件，并加载该文件导出的对象作为配置选项：
 
 ```js
@@ -15,6 +19,13 @@ module.exports = {
 - 默认值：`'production'`
 
 指定 `Vapper` 的启动模式，生产模式还是开发模式，可选值为 `'development'` 和 `'production'`
+
+## vueCliMode <Badge text="Vue CLI only"/> <Badge text="0.15.0+"/>
+
+- 类型：`string`
+- 默认值：`null`
+
+指定 `Vue CLI` 的 [--mode](https://cli.vuejs.org/guide/mode-and-env.html#modes) 选项，主要用于加载 `.env.[mode]` 文件。
 
 ## entry
 
