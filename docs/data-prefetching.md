@@ -1,8 +1,12 @@
-# Data prefetch
+# Data prefetch <Badge text="0.15.1+"/>
+
+:::tip
+Please install version `0.15.1+` to use more powerful data prefetching methods.
+:::
 
 `Vapper` provides more intuitive and powerful data prefetching capabilities, allowing you to perform data prefetching just like the `SPA` application.
 
-## The $createFetcher function
+## The needSerialze option
 
 When developing `SPA` applications, we usually fetch data in the component's `created` or `mounted` hooks, for example:
 
@@ -14,15 +18,16 @@ async created () {
 }
 ```
 
-But this code can't run properly in the `SSR` application, because during the server rendering process, the application can't know when the request ends, and it can't know which data needs to be serialized and sent to the client. So in order for the above code to run in the `SSR` application, you can pass the `fetchApi` function as a parameter to the `$createFetcher` function, which is injected into the component instance by `Vapper`:
+But this code can't run properly in the `SSR` application, because during the server rendering process, the application can't know when the request ends, and it can't know which data needs to be serialized and sent to the client. So in order for the above code to run in the `SSR` application, you just need to add the `needSerialze: true` option:
 
-```js
-// Created hook
-async created () {
-  // Call the this.$createFetcher function whose argument is a function that returns a Promise instance
-  const fetchList = this.$createFetcher(fetchApi)
-  // Fetch data
-  this.res = await fetchList('/list')
+```js {2}
+export default {
+  needSerialze: true,
+  // Created hook
+  async created () {
+    // Suppose the return value of the `fetchApi` function is a `Promise` instance.
+    this.res = await fetchApi('/list')
+  }
 }
 ```
 
@@ -79,17 +84,17 @@ export default function createApp () {
 }
 ```
 
-### Action returns a Promise instance
+### needSerialze and dispatch
 
 We know that the argument passed to the `this.$createFetcher` function is a function that returns a `Promise` instance. Therefore, if the return value of a `action` is a `Promise` instance, we can perform data prefetching like this:
 
-```js {4}
-// created hook
-async created () {
-  // Create a fetcher
-  const fetchList = this.$createFetcher(() => this.$store.dispatch('fetchData'))
-  // Call the fetchList function to fetch data
-  this.res = await fetchList('/list')
+```js {2}
+export default {
+  needSerialze: true,
+  // Created hook
+  async created () {
+    this.res = await this.$store.dispatch('fetchData')
+  }
 }
 ```
 
@@ -111,63 +116,19 @@ new Vuex.Store({
 
 If you use the `mapActions` function to map `actions` to the component's `methods`, the code will look more intuitive:
 
-```js {5,8}
+```js {7,9}
 import { mapActions } from 'vuex'
 
 export default {
   methods: {
     ...mapActions(['fetchData'])
   },
+  needSerialze: true,
   async created () {
-    // Pass this.fetchData as a parameter to `this.$createFetcher`
-    const fetchData = this.$createFetcher(this.fetchData)
-    await fetchData()
+    await this.fetchData()
   }
 }
 ```
-
-### Call $createFetcher in Actions
-
-In the previous example, we all called the `this.$createFetcher` function in the `created` hook of the component to create `Fetcher`. If an `action` is used by multiple components, then calling the `this.$createFetcher` function in each component's `created` hook will be very cumbersome, therefore, we can move the call to the `this.$createFetcher` function to `action`:
-
-```js {5}
-new Vuex.Store({
-  actions: {
-    async fetchData({ commit }, { vm }) {
-      // Call the $createFetcher function here
-      const fetchData = vm.$createFetcher(fetch)
-      // Send an asynchronous request
-      const res = await fetchData()
-      commit('setData', res.data)
-    }
-  }
-})
-```
-
-At this point we can call `action` directly in the `created` hook of the component:
-
-```js {3}
-export default {
-  async created () {
-    await this.$store.dispatch('fetchData', { vm: this })
-  }
-}
-```
-
-If you use the `mapActions` utility function:
-
-```js {3,6}
-export default {
-  methods: {
-    ...mapActions(['fetchData'])
-  },
-  async created () {
-    await this.fetchData({ vm: this })
-  }
-}
-```
-
-Note: We must explicitly pass the current component instance (`vm`) as `payload` so that the `vm.$createFetcher` function can be accessed using the component instance in `action`.
 
 ## Use Apollo
 

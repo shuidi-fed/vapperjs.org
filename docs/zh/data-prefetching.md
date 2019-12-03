@@ -1,8 +1,12 @@
-# 数据预取
+# 数据预取 <Badge text="0.15.1+"/>
+
+:::tip
+请安装 `0.15.1+` 版本，以使用更强大的数据预取方式。
+:::
 
 `Vapper` 提供更直观更强大的数据预取能力，它让你像开发 `SPA` 应用一样的进行数据预取。
 
-## $createFetcher 函数
+## needSerialze 选项
 
 在开发 `SPA` 应用时，我们通常在组件的 `created` 或 `mounted` 钩子中进行数据的获取，例如：
 
@@ -14,15 +18,16 @@ async created () {
 }
 ```
 
-但这段代码不能正常的运行在 `SSR` 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 `SSR` 应用中运行，你可以将 `fetchApi` 函数传递给 `$createFetcher` 函数，该函数由 `Vapper` 注入到组件实例中：
+但这段代码不能正常的运行在 `SSR` 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 `SSR` 应用中运行，你只需要添加 `needSerialze: true` 选项即可：
 
-```js
-// created 钩子
-async created () {
-  // 调用 this.$createFetcher 函数，参数是一个返回 Promise 实例的函数
-  const fetchList = this.$createFetcher(fetchApi)
-  // 调用 fetchList 函数获取数据
-  this.res = await fetchList('/list')
+```js {2}
+export default {
+  needSerialze: true,
+  // created 钩子
+  async created () {
+    // 假设 `fetchApi` 函数的返回值是 `Promise` 实例
+    this.res = await fetchApi('/list')
+  }
 }
 ```
 
@@ -35,8 +40,6 @@ async created () {
 ## 避免重复的数据预取
 
 阅读上面的代码，你可能会产生疑问：“`created` 钩子函数内的代码难道不会分别在服务端和客户端执行吗？这样是否会导致重复的数据预取？”。其实不会，`Vapper` 自动帮助你避免了重复的数据预取，因此你什么都不用做。当然，如果是在客户端通过路由跳转来到某一个页面，那么仍然会进行正常的数据预取。这是符合预期的。
-
-原理很简单，当 `Vapper` 在客户端渲染页面时，如果发现该页面已经由服务端渲染完成，那么所有的 `this.$createFetcher` 函数调用都会抛出一个带有特殊标识的错误实例，从而阻止了后续代码的执行，然后通过 `errorCaptured` 选项捕获该错误实例即可。
 
 ## Store(Vuex)
 
@@ -81,17 +84,17 @@ export default function createApp () {
 }
 ```
 
-### Action 返回一个 Promise 实例
+### needSerialze 和 dispatch
 
 我们知道，传递给 `this.$createFetcher` 函数的参数是一个返回 `Promise` 实例的函数。因此，如果 `action` 的返回值是 `Promise` 实例，我们可以像如下代码这样进行数据预取：
 
-```js {4}
-// created 钩子
-async created () {
-  // 调用 this.$createFetcher 函数，参数是一个返回 Promise 实例的函数
-  const fetchList = this.$createFetcher(() => this.$store.dispatch('fetchData'))
-  // 调用 fetchList 函数获取数据
-  this.res = await fetchList('/list')
+```js {2}
+export default {
+  needSerialze: true,
+  // created 钩子
+  async created () {
+    this.res = await this.$store.dispatch('fetchData')
+  }
 }
 ```
 
@@ -113,63 +116,19 @@ new Vuex.Store({
 
 如果你使用 `mapActions` 函数将 `actions` 映射为组件的 `methods`，那么代码看起来将更直观：
 
-```js {5,8}
+```js {7,9}
 import { mapActions } from 'vuex'
 
 export default {
   methods: {
     ...mapActions(['fetchData'])
   },
+  needSerialze: true,
   async created () {
-    // 将 this.fetchData 作为参数传递给 `this.$createFetcher`
-    const fetchData = this.$createFetcher(this.fetchData)
-    await fetchData()
+    await this.fetchData()
   }
 }
 ```
-
-### 在 Actions 中执行 $createFetcher
-
-在上面的例子中，我们都是在组件的 `created` 钩子中调用 `this.$createFetcher` 函数创建 `Fetcher`。如果一个 `action` 被多个组件使用，那么在每一个组件的 `created` 钩子中都调用 `this.$createFetcher` 函数将会非常繁琐，为此，我们可以将 `this.$createFetcher` 函数的调用移动到相应的 `action` 内：
-
-```js {5}
-new Vuex.Store({
-  actions: {
-    async fetchData({ commit }, { vm }) {
-      // 在这里调用 $createFetcher 函数
-      const fetchData = vm.$createFetcher(fetch)
-      // 发送异步请求
-      const res = await fetchData()
-      commit('setData', res.data)
-    }
-  }
-})
-```
-
-这样我们在组件的 `created` 钩子中直接调用相应的 `action` 即可：
-
-```js {3}
-export default {
-  async created () {
-    await this.$store.dispatch('fetchData', { vm: this })
-  }
-}
-```
-
-如果你使用了 `mapActions` 工具函数：
-
-```js {3,6}
-export default {
-  methods: {
-    ...mapActions(['fetchData'])
-  },
-  async created () {
-    await this.fetchData({ vm: this })
-  }
-}
-```
-
-注意：我们必须显式的将当前组件实例(`vm`)作为 `payload` 传递，以便在 `action` 中通过组件实例访问 `vm.$createFetcher` 函数。
 
 ## 使用 Apollo
 
