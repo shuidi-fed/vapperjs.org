@@ -1,7 +1,7 @@
 # Data prefetch <Badge text="0.15.2+"/>
 
 :::tip
-Please install version `0.15.1+` to use more powerful data prefetching methods.
+Please install version `0.15.2+` to use more powerful data prefetching methods.
 :::
 
 `Vapper` provides more intuitive and powerful data prefetching capabilities, allowing you to perform data prefetching just like the `SPA` application.
