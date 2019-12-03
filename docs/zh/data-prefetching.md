@@ -6,7 +6,7 @@
 
 `Vapper` 提供更直观更强大的数据预取能力，它让你像开发 `SPA` 应用一样的进行数据预取。
 
-## needSerialze 选项
+## needSerialize 选项
 
 在开发 `SPA` 应用时，我们通常在组件的 `created` 或 `mounted` 钩子中进行数据的获取，例如：
 
@@ -18,11 +18,11 @@ async created () {
 }
 ```
 
-但这段代码不能正常的运行在 `SSR` 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 `SSR` 应用中运行，你只需要添加 `needSerialze: true` 选项即可：
+但这段代码不能正常的运行在 `SSR` 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 `SSR` 应用中运行，你只需要添加 `needSerialize: true` 选项即可：
 
 ```js {2}
 export default {
-  needSerialze: true,
+  needSerialize: true,
   // created 钩子
   async created () {
     // 假设 `fetchApi` 函数的返回值是 `Promise` 实例
@@ -84,13 +84,13 @@ export default function createApp () {
 }
 ```
 
-### needSerialze 和 dispatch
+### needSerialize 和 dispatch
 
 我们知道，传递给 `this.$createFetcher` 函数的参数是一个返回 `Promise` 实例的函数。因此，如果 `action` 的返回值是 `Promise` 实例，我们可以像如下代码这样进行数据预取：
 
 ```js {2}
 export default {
-  needSerialze: true,
+  needSerialize: true,
   // created 钩子
   async created () {
     this.res = await this.$store.dispatch('fetchData')
@@ -123,7 +123,7 @@ export default {
   methods: {
     ...mapActions(['fetchData'])
   },
-  needSerialze: true,
+  needSerialize: true,
   async created () {
     await this.fetchData()
   }

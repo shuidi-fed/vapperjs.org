@@ -1,4 +1,4 @@
-# Data prefetch <Badge text="0.15.1+"/>
+# Data prefetch <Badge text="0.15.2+"/>
 
 :::tip
 Please install version `0.15.1+` to use more powerful data prefetching methods.
@@ -6,7 +6,7 @@ Please install version `0.15.1+` to use more powerful data prefetching methods.
 
 `Vapper` provides more intuitive and powerful data prefetching capabilities, allowing you to perform data prefetching just like the `SPA` application.
 
-## The needSerialze option
+## The needSerialize option
 
 When developing `SPA` applications, we usually fetch data in the component's `created` or `mounted` hooks, for example:
 
@@ -18,11 +18,11 @@ async created () {
 }
 ```
 
-But this code can't run properly in the `SSR` application, because during the server rendering process, the application can't know when the request ends, and it can't know which data needs to be serialized and sent to the client. So in order for the above code to run in the `SSR` application, you just need to add the `needSerialze: true` option:
+But this code can't run properly in the `SSR` application, because during the server rendering process, the application can't know when the request ends, and it can't know which data needs to be serialized and sent to the client. So in order for the above code to run in the `SSR` application, you just need to add the `needSerialize: true` option:
 
 ```js {2}
 export default {
-  needSerialze: true,
+  needSerialize: true,
   // Created hook
   async created () {
     // Suppose the return value of the `fetchApi` function is a `Promise` instance.
@@ -84,13 +84,13 @@ export default function createApp () {
 }
 ```
 
-### needSerialze and dispatch
+### needSerialize and dispatch
 
 We know that the argument passed to the `this.$createFetcher` function is a function that returns a `Promise` instance. Therefore, if the return value of a `action` is a `Promise` instance, we can perform data prefetching like this:
 
 ```js {2}
 export default {
-  needSerialze: true,
+  needSerialize: true,
   // Created hook
   async created () {
     this.res = await this.$store.dispatch('fetchData')
@@ -123,7 +123,7 @@ export default {
   methods: {
     ...mapActions(['fetchData'])
   },
-  needSerialze: true,
+  needSerialize: true,
   async created () {
     await this.fetchData()
   }
