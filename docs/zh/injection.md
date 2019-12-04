@@ -14,7 +14,7 @@
 </template>
 ```
 
-## 重定向 $$redirect
+## 重定向 vm.$$redirect
 
 `Vapper` 在组件实例和路由实例上分别注入了 `$$redirect` 函数，用来实现服务端和客户端的重定向功能。
 
@@ -50,6 +50,10 @@ export default {
 }
 ```
 
+## router.$$redirect
+
+与 [vm.$$redirect](/zh/injection.html#重定向-vm-redirect) 相同。
+
 ## vm.$$type
 
 组件实例的 `vm.$$type` 属性是一个字符串值，标识着当前代码运行在服务端还是客户端。
@@ -62,6 +66,10 @@ export default {
   }
 }
 ```
+
+## router.$$type
+
+与 [vm.$$type](/zh/injection.html#vm-type) 相同.
 
 ## 根组件实例的 vm.error
 

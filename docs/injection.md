@@ -14,7 +14,7 @@ Some components are ssr-unfriendly components. When you use a third-party compon
 </template>
 ```
 
-## Redirect - $$redirect
+## Redirect - vm.$$redirect
 
 `Vapper` injects the `$$redirect` function on the component instance and the route instance for redirection, which is isomorphic.
 
@@ -50,6 +50,10 @@ export default {
 }
 ```
 
+## router.$$redirect
+
+Same as [vm.$$redirect](/injection.html#redirect-vm-redirect).
+
 ## vm.$$type
 
 The `vm.$$type` property of the component instance is a string value that identifies whether the current execution environment is on the server or on the client.
@@ -62,6 +66,10 @@ export default {
   }
 }
 ```
+
+## router.$$type
+
+Same as [vm.$$type](/injection.html#vm-type).
 
 ## `vm.error`
 
