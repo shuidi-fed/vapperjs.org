@@ -76,6 +76,7 @@ export default function createApp () {
 
   // Create store instance
   const store = createStore()
+  ctx.replaceState(store) // This is necessary, vapper will use it to mix data(from server to client).
 
   // ...
 
@@ -83,6 +84,8 @@ export default function createApp () {
   return { app, router, store }
 }
 ```
+
+Please pay special attention to the `ctx.replaceState(store)` in the code above, this is necessary, `vapper` will use it to mix data(from server to client).
 
 ### needSerialize and dispatch
 

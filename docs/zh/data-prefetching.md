@@ -68,14 +68,15 @@ export default function createStore () {
 
 接着在入口文件中创建并返回 `store` 实例：
 
-```js {7,12}
+```js {7-8,13}
 // src/main.js
 
-export default function createApp () {
+export default function createApp (ctx) {
   // ...
 
   // 创建 store 实例
   const store = createStore()
+  ctx.replaceState(store) // 这是必须的，vapper 会利用它做数据的混合(从服务端到客户端)
 
   // ...
 
@@ -83,6 +84,8 @@ export default function createApp () {
   return { app, router, store }
 }
 ```
+
+请格外注意如上代码中的 `ctx.replaceState(store)`，这是必须要做的，`vapper` 会利用它做数据的混合(从服务端到客户端)。
 
 ### needSerialize 和 dispatch
 
