@@ -37,6 +37,26 @@ export default {
 请注意：由于 `SSR` 的过程中，组件的 `mounted` 钩子函数不会被执行，因此你只能在 `created` 钩子中进行数据预取。
 :::
 
+## 不要忘记 await
+
+如果忘记 `await`，将得不到预期的结果：
+
+```js {5,6}
+export default {
+  needSerialize: true,
+  // created 钩子
+  async created () {
+    // 这里忘记了 await
+    this.getData()  // 正确的做法是：await this.getData()
+  },
+  methods: {
+    async getData() {
+      this.res = await fetchApi('/list')
+    }
+  }
+}
+```
+
 ## 避免重复的数据预取
 
 阅读上面的代码，你可能会产生疑问：“`created` 钩子函数内的代码难道不会分别在服务端和客户端执行吗？这样是否会导致重复的数据预取？”。其实不会，`Vapper` 自动帮助你避免了重复的数据预取，因此你什么都不用做。当然，如果是在客户端通过路由跳转来到某一个页面，那么仍然会进行正常的数据预取。这是符合预期的。

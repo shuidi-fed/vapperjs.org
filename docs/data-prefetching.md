@@ -37,6 +37,26 @@ The above code is all the code for prefetching data in the `Vapper` application.
 Please note: Since the component's `mounted` hook function will not be executed during server-side rendering, you can only perform data prefetching in the `created` hook.
 :::
 
+## Don't forget await
+
+If you forget `await`, you will not get the expected result:
+
+```js {5,6}
+export default {
+  needSerialize: true,
+  // created hook
+  async created () {
+    // Forgot `await` here
+    this.getData()  // The correct way is: `await this.getData ()`
+  },
+  methods: {
+    async getData() {
+      this.res = await fetchApi('/list')
+    }
+  }
+}
+```
+
 ## Avoid duplicate data prefetching
 
 Reading the code above, you may have questions: "Is the code inside the `created` hook function not executed on the server and client respectively? Does this lead to duplicate data prefetching?", in fact, no, `Vapper` automatically helps you avoid duplicate data prefetching, so you don't have to do anything. 
