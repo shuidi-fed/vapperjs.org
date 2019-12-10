@@ -197,6 +197,24 @@ logLevel === 5 ----> error/warn/debug/tip/info
 
 指定 Client Manifest 的文件名。
 
+## nodeExternalsWhitelist <Badge text="0.16.3+"/>
+
+- 类型：`array`
+- 默认值：`[/\.css$/, /\?vue&type=style/]`
+
+[webpack-node-externals](https://github.com/liady/webpack-node-externals) 插件的 [whitelist](https://github.com/liady/webpack-node-externals#optionswhitelist-) 选项。
+
+`nodeExternalsWhitelist` 选项的合并策略是“追加”，例如：
+
+```js
+// vapper.config.js
+module.exports = {
+  nodeExternalsWhitelist: [/some/]
+}
+```
+
+最终的 [whitelist](https://github.com/liady/webpack-node-externals#optionswhitelist-) 选项为：`[/\.css$/, /\?vue&type=style/, /some/]`。
+
 ## pageCache
 
 - 类型：`object`

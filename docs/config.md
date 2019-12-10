@@ -197,6 +197,24 @@ Specifies the file name of the Server Bundle.
 
 Specifies the file name of the Client Manifest.
 
+## nodeExternalsWhitelist <Badge text="0.16.3+"/>
+
+- Type: `array`
+- Default: `[/\.css$/, /\?vue&type=style/]`
+
+The [whitelist](https://github.com/liady/webpack-node-externals#optionswhitelist-) option for the [webpack-node-externals](https://github.com/liady/webpack-node-externals) plugin.
+
+The merge strategy for the `nodeExternalsWhitelist` option is "append", for example:
+
+```js
+// vapper.config.js
+module.exports = {
+  nodeExternalsWhitelist: [/some/]
+}
+```
+
+The final [whitelist](https://github.com/liady/webpack-node-externals#optionswhitelist-) options is: `[/\.css$/, /\?vue&type=style/, /some/]`.
+
 ## pageCache
 
 - Type: `object`
