@@ -109,7 +109,7 @@ Please pay special attention to the `ctx.replaceState(store)` in the code above,
 
 ### needSerialize and dispatch
 
-We know that the argument passed to the `this.$createFetcher` function is a function that returns a `Promise` instance. Therefore, if the return value of a `action` is a `Promise` instance, we can perform data prefetching like this:
+`action` needs to return` Promise` instance, then we can prefetch the data like this:
 
 ```js {2}
 export default {

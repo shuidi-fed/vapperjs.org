@@ -109,7 +109,7 @@ export default function createApp (ctx) {
 
 ### needSerialize 和 dispatch
 
-我们知道，传递给 `this.$createFetcher` 函数的参数是一个返回 `Promise` 实例的函数。因此，如果 `action` 的返回值是 `Promise` 实例，我们可以像如下代码这样进行数据预取：
+`action` 需要返回 `Promise` 实例，之后我们可以像如下代码这样进行数据预取：
 
 ```js {2}
 export default {
