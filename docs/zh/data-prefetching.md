@@ -146,6 +146,19 @@ new Vuex.Store({
 
 - 等待异步的 `created` 钩子预取数据完成，但不会序列化组件自身的数据。
 
+因此，我们可以修改上例为：
+
+```js {2}
+export default {
+  needPrefetch: true,
+  // created 钩子
+  async created () {
+    // 这里只涉及 store 中数据的预取
+    this.res = await this.$store.dispatch('fetchData')
+  }
+}
+```
+
 :::tip
 实践：如果 `created` 钩子中仅涉及 `store` 数据的预取，则使用 `needPrefetch` 选项，否则使用 `needSerialize` 选项。
 :::

@@ -146,6 +146,19 @@ But sometimes the async `created` hook only involves prefetching of data in the 
 
 - It will only wait for async `created` hooks to prefetch data, but it will not serialize the data of the component itself.
 
+Therefore, we can modify the above example to:
+
+```js {2}
+export default {
+  needPrefetch: true,
+  // created hook
+  async created () {
+    // This only involves the prefetching of data in the `store`.
+    this.res = await this.$store.dispatch('fetchData')
+  }
+}
+```
+
 :::tip
 Practice: Use the `needPrefetch` option if the `created` hook only involves prefetching of data in the `store`, otherwise use the `needSerialize` option.
 :::
