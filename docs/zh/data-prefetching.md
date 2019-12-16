@@ -113,6 +113,7 @@ export default function createApp (ctx) {
 
 ```js {2}
 export default {
+  needSerialize: true,
   // created 钩子
   async created () {
     this.res = await this.$store.dispatch('fetchData')
@@ -134,7 +135,20 @@ new Vuex.Store({
 })
 ```
 
-**需要注意的是，如果预取数据时只涉及 `store`，而不涉及组件自身的数据，那么是不需要明确使用 `needSerialize: true` 的。**
+### needPrefetch 选项 <Badge text="0.18.0+"/>
+
+如果 `needSerialize` 选项设置为 `true`，那么它会做两件事情：
+
+- 序列化该组件的 `data` 并发送给客户端
+- 等待异步的 `created` 钩子预取数据完成
+
+但有时候异步的 `created` 钩子中仅包含 `store` 的数据预取，而不涉及组件自身的数据(`data` 选项)，这时，如果我们仍然序列化组件自身的数据并发送给客户端是没有意义的，并且会浪费流量。这时你可以使用 `needPrefetch: true` 选项，它与 `needSerialize` 区别是：
+
+- 等待异步的 `created` 钩子预取数据完成，但不会序列化组件自身的数据。
+
+:::tip
+实践：如果 `created` 钩子中仅涉及 `store` 数据的预取，则使用 `needPrefetch` 选项，否则使用 `needSerialize` 选项。
+:::
 
 ### mapActions 函数
 

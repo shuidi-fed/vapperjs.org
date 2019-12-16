@@ -113,6 +113,7 @@ Please pay special attention to the `ctx.replaceState(store)` in the code above,
 
 ```js {2}
 export default {
+  needSerialize: true,
   // Created hook
   async created () {
     this.res = await this.$store.dispatch('fetchData')
@@ -134,7 +135,20 @@ new Vuex.Store({
 })
 ```
 
-**It should be noted that if pre-fetching data only involves `store` and not the data of the component itself, then you do not need to explicitly use` needSerialize: true`.**
+### The needPrefetch option <Badge text="0.18.0+"/>
+
+If the `needSerialize` option is set to` true`, then it will do two things:
+
+- Serialize the component's `data` and send it to the client.
+- Waiting for async `created` hook to prefetch data.
+
+But sometimes the async `created` hook only involves prefetching of data in the `store`, and does not involve the component's own data(`data` option). At this time, it is meaningless if we still serialize the component's own data and send it to the client. And it will waste traffic. In this case, you can use the `needPrefetch: true` option, which is different from` needSerialize`:
+
+- It will only wait for async `created` hooks to prefetch data, but it will not serialize the data of the component itself.
+
+:::tip
+Practice: Use the `needPrefetch` option if the `created` hook only involves prefetching of data in the `store`, otherwise use the `needSerialize` option.
+:::
 
 ### mapActions function
 
