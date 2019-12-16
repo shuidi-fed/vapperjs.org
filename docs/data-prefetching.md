@@ -113,7 +113,6 @@ Please pay special attention to the `ctx.replaceState(store)` in the code above,
 
 ```js {2}
 export default {
-  needSerialize: true,
   // Created hook
   async created () {
     this.res = await this.$store.dispatch('fetchData')
@@ -134,6 +133,8 @@ new Vuex.Store({
   }
 })
 ```
+
+**It should be noted that if pre-fetching data only involves `store` and not the data of the component itself, then you do not need to explicitly use` needSerialize: true`.**
 
 ### mapActions function
 

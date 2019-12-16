@@ -107,13 +107,12 @@ export default function createApp (ctx) {
 
 请格外注意如上代码中的 `ctx.replaceState(store)`，这是必须要做的，`vapper` 会利用它做数据的混合(从服务端到客户端)。
 
-### needSerialize 和 dispatch
+### 预取数据 - dispatch
 
 `action` 需要返回 `Promise` 实例，之后我们可以像如下代码这样进行数据预取：
 
 ```js {2}
 export default {
-  needSerialize: true,
   // created 钩子
   async created () {
     this.res = await this.$store.dispatch('fetchData')
@@ -134,6 +133,8 @@ new Vuex.Store({
   }
 })
 ```
+
+**需要注意的是，如果预取数据时只涉及 `store`，而不涉及组件自身的数据，那么是不需要明确使用 `needSerialize: true` 的。**
 
 ### mapActions 函数
 
