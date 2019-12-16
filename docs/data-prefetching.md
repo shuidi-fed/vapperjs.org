@@ -107,7 +107,7 @@ export default function createApp () {
 
 Please pay special attention to the `ctx.replaceState(store)` in the code above, this is necessary, `vapper` will use it to mix data(from server to client).
 
-### needSerialize and dispatch
+### Data prefetch - dispatch
 
 `action` needs to return` Promise` instance, then we can prefetch the data like this:
 
