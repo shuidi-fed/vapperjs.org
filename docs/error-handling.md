@@ -8,6 +8,10 @@ As described in [Introduction](/introduction.html), if an error occurs during se
 
 This is the default behavior of `Vapper`. When any error occurs during server rendering, `Vapper` will fall back to `SPA` mode, which will send the `SPA` page to the client. If the error is an error that only occurs on the server side, or if the error is a non-fatal error, that means the user can continue to use our `app`. This makes sense in some scenarios, such as ordering page, payment page, and other scenarios that emphasize conversion rates.
 
+### Special handling of errors in route guards
+
+The goal of `vapper` is to automatically fall back to `SPA` mode whenever an error occurs, with one exception: if an error occurs in the *asynchronous* routing guard, `vapper` cannot fall back to `SPA` mode. This is because `router.onError` cannot catch `Promises rejections`. So we need to manually `try...catch` the code inside the routing guard, please read: [Capturing errors in routing guards](/error-handling.html#capturing-errors-in-routing-guards).
+
 ### Manually fallback <Badge text="Core 0.8.0+"/>
 
 If you choose [Custom Server](/custom-server.html), and you might write your own business middleware, but `Vapper` can't catch exceptions thrown by user-written business middleware. So `Vapper` exposes the `vapper.fallbackSPA(req, res)` function to manually fallback to the `SPA` mode so that the user can call this method in their own error handling middleware to manually fallback to `SPA` mode:
@@ -145,7 +149,7 @@ export default function createApp () {
 }
 ```
 
-What you need to know is that, in fact, you can assign arbitrary values to this.error at runtime, but the good practice is to give it the Error object with the same structure as the object shown in the code above.
+What you need to know is that, in fact, you can assign arbitrary values to `this.error` at runtime, but the good practice is to give it the Error object with the same structure as the object shown in the code above.
 
 ### Capturing errors in routing guards
 
@@ -157,26 +161,31 @@ router.beforeEach(() => {
 })
 ```
 
-What if the code in the routing guard throws an error? We can catch the error using the `onError` function natively provided by [vue-router](https://router.vuejs.org/):
+What if the code in the routing guard throws an error? We need to manually `try...catch` the code inside the route guard and add the error object to the `router` instance when an error is caught, for example:
 
-```js {8-11,17}
+```js {6-15,21-22}
 // Entry file: src/main.js
 
 export default function createApp () {
   // 1. Create a router instance
   const router = createRouter()
-
-  // Use `router.onError` to catch routing errors
-  router.onError((err) => {
-    // Assign the err object to the vm.error property of the root component instance
-    router.app.error = err
+  router.beforeEach((to, from, next) => {
+    try {
+      // Some logic
+    } catch (e) {
+      // When an error occurs, assign the error object to the `router.err` property,
+      // the `router.err` property is completely custom, you can also name it `router.error`.
+      router.err = e
+    }
+    next()
   })
 
   // 2. Create a app instance
   const app = new Vue({
     router,
     render (h) {
-      return this.error ? h('h1', 'error') : h(App)
+      // Show custom error page when `router.err` or `this.error` exists
+      return router.err || this.error ? h('h1', 'error') : h(App)
     }
   })
 
@@ -185,9 +194,42 @@ export default function createApp () {
 }
 ```
 
-:::warning
-`router.onError` is temporarily unable to capture `Promises rejections`, please see: [https://github.com/vuejs/vue-router/issues/2833] (https://github.com/vuejs/vue-router/issues/2833).
-:::
+Why didn't we use `router.onError`? This is because `router.onError` is currently unable to catch `Promises rejections`. For details, please see: [https://github.com/vuejs/vue-router/issues/2833](https://github.com/vuejs/vue-router/issues/2833).
 
-### Asynchronous error handling
+## Best Practices
 
+Since only errors in asynchronous routing guards will break the `vapper`'s fallback SPA logic, **so our best practice is to display custom error pages only when errors occur in routing guards**, otherwise use `vapper`'s automatic fallback logic, as shown in the following code:
+
+```js {21-23}
+// Entry file: src/main.js
+
+export default function createApp () {
+  // 1. Create a router instance
+  const router = createRouter()
+  router.beforeEach((to, from, next) => {
+    try {
+      // Some logic
+    } catch (e) {
+      // When an error occurs, assign the error object to the `router.err` property,
+      // the `router.err` property is completely custom, you can also name it `router.error`.
+      router.err = e
+    }
+    next()
+  })
+
+  // 2. Create a app instance
+  const app = new Vue({
+    router,
+    render (h) {
+      // Display the custom error pages only when `router.err` exists.
+      // We don't care about `this.error`.
+      return router.err ? h('h1', 'error') : h(App)
+    }
+  })
+
+  // 3. return
+  return { app, router }
+}
+```
+
+As shown in the highlighted code above, the custom error page is only displayed if `router.err` exists. We don't care about `this.error` unless you explicitly want to display a custom error page anyway.

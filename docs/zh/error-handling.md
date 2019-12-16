@@ -8,6 +8,10 @@
 
 这是 `Vapper` 的默认行为，当服务端渲染的过程中发生任何错误，`Vapper` 都会回退到 `SPA` 模式，即把 `SPA` 页面发送给客户端，如果该错误是一个仅在服务端才会出现的错误，或者该错误是一个非致命错误(指不影响用户继续使用我们的 `app`)，那么意味着用户可以继续使用我们 `app`。这在一些重要的场合是很有意义的，例如影响订单、支付等重转化率的场景。
 
+### 对路由守卫中的错误特殊处理
+
+`vapper` 的目标是：只要发生错误，就会自动回退 `SPA` 模式。但有一个例外，如果*异步的*路由守卫中发生错误，`vapper` 无法回退 `SPA` 模式，这是因为 `router.onError` 无法捕获 `Promises rejections`。因此我们需要手动 `try...catch` 路由守卫内的代码，请阅读：[捕获路由守卫中的错误](/zh/error-handling.html#捕获路由守卫中的错误)。
+
 ### 手动回退到 SPA 模式 <Badge text="Core 0.8.0+"/>
 
 如果你选择 [自定义 Server](/zh/custom-server.html) 的话，你可能会编写自己的业务中间件，当用户编写的业务中间件出错时，`Vapper` 是捕获不到的，因此 `Vapper` 暴露了 `vapper.fallbackSPA(req, res)` 函数用于手动地回退到 `SPA` 模式，这样用户可以在自己编写的错误处理中间件中调用该方法以便手动地回退到 `SPA` 模式：
@@ -157,26 +161,31 @@ router.beforeEach(() => {
 })
 ```
 
-如果路由守卫中的代码出错怎么办呢？我们可以使用 [vue-router](https://router.vuejs.org/) 原生提供的 `onError` 函数捕获错误：
+如果路由守卫中的代码出错怎么办呢？我们需要手动 `try...catch` 路由守卫内的代码，并在捕获到错误时将错误对象添加到 `router` 实例上，例如：
 
-```js {8-11,17}
+```js {6-14,21-22}
 // 入口文件 src/main.js
 
 export default function createApp () {
   // 1. Create a router instance
   const router = createRouter()
-
-  // Use `router.onError` to catch routing errors
-  router.onError((err) => {
-    // 将错误对象赋值给根组件实例的 error 属性
-    router.app.error = err
+  router.beforeEach((to, from, next) => {
+    try {
+      // 一些逻辑
+    } catch (e) {
+      // 当错误发生时，将错误对象赋值给 router.err 属性（router.err 属性是完全自定义的，你也可以命名为 router.error）。
+      router.err = e
+    }
+    next()
   })
+
 
   // 2. Create a app instance
   const app = new Vue({
     router,
     render (h) {
-      return this.error ? h('h1', 'error') : h(App)
+      // 当 router.err 或 this.error 存在时，就展示自定义页面
+      return router.err || this.error ? h('h1', 'error') : h(App)
     }
   })
 
@@ -185,9 +194,40 @@ export default function createApp () {
 }
 ```
 
-:::warning
-router.onError 暂时无法捕获 `Promises rejections`，详情请查看：[https://github.com/vuejs/vue-router/issues/2833](https://github.com/vuejs/vue-router/issues/2833)。
-:::
+之所以我们没有使用 `router.onError` 是因为 `router.onError` 暂时无法捕获 `Promises rejections`，详情请查看：[https://github.com/vuejs/vue-router/issues/2833](https://github.com/vuejs/vue-router/issues/2833)。
 
-### 异步错误处理
+## 最佳实践
 
+由于只有异步的路由守卫中的错误才会打破 `vapper` 回退 SPA 的逻辑，因此我们的最佳实践是，只有路由守卫中发生错误时才展示自定义错误页面，其他情况下采用 `vapper` 自动的回退行为，即：
+
+```js {20-21}
+// 入口文件 src/main.js
+
+export default function createApp () {
+  // 1. Create a router instance
+  const router = createRouter()
+  router.beforeEach((to, from, next) => {
+    try {
+      // 一些逻辑
+    } catch (e) {
+      // 当错误发生时，将错误对象赋值给 router.err 属性（router.err 属性是完全自定义的，你也可以命名为 router.error）。
+      router.err = e
+    }
+    next()
+  })
+
+  // 2. Create a app instance
+  const app = new Vue({
+    router,
+    render (h) {
+      // 只有当 router.err 存在时，才展示自定义错误页面。我们并不关心 this.error
+      return router.err ? h('h1', 'error') : h(App)
+    }
+  })
+
+  // 3. return
+  return { app, router }
+}
+```
+
+如上高亮代码所示，只有当 `router.err` 存在时，才展示自定义错误页面。我们并不关心 `this.error`，除非你明确地希望无论如何都要展示自定义错误页面。
