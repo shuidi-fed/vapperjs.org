@@ -95,7 +95,11 @@ Read [Custom Error Page](/error-handling.html#custom-error-page) and [Fallback S
 
 `Vapper` provides a more intuitive and powerful data prefetch method:
 
-![vue-ssr-prefetcher](@imgs/vue-ssr-prefetcher.png)
+|            | Can access `this` | used for any component  | Used for both server and client     | Prefetch component level data    |
+| ---------- | :-----------:  | :-----------: | :-----------: | :-----------: |
+| `nuxt/ream`'s `asyncData`   | ❌           | ❌     | ✅       | ✅     |
+| `ServerPrefetch` provided by `Vue` | ✅           | ✅     | ❌       | ❌     |
+| `vapper`         | ✅           | ✅     | ✅       | ✅     |
 
 For details, please read: [Data prefetch](/data-prefetching.html#the-createfetcher-function)
 

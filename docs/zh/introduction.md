@@ -95,7 +95,11 @@ export default () => {
 
 `Vapper` 提供更直观更强大的数据预取方式：
 
-![vue-ssr-prefetcher](@imgs/vue-ssr-prefetcher.png)
+|            | 能否访问 `this` | 能否用于任意组件  | 能否既用于服务端又用于客户端     | 能否预取组件级别的数据    |
+| ---------- | :-----------:  | :-----------: | :-----------: | :-----------: |
+| `nuxt/ream` 的 `asyncData`   | ❌           | ❌     | ✅       | ✅     |
+| `Vue` 原生的 `serverPrefetch` | ✅           | ✅     | ❌       | ❌     |
+| `vapper`         | ✅           | ✅     | ✅       | ✅     |
 
 详细内容请阅读：[数据预取](/zh/data-prefetching.html#createfetcher-函数)
 
