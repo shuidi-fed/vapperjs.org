@@ -88,7 +88,7 @@ export default function createStore () {
 
 Then create and return a `store` instance in the entry file:
 
-```js {7,12}
+```js {7-8,13}
 // src/main.js
 
 export default function createApp () {
