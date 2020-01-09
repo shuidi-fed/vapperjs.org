@@ -1,6 +1,10 @@
 # 简介
 
 :::tip
+本文档是 `v1.x` 版本的文档，如果你要阅读 `v0.x` 的文档请查看：[http://v0.vapperjs.org/](http://v0.vapperjs.org/)
+:::
+
+:::tip
 本节内容将介绍 `Vapper` 的设计理念，它不是必须要阅读的。
 :::
 

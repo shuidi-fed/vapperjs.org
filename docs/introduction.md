@@ -1,6 +1,10 @@
 # Introduction
 
 :::tip
+This document is for `v1.x` version. For the ` v0.x` version please check: [http://v0.vapperjs.org/](http://v0.vapperjs.org/).
+:::
+
+:::tip
 This section will introduce the design principles of `Vapper`
 :::
 
