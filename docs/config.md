@@ -20,7 +20,7 @@ module.exports = {
 
 Specify the startup mode of `Vapper`, production mode or development mode, the optional values are `'development'` and `'production'`.
 
-## vueCliMode <Badge text="Vue CLI only"/> <Badge text="0.15.0+"/>
+## vueCliMode <Badge text="Vue CLI only"/>
 
 - Type: `string`
 - Default: `null`
@@ -44,6 +44,13 @@ The `entry` option needs to be consistent with the `entry` option in the `vue.co
 - Default: `true`
 
 Whether to enable `SSR` mode, the default is to enable, all pages will be rendered on the server. You can control whether a routing rule enables `SSR` by routing Meta.
+
+## enableCustomErrorPage
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to use a custom error page, which is turned off by default. That is, the `SPA` mode will be fall back whenever an error occurs. Read more: [Error Handling - Custom Error Page](/error-handling.html#custom-error-page).
 
 ## template
 
@@ -96,7 +103,7 @@ Server port number.
 
 Server host.
 
-## logger <Badge text="Core 0.14.0+"/>
+## logger
 
 - Type: `function`
 - Default: `console.log`
@@ -176,7 +183,7 @@ Vapper allows to minimize html content rendered by the server. This option is on
 
 Whether to fall back the `SPA` mode when an error occurs, the default is `true`. Read [Fall back to SPA mode](/error-handling.html#fall-back-to-spa-mode) for more details.
 
-## fallbackSpaHandler <Badge text="Core 0.13.0+"/>
+## fallbackSpaHandler
 
 - Type: `function`
 - Default: `null`
@@ -197,7 +204,7 @@ Specifies the file name of the Server Bundle.
 
 Specifies the file name of the Client Manifest.
 
-## nodeExternalsWhitelist <Badge text="0.16.3+"/>
+## nodeExternalsWhitelist
 
 - Type: `array`
 - Default: `[/\.css$/, /\?vue&type=style/]`

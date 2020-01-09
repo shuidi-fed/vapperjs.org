@@ -8,11 +8,34 @@
 
 这是 `Vapper` 的默认行为，当服务端渲染的过程中发生任何错误，`Vapper` 都会回退到 `SPA` 模式，即把 `SPA` 页面发送给客户端，如果该错误是一个仅在服务端才会出现的错误，或者该错误是一个非致命错误(指不影响用户继续使用我们的 `app`)，那么意味着用户可以继续使用我们 `app`。这在一些重要的场合是很有意义的，例如影响订单、支付等重转化率的场景。
 
-### 对路由守卫中的错误特殊处理
+### 手动处理路由守卫中的错误
 
-`vapper` 的目标是：只要发生错误，就会自动回退 `SPA` 模式。但有一个例外，如果*异步的*路由守卫中发生错误，`vapper` 无法回退 `SPA` 模式，这是因为 `router.onError` 无法捕获 `Promises rejections`。因此我们需要手动 `try...catch` 路由守卫内的代码，请阅读：[捕获路由守卫中的错误](/zh/error-handling.html#捕获路由守卫中的错误)。
+通常情况下，一旦有错误发成，`vapper` 会自动回退 `SPA` 模式，前提是 `vapper` 能够捕获到错误才行。然而当一个异步链条断开时，这些错误是 `vapper` 捕获不到的，例如路由守卫中的错误：
 
-### 手动回退到 SPA 模式 <Badge text="Core 0.8.0+"/>
+```js
+router.beforeEach((to, from, next) => {
+  if (to.path === '/bar') {
+    throw Error('error in the routing guard')
+  }
+})
+```
+
+为了让 `vapper` 能够捕获到路由守卫中的错误，我们需要手动 `try...catch` 路由守卫内部的代码，并调用 `next(err)`，如下代码所示：
+
+```js {8}
+router.beforeEach((to, from, next) => {
+  try {
+    if (to.path === '/bar') {
+      throw Error('error in the routing guard')
+    }
+    next()
+  } catch (e) {
+    next(e)
+  }
+})
+```
+
+### 手动回退到 SPA 模式
 
 如果你选择 [自定义 Server](/zh/custom-server.html) 的话，你可能会编写自己的业务中间件，当用户编写的业务中间件出错时，`Vapper` 是捕获不到的，因此 `Vapper` 暴露了 `vapper.fallbackSPA(req, res)` 函数用于手动地回退到 `SPA` 模式，这样用户可以在自己编写的错误处理中间件中调用该方法以便手动地回退到 `SPA` 模式：
 
@@ -64,7 +87,7 @@ starter()
 
 关于如何自定义 `Server` 请阅读：[自定义 Server](/zh/custom-server.html)
 
-### 自定义 fallback 逻辑 <Badge text="Core 0.13.0+"/>
+### 自定义 fallback 逻辑
 
 默认情况下 `vapper` 内部使用 [serve-static](https://www.npmjs.com/package/serve-static) 提供静态资源服务，当用户请求到来时，`vapper` 会把 `dist/` 下的文件作为静态资源提供给用户，可以通过 [configuration#static](/zh/config.html#static) 选项配置 [serve-static#options](https://github.com/expressjs/serve-static#options)。
 
@@ -91,143 +114,102 @@ module.exports = {
 
 当然，如果你希望错误发生时把错误页面展示给用户也非常简单。
 
-### 根组件的 `this.error` 属性
+### enableCustomErrorPage 选项
 
-`Vapper` 给根组件实例注入了 `error` 属性，它是一个错误对象，保存着错误信息。因此可以通过检测 `this.error` 是否存在来决定渲染什么内容，如下代码所示：
+`vapper` 的核心目标是只要有错误发生就会回退 `SPA` 模式，如果你需要自定义错误页面，则需要在 `vapper.config.js` 配置文件中开启 `enableCustomErrorPage` 选项：
 
-```js {11}
-// 入口文件：src/main.js
+```js
+// vapper.config.js
 
-export default function createApp () {
-  // 1. Create a router instance
-  const router = createRouter()
-
-  // 2. Create a app instance
-  const app = new Vue({
-    router,
-    render (h) {
-      return this.error ? h('h1', 'error') : h(App)
-    }
-  })
-
-  // 3. return
-  return { app, router }
+module.exports = {
+  enableCustomErrorPage: true
 }
 ```
 
-在根组件的 `render` 函数内，如果 `this.error` 存在则展示自定义的内容给用户，否则正常渲染应用程序。你可以渲染任何你想要的内容，例如 `Error.vue` 组件：
+### ErrorComponent 组件
 
-```js
-import Error from './Error.vue'
+开启 `enableCustomErrorPage` 之后，还需要提供 `ErrorComponent` 组件，顾名思义，当错误发生时会渲染该组件的内容作为错误页面展示给用户：
 
+```js {1,10}
+// Importing the `ErrorComponent` component
+import ErrorComponent from 'ErrorComponent.vue'
+
+// Export factory function
 export default function createApp () {
   // 1. Create a router instance
-  const router = createRouter()
+  // ...
 
-  // 2. Create a app instance
-  const app = new Vue({
+  // 2. Create a root component
+  const app = {
+    ErrorComponent,
     router,
-    render (h) {
-      return this.error ? h(Error, { props: { error: this.error } }) : h(App)
-    }
-  })
+    // This is necessary, it is for vue-meta
+    head: {},
+    render: h => h(App)
+  }
 
-  // 3. return
-  return { app, router }
+  // 3. return the root component
+  return app
+}
+```
+
+`ErrorComponent` 有一个名为 `error` 的 `props`：
+
+```js
+// ErrorComponent
+export default {
+  name: 'ErrorComponent',
+  props: ['error'],
+  render(h) {
+    return h('h1', this.error.code + ',' + this.error.message)
+  }
 }
 ```
 
 ### 错误对象
 
-`this.error` 只存在于根组件实例上，它是一个错误对象：
+`error` 对象是一个 [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) 实例，在任何情况下你都可以抛出一个错误对象，这个错误对象将会作为 `ErrorComponent` 组件的 `props`，并在该错误对象上添加相应的 `code` 和 `message`，以便在 `ErrorComponent` 组件内使用。
 
-```js
-{
-  url: to.path, // 发生错误的 url
-  code: 404,    // 错误码
-  message: 'Page Not Found' // 错误信息
-}
-```
+需要注意的是，`error.code` 会被用于服务器响应的 `statusCode`，而 `error.message` 会用于服务器响应的 `statusMessage`，下面是一个例子：
 
-虽然它是一个错误对象，但其实你可以在运行时为它赋予任何值，但好的实践是：为它赋予与上面代码中展示的对象拥有相同结构的错误对象。
+- 在路由守卫中抛出错误：
 
-### 捕获路由守卫中的错误
-
-对于复杂的应用程序，例如需要进行权限控制的应用来说，在路由守卫中编写相应的鉴权逻辑是很正常的事情，例如：
-
-```js
-router.beforeEach(() => {
-  // 一些逻辑
+```js {8-9}
+router.beforeEach((to, from, next) => {
+  try {
+    if (to.path === '/bar') {
+      const error = Error('error in the routing guard')
+      throw error
+    }
+  } catch (e) {
+    e.code = 500
+    e.message = 'Internal Server Error'
+    next(e)
+  }
+  next()
 })
 ```
 
-如果路由守卫中的代码出错怎么办呢？我们需要手动 `try...catch` 路由守卫内的代码，并在捕获到错误时将错误对象添加到 `router` 实例上，例如：
+### 404 页面
 
-```js {6-14,21-22}
-// 入口文件 src/main.js
+当用户访问不存在的路由时，错误对象 `error` 的内容如下：
 
-export default function createApp () {
-  // 1. Create a router instance
-  const router = createRouter()
-  router.beforeEach((to, from, next) => {
-    try {
-      // 一些逻辑
-    } catch (e) {
-      // 当错误发生时，将错误对象赋值给 router.err 属性（router.err 属性是完全自定义的，你也可以命名为 router.error）。
-      router.err = e
-    }
-    next()
-  })
-
-
-  // 2. Create a app instance
-  const app = new Vue({
-    router,
-    render (h) {
-      // 当 router.err 或 this.error 存在时，就展示自定义页面
-      return router.err || this.error ? h('h1', 'error') : h(App)
-    }
-  })
-
-  // 3. return
-  return { app, router }
+```js
+error = {
+  url: '/foo',
+  code: 404,
+  message: 'Page Not Found'
 }
 ```
 
-之所以我们没有使用 `router.onError` 是因为 `router.onError` 暂时无法捕获 `Promises rejections`，详情请查看：[https://github.com/vuejs/vue-router/issues/2833](https://github.com/vuejs/vue-router/issues/2833)。
+可直接在 `ErrorComponent` 中使用。
 
-## 最佳实践
+## 错误处理的规则
 
-由于只有异步的路由守卫中的错误才会打破 `vapper` 回退 SPA 的逻辑，因此我们的最佳实践是，只有路由守卫中发生错误时才展示自定义错误页面，其他情况下采用 `vapper` 自动的回退行为，即：
+- 如果 `enableCustomErrorPage: false`，则回退 `SPA`。
 
-```js {20-21}
-// 入口文件 src/main.js
+- 如果 `enableCustomErrorPage: true`，但是没有提供 `ErrorComponent` 组件，则回退 `SPA`。
 
-export default function createApp () {
-  // 1. Create a router instance
-  const router = createRouter()
-  router.beforeEach((to, from, next) => {
-    try {
-      // 一些逻辑
-    } catch (e) {
-      // 当错误发生时，将错误对象赋值给 router.err 属性（router.err 属性是完全自定义的，你也可以命名为 router.error）。
-      router.err = e
-    }
-    next()
-  })
+- 如果 `enableCustomErrorPage: true`，并且提供了 `ErrorComponent` 组件，但 `ErrorComponent` 组件内部出错，则回退 `SPA`。
 
-  // 2. Create a app instance
-  const app = new Vue({
-    router,
-    render (h) {
-      // 只有当 router.err 存在时，才展示自定义错误页面。我们并不关心 this.error
-      return router.err ? h('h1', 'error') : h(App)
-    }
-  })
-
-  // 3. return
-  return { app, router }
-}
-```
-
-如上高亮代码所示，只有当 `router.err` 存在时，才展示自定义错误页面。我们并不关心 `this.error`，除非你明确地希望无论如何都要展示自定义错误页面。
+**换句话说，可以有选择的在 `ErrorComponent` 组件内抛出错误，来实现在自定义错误页面和回退 `SPA` 这两个模式间自由切换。**

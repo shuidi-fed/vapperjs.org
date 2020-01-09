@@ -7,7 +7,7 @@
 最简单的入口文件应该包含如下内容：
 
 - 1、`Vapper` 应用要求你必须使用 [vue-router](https://router.vuejs.org/)。
-- 2、使用 `export default` 语句导出工厂函数，工厂函数需要返回一个对象，它应该至少包含应用实例(`app`)和路由实例(`router`)。
+- 2、使用 `export default` 语句导出工厂函数，工厂函数需要返回一个对象，它应该至少包含根组件(`app`)和路由实例(`router`)。
 
 如下是一个例子：
 
@@ -36,16 +36,16 @@ export default function createApp () {
     ]
   })
 
-  // 2. Create a app instance
-  const app = new Vue({
+  // 2. Create a root component
+  const app = {
     router,
     // This is necessary, it is for vue-meta
     head: {},
     render: h => h(App)
-  })
+  }
 
-  // 3. return
-  return { app, router }
+  // 3. return the root component
+  return app
 }
 ```
 
@@ -74,7 +74,6 @@ export default function createApp ({ type }) {
 
 ```js
 context = {
-  Vue,  // Vue 构造函数
   type: TYPE, // type 是 'server' 或者 'client'
   pluginRuntimeOptions: createApp.pluginRuntimeOptions  // createApp.pluginRuntimeOptions
 }
@@ -84,18 +83,18 @@ context = {
 
 ```js
 context = {
-  Vue,  // Vue 构造函数
   type: TYPE, // type 是 'server' 或者 'client'
   pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
   req: context.req, // 请求对象
   res: context.res, // 响应对象
-  isFake  // 布尔值，标识着是否进行真正的渲染
+  isFake,  // 布尔值，标识着是否进行真正的渲染
+  url: req.url  // 请求的 url
 }
 ```
 
 ## 独立环境的入口文件
 
-你或许会遇到这样的场景，你有一端代码，并且只想让它运行在客户端，或只想让它运行在服务端。举一个常见的例子，我们通常需要获取 `cookie`，在客户端中，可以使用 `document.cookie` 得到 `cookie`，但是这段代码不能运行在服务端，在服务端我们要从请求对象中得到 `cookie`，因此我们可以在入口文件编写如下代码：
+你或许会遇到这样的场景，你有一段代码，并且只想让它运行在客户端，或只想让它运行在服务端。举一个常见的例子，我们通常需要获取 `cookie`，在客户端中，可以使用 `document.cookie` 得到 `cookie`，但是这段代码不能运行在服务端，在服务端我们要从请求对象中得到 `cookie`，因此我们可以在入口文件编写如下代码：
 
 ```js
 export default function createApp ({ type, req }) {

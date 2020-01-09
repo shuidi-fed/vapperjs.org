@@ -153,14 +153,27 @@ export default function (ctx) {
 
 Both `server.js` and `client.js` need to have a default exported function, and the function accepts [ctx](/entry.html#context) as a parameter, as shown below for the contents of [ctx](/entry.html#context):
 
+- On the client:
+
 ```js
-ctx = {
-  Vue,  // The Vue constructor
-  pluginRuntimeOptions, // It is the variable exported by the entry file: createApp.pluginRuntimeOptions = {}
-  type, // Its value is 'server' in the `server.js` file, and its value is 'client' in `client.js`
-  req,  // Request object, available only in `server.js`
-  res,  // Response object, available only in `server.js`
-  isFake  // A Boolean value that indicates whether the rendering is actually performed. It will be explained in detail later and is only available in `server.js`.
+context = {
+  type: TYPE, // 'server' or 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
+  rootOptions // The root component options
+}
+```
+
+- On the server:
+
+```js
+context = {
+  type: TYPE, // 'server' or 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
+  req: context.req, // Request object, available only in `server.js`
+  res: context.res, // Response object, available only in `server.js`
+  isFake,  // A Boolean value that indicates whether the rendering is actually performed. It will be explained in detail later and is only available in `server.js`.
+  url: req.url,  // the request url
+  rootOptions // the root component options
 }
 ```
 
@@ -232,7 +245,7 @@ export default function createApp (ctx) {
   
   // Omit ...
 
-  return { app, router }
+  return app
 }
 ```
 
@@ -253,7 +266,7 @@ So in the plugin's runtime file, we can get the options like this:
 
 ```js
 // server.js 或 client.js
-export default function ({ Vue, pluginRuntimeOptions }) {
+export default function ({ pluginRuntimeOptions }) {
   console.log(pluginRuntimeOptions.logger)
 }
 ```

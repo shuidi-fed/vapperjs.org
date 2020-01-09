@@ -1,4 +1,4 @@
-# 数据预取 <Badge text="0.15.2+"/>
+# 数据预取
 
 :::tip
 请安装 `0.15.2+` 版本，以使用更强大的数据预取方式。
@@ -63,9 +63,9 @@ export default {
 
 ## Store(Vuex)
 
-### 在入口文件中返回 Store 实例
+### 避免状态单例
 
-`Vapper` 允许你可选的使用 `Vuex`，与创建应用实例相同，我们同样需要为每个请求都创建一个新的 `Stroe` 实例，通常我们会封装 `createStore` 工厂方法：
+`Vapper` 允许你可选的使用 `Vuex`，我们同样需要为每个请求都创建一个新的 `Stroe` 实例，通常我们会封装 `createStore` 工厂方法：
 
 ```js
 // store/index.js
@@ -86,26 +86,30 @@ export default function createStore () {
 }
 ```
 
-接着在入口文件中创建并返回 `store` 实例：
+接着在入口文件中创建 `store` 实例：
 
-```js {7-8,13}
+```js {7,12}
 // src/main.js
 
-export default function createApp (ctx) {
+export default function createApp () {
   // ...
 
   // 创建 store 实例
   const store = createStore()
-  ctx.replaceState(store) // 这是必须的，vapper 会利用它做数据的混合(从服务端到客户端)
 
-  // ...
+  // Create a root component
+  const app = {
+    router,
+    store,
+    // This is necessary, it is for vue-meta
+    head: {},
+    render: h => h(App)
+  }
 
-  // return
-  return { app, router, store }
+  // return the root component
+  return app
 }
 ```
-
-请格外注意如上代码中的 `ctx.replaceState(store)`，这是必须要做的，`vapper` 会利用它做数据的混合(从服务端到客户端)。
 
 ### 预取数据 - dispatch
 
@@ -135,7 +139,7 @@ new Vuex.Store({
 })
 ```
 
-### needPrefetch 选项 <Badge text="0.18.0+"/>
+### needPrefetch 选项
 
 如果 `needSerialize` 选项设置为 `true`，那么它会做两件事情：
 

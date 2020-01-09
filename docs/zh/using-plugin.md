@@ -118,11 +118,10 @@ module.exports = {
 
 `@vapper/plugin-cookie` 插件在应用层面扩展了 `Vapper`，因此它接收运行时参数，想要为其传递参数，需要在入口文件导出的工厂函数上添加 `pluginRuntimeOptions` 属性：
 
-```js {3-4}
+```js {6-8}
 // 入口文件
 export default function createApp (ctx) {
-  ctx.$cookie.get('foo') // 读取名字为 foo 的 cookie
-  ctx.$cookie.set('foo', 1) // 设置名字为 foo 的 cookie
+  // ......
 }
 
 createApp.pluginRuntimeOptions = {
@@ -132,27 +131,30 @@ createApp.pluginRuntimeOptions = {
 
 `@vapper/plugin-cookie` 插件会读取 `pluginRuntimeOptions.cookie` 对象作为选项参数。
 
-我们可以在入口文件添加少量代码，以使得我们能够在任意组件实例对象上访问 `ctx.$cookie`：
+通过 `ctx` 访问 `$cookie` 对象：
 
-```js
+```js {3-4}
 // 入口文件
-Vue.mixin({
-  created () {
-    this.$cookie = this.$root.$options.$cookie
-  }
-})
-
 export default function createApp (ctx) {
-  new Vue({
-    $cookie: ctx.$cookie
-    // 其他选项...
-  })
+  ctx.$cookie.get('foo') // Read cookie named `foo`
+  ctx.$cookie.set('foo', 1) // Set cookie named `foo`
+}
+
+createApp.pluginRuntimeOptions = {
+  cookie: { /* options */ }
 }
 ```
 
-:::tip
-以下内容假设能够通过组件实例(`this`)访问 `$cookie`。
-:::
+在组件内通过 `this` 访问 `$cookie`：
+
+```js
+export default {
+  created() {
+    this.$cookie.get('foo') // Read cookie named `foo`
+    this.$cookie.set('foo', 1) // Set cookie named `foo`
+  }
+}
+```
 
 ##### 读取 cookie
 
@@ -260,13 +262,6 @@ export default {
 其中 `options` 选项为：[jshttp/cookie#options](https://github.com/jshttp/cookie#options)
 
 #### 插件选项：
-
-##### propertyName
-
-- Type: `string`
-- Default: `'$cookie'`
-
-指定注入到组件实例的属性名称，默认为 `$cookie`，因此你可以通过组件实例访问：`ctx.$cookie`。
 
 ##### fromRes
 

@@ -8,11 +8,34 @@ As described in [Introduction](/introduction.html), if an error occurs during se
 
 This is the default behavior of `Vapper`. When any error occurs during server rendering, `Vapper` will fall back to `SPA` mode, which will send the `SPA` page to the client. If the error is an error that only occurs on the server side, or if the error is a non-fatal error, that means the user can continue to use our `app`. This makes sense in some scenarios, such as ordering page, payment page, and other scenarios that emphasize conversion rates.
 
-### Special handling of errors in route guards
+### Handling errors in routing guards manually
 
-The goal of `vapper` is to automatically fall back to `SPA` mode whenever an error occurs, with one exception: if an error occurs in the *asynchronous* routing guard, `vapper` cannot fall back to `SPA` mode. This is because `router.onError` cannot catch `Promises rejections`. So we need to manually `try...catch` the code inside the routing guard, please read: [Capturing errors in routing guards](/error-handling.html#capturing-errors-in-routing-guards).
+Under normal circumstances, once an error occurs, vapper will automatically fall back to `SPA` mode, but only if `vapper` can catch the error. However, when an asynchronous chain breaks, these errors are not captured by `vapper`, such as errors in routing guards:
 
-### Manually fallback <Badge text="Core 0.8.0+"/>
+```js
+router.beforeEach((to, from, next) => {
+  if (to.path === '/bar') {
+    throw Error('error in the routing guard')
+  }
+})
+```
+
+In order for `vapper` to catch errors in the routing guard, we need to manually `try...catch` the code inside the routing guard and call `next(err)`, as shown in the following code:
+
+```js {8}
+router.beforeEach((to, from, next) => {
+  try {
+    if (to.path === '/bar') {
+      throw Error('error in the routing guard')
+    }
+    next()
+  } catch (e) {
+    next(e)
+  }
+})
+```
+
+### Manually fallback
 
 If you choose [Custom Server](/custom-server.html), and you might write your own business middleware, but `Vapper` can't catch exceptions thrown by user-written business middleware. So `Vapper` exposes the `vapper.fallbackSPA(req, res)` function to manually fallback to the `SPA` mode so that the user can call this method in their own error handling middleware to manually fallback to `SPA` mode:
 
@@ -64,7 +87,7 @@ starter()
 
 About how to customize `Server` Please read: [Custom Server](/custom-server.html).
 
-### Custom fallback logic <Badge text="Core 0.13.0+"/>
+### Custom fallback logic
 
 By default, `vapper` internally uses [serve-static](https://www.npmjs.com/package/serve-static) to provide a static resource service. When a user request comes in, `vapper` will provide the file under `dist/` as a static resource to the user. You can configure it via [configuration#static](/config.html#static), all configuration options are: [serve-static#options](https://github.com/expressjs/serve-static#options).
 
@@ -91,29 +114,111 @@ module.exports = {
 
 Of course, if you want the error page to be displayed to the user when the error occurs, it is very simple.
 
-### The `vm.error` property of the root component
+### The `enableCustomErrorPage` option
+The core goal of `vapper` is to fall back to `SPA` mode whenever an error occurs. If you need to customize the error page, you need to enable the `enableCustomErrorPage` option in the `vapper.config.js` file:
 
-`Vapper` injects the `error` attribute to the root component instance, which is an error object that holds the error message. So you can decide what to render by checking if `this.error` exists, as shown in the following code:
+```js
+// vapper.config.js
 
-```js {11}
-// Entry file: src/main.js
-
-export default function createApp () {
-  // 1. Create a router instance
-  const router = createRouter()
-
-  // 2. Create a app instance
-  const app = new Vue({
-    router,
-    render (h) {
-      return this.error ? h('h1', 'error') : h(App)
-    }
-  })
-
-  // 3. return
-  return { app, router }
+module.exports = {
+  enableCustomErrorPage: true
 }
 ```
+
+### the `ErrorComponent` component
+
+After enabling the custom error page, you also need to provide the `ErrorComponent` component. When an error occurs, the component will be rendered as an error page and displayed to the user:
+
+```js {1,10}
+// Importing the `ErrorComponent` component
+import ErrorComponent from 'ErrorComponent.vue'
+
+// Export factory function
+export default function createApp () {
+  // 1. Create a router instance
+  // ...
+
+  // 2. Create a root component
+  const app = {
+    ErrorComponent,
+    router,
+    // This is necessary, it is for vue-meta
+    head: {},
+    render: h => h(App)
+  }
+
+  // 3. return the root component
+  return app
+}
+```
+
+The `ErrorComponent` has a `props` named `error`:
+
+```js
+// ErrorComponent
+export default {
+  name: 'ErrorComponent',
+  props: ['error'],
+  render(h) {
+    return h('h1', this.error.code + ',' + this.error.message)
+  }
+}
+```
+
+### The `error` Object
+
+The `error` object is an [Error](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Error) instance. You can throw an `error` object anywhere in the project code, the error object will be used as props for the `ErrorComponent` component. We can add the corresponding `code` and `message` on the `error` object for use within the `ErrorComponent` component.
+
+Note that `error.code` will be used for the` statusCode` of the server response, and `error.message` will be used for the` statusMessage` of the server response. Here is an example:
+
+- throw error in route guard:
+
+```js {8-9}
+router.beforeEach((to, from, next) => {
+  try {
+    if (to.path === '/bar') {
+      const error = Error('error in the routing guard')
+      throw error
+    }
+  } catch (e) {
+    e.code = 500
+    e.message = 'Internal Server Error'
+    next(e)
+  }
+  next()
+})
+```
+
+### 404 Error
+
+When users access a non-existent route, the content of the error object `error` is as follows:
+
+```js
+error = {
+  url: '/foo',
+  code: 404,
+  message: 'Page Not Found'
+}
+```
+
+It can be used directly in `ErrorComponent`.
+
+## Rules for error handling
+
+When an error occurs:
+
+- If `enableCustomErrorPage: false`, then fall back to `SPA`.
+- If `enableCustomErrorPage: true`, but no `ErrorComponent` component is provided, then fallback to `SPA`.
+- If `enableCustomErrorPage: true` and an` ErrorComponent` component is provided, but an error occurs within the `ErrorComponent` component, then fallback to` SPA`.
+
+**In other words, you can optionally throw errors in the `ErrorComponent` component to achieve free switching between the custom error page and fallback to the SPA mode.**
+
+
+
+
+
+
+
 
 Within the `render` function of the root component, if `this.error` exists, the custom content is presented to the user, otherwise the application is rendered normally. You can render anything you want, such as the `Error.vue` component:
 

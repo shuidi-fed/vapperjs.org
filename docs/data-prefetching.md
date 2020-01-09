@@ -1,4 +1,4 @@
-# Data prefetch <Badge text="0.15.2+"/>
+# Data prefetch
 
 :::tip
 Please install version `0.15.2+` to use more powerful data prefetching methods.
@@ -63,9 +63,9 @@ Reading the code above, you may have questions: "Is the code inside the `created
 
 ## Store(Vuex)
 
-### Return a Store instance in the entry file
+### Avoid state singletons
 
-`Vapper` allows you to optionally use `Vuex`, which is the same as creating an application instance, we also need to create a new `Stroe` instance for each request. Usually we will wrap the `createStore` factory function:
+`Vapper` allows you to optionally use `Vuex`, we also need to create a new `Stroe` instance for each request. Usually we will wrap the `createStore` factory function:
 
 ```js
 // store/index.js
@@ -86,9 +86,9 @@ export default function createStore () {
 }
 ```
 
-Then create and return a `store` instance in the entry file:
+Then create the `store` instance in the entry file:
 
-```js {7-8,13}
+```js {7,12}
 // src/main.js
 
 export default function createApp () {
@@ -96,16 +96,20 @@ export default function createApp () {
 
   // Create store instance
   const store = createStore()
-  ctx.replaceState(store) // This is necessary, vapper will use it to mix data(from server to client).
 
-  // ...
+  // Create a root component
+  const app = {
+    router,
+    store,
+    // This is necessary, it is for vue-meta
+    head: {},
+    render: h => h(App)
+  }
 
-  // return
-  return { app, router, store }
+  // return the root component
+  return app
 }
 ```
-
-Please pay special attention to the `ctx.replaceState(store)` in the code above, this is necessary, `vapper` will use it to mix data(from server to client).
 
 ### Data prefetch - dispatch
 
@@ -135,7 +139,7 @@ new Vuex.Store({
 })
 ```
 
-### The needPrefetch option <Badge text="0.18.0+"/>
+### The needPrefetch option
 
 If the `needSerialize` option is set to` true`, then it will do two things:
 

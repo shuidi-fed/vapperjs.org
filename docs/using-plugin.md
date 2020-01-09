@@ -118,8 +118,23 @@ module.exports = {
 
 The `@vapper/plugin-cookie` plugin accepts runtime options. To pass options for it, you need to add the `pluginRuntimeOptions` property to the factory function exported by the entry file:
 
-```js {3-4}
+```js {6-8}
 // Entry file
+export default function createApp (ctx) {
+  // ......
+}
+
+createApp.pluginRuntimeOptions = {
+  cookie: { /* options */ }
+}
+```
+
+The `@vapper/plugin-cookie` plugin reads the `pluginRuntimeOptions.cookie` object as a configuration option.
+
+To access the `$cookie` object via `ctx`:
+
+```js {3-4}
+// The Entry file
 export default function createApp (ctx) {
   ctx.$cookie.get('foo') // Read cookie named `foo`
   ctx.$cookie.set('foo', 1) // Set cookie named `foo`
@@ -130,30 +145,16 @@ createApp.pluginRuntimeOptions = {
 }
 ```
 
-The `@vapper/plugin-cookie` plugin reads the `pluginRuntimeOptions.cookie` object as a configuration option.
-
-We can add a small amount of code to the entry file to enable us to access cookies on any component instance object:
+Access `$cookie` through `this` within the component:
 
 ```js
-// Entry file
-
-Vue.mixin({
-  created () {
-    this.$cookie = this.$root.$options.$cookie
+export default {
+  created() {
+    this.$cookie.get('foo') // Read cookie named `foo`
+    this.$cookie.set('foo', 1) // Set cookie named `foo`
   }
-})
-
-export default function createApp (ctx) {
-  new Vue({
-    $cookie: ctx.$cookie
-    // other options...
-  })
 }
 ```
-
-:::tip
-The following docs assume that `$cookie` is accessible through the component instance(`this`).
-:::
 
 ##### Read cookie
 
@@ -261,13 +262,6 @@ export default {
 Where `options` is: [jshttp/cookie#options](https://github.com/jshttp/cookie#options)
 
 #### Plugin options:
-
-##### propertyName
-
-- Type: `string`
-- Default: `'$cookie'`
-
-Specifies the name of the property injected into the component instance. The default is `$cookie`, so you can access it via the component instance: `ctx.$cookie`.
 
 ##### fromRes
 

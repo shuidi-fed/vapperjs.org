@@ -7,7 +7,7 @@ In order to avoid state pollution caused by cross requests, we need to export a 
 The simplest entry file should contain the following:
 
 - 1. The `Vapper` application requires you to use [vue-router](https://router.vuejs.org/).
-- 2. Use the `export default` statement to export a factory function that return value is an object, and this object should contain at least the application instance (`app`) and the route instance (`router`).
+- 2. Use the `export default` statement to export a factory function that return value is an object, and this object should contain at least the root component(`app`) and the route instance (`router`).
 
 For example:
 
@@ -36,16 +36,16 @@ export default function createApp () {
     ]
   })
 
-  // 2. Create a app instance
-  const app = new Vue({
+  // 2. Create a root component
+  const app = {
     router,
     // This is necessary, it is for vue-meta
     head: {},
     render: h => h(App)
-  })
+  }
 
-  // 3. return
-  return { app, router }
+  // 3. return the root component
+  return app
 }
 ```
 
@@ -74,7 +74,6 @@ The complete `Context` object is as follows:
 
 ```js
 context = {
-  Vue,  // the Vue constructor
   type: TYPE, // type is 'server' or 'client'
   pluginRuntimeOptions: createApp.pluginRuntimeOptions  // createApp.pluginRuntimeOptions
 }
@@ -84,12 +83,12 @@ context = {
 
 ```js
 context = {
-  Vue,  // the Vue constructor
   type: TYPE, // type is 'server' or 'client'
   pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
   req: context.req, // http.ClientRequest instance
   res: context.res, // http.ServerResponse instance
-  isFake  // A boolean value that indicates whether a real rendering is done
+  isFake,  // A boolean value that indicates whether a real rendering is done
+  url: req.url  // the request url
 }
 ```
 

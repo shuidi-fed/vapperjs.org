@@ -1,4 +1,4 @@
-# Use TypeScript <Badge text="Core 0.10.0+"/>
+# Use TypeScript
 
 `@vapper/core` supports `TypeScript` since version `0.10.0`. In fact, since Vapper uses `Vue-CLI3+` or `Poi` to manage the webpack configuration, you can use the `TypeScript` plugin provided by `Vue-CLI3+` or `Poi` directly. Let's use `Vue-CLI3` and `@vue/cli-plugin-typescript` as an example to demonstrate how to use `TypeScript` in your project.
 

@@ -55,7 +55,8 @@ module.exports = {
           { text: 'Guide', link: '/introduction' },
           { text: 'Advanced', link: '/write-plugin' },
           { text: 'Configuration', link: '/config' },
-          { text: 'Troubleshooting', link: '/troubleshooting' }
+          { text: 'Troubleshooting', link: '/troubleshooting' },
+          { text: 'Migrating from v0.x', link: '/migrating' }
         ]
       },
       '/zh/': {
@@ -95,7 +96,8 @@ module.exports = {
           { text: 'Guide', link: '/zh/introduction' },
           { text: 'Advanced', link: '/zh/write-plugin' },
           { text: '配置文件', link: '/zh/config' },
-          { text: '常见问题', link: '/zh/troubleshooting' }
+          { text: '常见问题', link: '/zh/troubleshooting' },
+          { text: '从 v0.x 迁移', link: '/zh/migrating' }
         ]
       }
     },

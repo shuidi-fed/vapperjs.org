@@ -20,7 +20,7 @@ module.exports = {
 
 指定 `Vapper` 的启动模式，生产模式还是开发模式，可选值为 `'development'` 和 `'production'`
 
-## vueCliMode <Badge text="Vue CLI only"/> <Badge text="0.15.0+"/>
+## vueCliMode <Badge text="Vue CLI only"/>
 
 - 类型：`string`
 - 默认值：`null`
@@ -44,6 +44,13 @@ module.exports = {
 - 默认值：`true`
 
 是否开启 `SSR` 模式，默认为开启，所有的页面都会在服务端渲染，可以通过 [路由 Meta](/zh/routes-meta.html#路由-meta) 控制具体的路由规则是否启用 `SSR`。
+
+## enableCustomErrorPage
+
+- 类型：`boolean`
+- 默认值：`false`
+
+是否使用自定义错误页面，默认关闭。即无论什么情况下，只要有错误发生就会回退 `SPA` 模式。更多内容请阅读：[错误处理-自定义错误页面](/zh/error-handling.html#自定义错误页面)。
 
 ## template
 
@@ -96,7 +103,7 @@ module.exports = {
 
 服务器主机。
 
-## logger <Badge text="Core 0.14.0+"/>
+## logger
 
 - 类型：`function`
 - 默认值：`console.log`
@@ -176,7 +183,7 @@ logLevel === 5 ----> error/warn/debug/tip/info
 
 当错误发生时是否回退 `SPA` 模式，默认为 `true`，即回退 `SPA` 模式。阅读 [回退 SPA 模式](/zh/error-handling.html#回退-spa-模式) 了解详情。
 
-## fallbackSpaHandler <Badge text="Core 0.13.0+"/>
+## fallbackSpaHandler
 
 - Type: `function`
 - Default: `null`
@@ -197,7 +204,7 @@ logLevel === 5 ----> error/warn/debug/tip/info
 
 指定 Client Manifest 的文件名。
 
-## nodeExternalsWhitelist <Badge text="0.16.3+"/>
+## nodeExternalsWhitelist
 
 - 类型：`array`
 - 默认值：`[/\.css$/, /\?vue&type=style/]`

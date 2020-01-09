@@ -153,14 +153,27 @@ export default function (ctx) {
 
 无论是 `server.js` 还是 `client.js` 都需要有一个默认导出的函数，并接受 [ctx](/zh/entry.html#context) 作为参数，如下是 [ctx](/zh/entry.html#context) 的内容：
 
+- 在客户端：
+
 ```js
-ctx = {
-  Vue,  // Vue 构造函数
-  pluginRuntimeOptions, // 它的值为入口文件导出的 createApp.pluginRuntimeOptions = {}
-  type, // 在 `server.js` 文件中它的值为 'server'，在 `client.js` 中它的值为 'client'
-  req,  // 请求对象，仅在 `server.js` 中可用
-  res,  // 响应对象，仅在 `server.js` 中可用
-  isFake  // 布尔值，标识着是否进行真正的渲染，后文会详细讲解，仅在 `server.js` 中可用
+context = {
+  type: TYPE, // type 是 'server' 或者 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
+  rootOptions // 根组件选项
+}
+```
+
+- 在服务端：
+
+```js
+context = {
+  type: TYPE, // type 是 'server' 或者 'client'
+  pluginRuntimeOptions: createApp.pluginRuntimeOptions,  // createApp.pluginRuntimeOptions
+  req: context.req, // 请求对象
+  res: context.res, // 响应对象
+  isFake,  // 布尔值，标识着是否进行真正的渲染
+  url: req.url,  // 请求的 url
+  rootOptions // 根组件选项
 }
 ```
 
@@ -232,7 +245,7 @@ export default function createApp (ctx) {
   
   // 省略...
 
-  return { app, router }
+  return app
 }
 ```
 
@@ -253,7 +266,7 @@ createApp.pluginRuntimeOptions = {
 
 ```js
 // server.js 或 client.js
-export default function ({ Vue, pluginRuntimeOptions }) {
+export default function ({ pluginRuntimeOptions }) {
   console.log(pluginRuntimeOptions.logger)
 }
 ```
