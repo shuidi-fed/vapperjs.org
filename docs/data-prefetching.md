@@ -65,7 +65,7 @@ Reading the code above, you may have questions: "Is the code inside the `created
 
 ### Avoid state singletons
 
-`Vapper` allows you to optionally use `Vuex`, we also need to create a new `Stroe` instance for each request. Usually we will wrap the `createStore` factory function:
+`Vapper` allows you to optionally use `Vuex`, we also need to create a new `Store` instance for each request. Usually we will wrap the `createStore` factory function:
 
 ```js
 // store/index.js

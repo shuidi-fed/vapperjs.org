@@ -65,7 +65,7 @@ export default {
 
 ### 避免状态单例
 
-`Vapper` 允许你可选的使用 `Vuex`，我们同样需要为每个请求都创建一个新的 `Stroe` 实例，通常我们会封装 `createStore` 工厂方法：
+`Vapper` 允许你可选的使用 `Vuex`，我们同样需要为每个请求都创建一个新的 `Store` 实例，通常我们会封装 `createStore` 工厂方法：
 
 ```js
 // store/index.js
