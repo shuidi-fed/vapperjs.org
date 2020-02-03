@@ -246,3 +246,10 @@ module.exports = {
 - 默认值：`{}`
 
 设置 [vue-server-renderer](https://ssr.vuejs.org/api/#renderer-options) 的选项。
+
+## runtimeCompiler
+
+- 类型：`boolean`
+- 默认值：`false`
+
+是否使用包含运行时编译器的 `Vue`，设置为 `true` 意味着你可以在组件中使用 `template` 选项，但这会导致你你用的体积增加大约 `10kb`。

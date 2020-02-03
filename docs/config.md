@@ -246,3 +246,10 @@ Configure page level caching. For details, see: [Page-level cache (micro-caching
 - Default: `{}`
 
 Set the options for [vue-server-renderer](https://ssr.vuejs.org/api/#renderer-options).
+
+## runtimeCompiler
+
+- Type: `boolean`
+- Default: `false`
+
+Whether to use the build of Vue core that includes the runtime compiler. Setting it to true will allow you to use the template option in Vue components, but will incur around an extra 10kb payload for your app.
