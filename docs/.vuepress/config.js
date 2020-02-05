@@ -46,7 +46,8 @@ module.exports = {
             children: [
               ['/write-plugin', 'Writing a plugin'],
               ['/custom-server', 'Custom Server'],
-              ['/configer', 'Configer']
+              ['/configer', 'Configer'],
+              ['/state-injection', 'State Injection']
             ]
           },
           ['/config', 'Configuration']
@@ -87,7 +88,8 @@ module.exports = {
             children: [
               ['/zh/write-plugin', '插件开发'],
               ['/zh/custom-server', '自定义 Server'],
-              ['/zh/configer', 'Configer']
+              ['/zh/configer', 'Configer'],
+              ['/zh/state-injection', 'State Injection']
             ]
           },
           ['/zh/config', '配置文件']
