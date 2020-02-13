@@ -249,6 +249,64 @@ export default function createApp (ctx) {
 }
 ```
 
+### 编译增强文件 <Badge text="1.3.0+"/>
+
+默认情况下运行时文件是会经过编译的，`vapper` 内部使用 `lodash.template` 对其进行编译，以上面提到的 `logger.js` 为例，我们可以在该文件中使用插值：
+
+```js {3}
+// logger.js
+export default function (ctx) {
+  console.log(<%= foo >)
+}
+```
+
+传递编译选项：
+
+```js {4,6}
+module.exports = (api) => {
+  api.addEnhanceFile({
+    client: path.resolve(__dirname, './logger.js'),
+    clientOptions: { foo: 'foo-client' },
+    server: path.resolve(__dirname, './logger.js'),
+    serverOptions: { foo: 'foo-server' },
+    clientModuleName: 'logger'
+  })
+}
+```
+
+最终 `vapper` 会编译 `logger.js` 文件并分别生成 `.vapper_server.js` 和 `.vapper-client.js` 文件：
+
+```js
+// .vapper_server.js
+export default function (ctx) {
+  console.log('foo-server')
+}
+```
+
+```js
+// .vapper_client.js
+export default function (ctx) {
+  console.log('foo-client')
+}
+```
+
+### 可选择的编译过程
+
+如上所述，默认情况下“增强文件”会被编译，如果你的增强文件不需要编译，那么你可以关闭它：
+
+```js {3}
+module.exports = (api) => {
+  api.addEnhanceFile({
+    needCompile: false,
+    client: path.resolve(__dirname, './logger.js'),
+    clientOptions: { foo: 'foo-client' },
+    server: path.resolve(__dirname, './logger.js'),
+    serverOptions: { foo: 'foo-server' },
+    clientModuleName: 'logger'
+  })
+}
+```
+
 ## 为插件传递参数
 
 如上所述，插件可以增强运行时的能力，也可以注册新的 `CLI` 命令和服务器中间件，不同的插件接收参数的方式不同。对于那些增强运行时能力的插件，我们需要通过入口文件导出的 `createApp.pluginRuntimeOptions` 传递参数，例如：

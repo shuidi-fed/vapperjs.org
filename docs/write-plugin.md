@@ -249,6 +249,64 @@ export default function createApp (ctx) {
 }
 ```
 
+### Compile the enhancement files <Badge text="1.3.0+"/>
+
+By default, the runtime file is compiled. `Vapper` uses `lodash.template` to compile it internally. Taking `logger.js` mentioned above as an example, we can use interpolation in this file:
+
+```js {3}
+// logger.js
+export default function (ctx) {
+  console.log(<%= foo >)
+}
+```
+
+Passing compilation options:
+
+```js {4,6}
+module.exports = (api) => {
+  api.addEnhanceFile({
+    client: path.resolve(__dirname, './logger.js'),
+    clientOptions: { foo: 'foo-client' },
+    server: path.resolve(__dirname, './logger.js'),
+    serverOptions: { foo: 'foo-server' },
+    clientModuleName: 'logger'
+  })
+}
+```
+
+`Vapper` will compile the `logger.js` file and generate `.vapper_server.js` and` .vapper-client.js` files respectively:
+
+```js
+// .vapper_server.js
+export default function (ctx) {
+  console.log('foo-server')
+}
+```
+
+```js
+// .vapper_client.js
+export default function (ctx) {
+  console.log('foo-client')
+}
+```
+
+### Optional compilation
+
+As mentioned above, the "enhancement-files" are compiled by default. If your `enhancement-files` do not need to be compiled, you can turn it off:
+
+```js {3}
+module.exports = (api) => {
+  api.addEnhanceFile({
+    needCompile: false,
+    client: path.resolve(__dirname, './logger.js'),
+    clientOptions: { foo: 'foo-client' },
+    server: path.resolve(__dirname, './logger.js'),
+    serverOptions: { foo: 'foo-server' },
+    clientModuleName: 'logger'
+  })
+}
+```
+
 ## Pass options for the plugin
 
 As mentioned above, plugins can enhance runtime capabilities, as well as register new `CLI` commands and server middleware. Different types of plugins receive option parameters differently. For plugins that enhance runtime capabilities, we need to use the `createApp.pluginRuntimeOptions` object exported by the entry file, for example:
