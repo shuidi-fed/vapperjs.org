@@ -79,6 +79,20 @@ module.exports = (api) => {
 
 In most cases, you may need to customize the server. For custom server you can read: [Custom Server](/custom-server.html#connect). When customizing the server, you don't need to register the middleware as a plugin, because you can use the middleware directly in your custom `Server`.
 
+In addition to registering `before:render` and `after:render` middleware, you can also register `before:setup` and `after:setup` middleware. The difference is that they are executed in a different order, as follows:
+
+```js
+// Execute from top to bottom
+before:setup
+before:render
+after:render
+after:setup
+```
+
+:::tip
+Middleware types `before:setup` and `after:setup` are only available in `@vapper/core@1.3.0+` versions.
+:::
+
 ## Register command
 
 A new `CLI` command can be registered via the plugin, and the `module.exports.CLI` function needs to be exported in the plugin module:
@@ -363,6 +377,16 @@ Resolve the path based on the `output.path` of webpack
 ```js
 // Wbepack output.path: /Users/work/my-project/dist
 api.resolveOut('./foo.js')  // /Users/work/my-project/dist/foo.js
+```
+
+### api.chainWebpack() <Badge text="1.3.0+"/>
+
+Register a function to modify the `webpack` configuration. This function receives a `ChainableConfig` instance([webpack-chain](https://github.com/neutrinojs/webpack-chain)) as a parameter:
+
+```js
+api.chainWebpack(config => {
+  // ...
+})
 ```
 
 ### api.use()

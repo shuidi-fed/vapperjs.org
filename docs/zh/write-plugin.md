@@ -79,6 +79,20 @@ module.exports = (api) => {
 
 大多数情况下，你可能需要自定义服务器，关于自定义服务器的内容可以阅读：[自定义 Server](/zh/custom-server.html#connect)。当自定义服务器时，你不需要以插件的形式注册中间件，因为你可以直接在你的自定义 `Server` 中使用相应的中间件即可。
 
+除了可以注册 `before:render` 和 `after:render` 类型的中间件外，还可以注册 `before:setup` 以及 `after:setup` 类型的中间件，它们的不同在于执行顺序，完整的执行顺序如下：
+
+```js
+// 从上到下依次执行
+before:setup
+before:render
+after:render
+after:setup
+```
+
+:::tip
+`before:setup` 和 `after:setup` 类型的中间件仅在 `@vapper/core@1.3.0+` 版本中可用。
+:::
+
 ## 注册命令
 
 通过插件可以注册新的 `CLI` 命令，需要在插件模块导出 `module.exports.CLI` 函数：
@@ -363,6 +377,16 @@ api.resolveCWD('./foo.js')  // /Users/work/foo.js
 ```js
 // Wbepack output.path: /Users/work/my-project/dist
 api.resolveOut('./foo.js')  // /Users/work/my-project/dist/foo.js
+```
+
+### api.chainWebpack() <Badge text="1.3.0+"/>
+
+注册用于修改 `webpack` 配置的函数，该函数接收 `ChainableConfig` 实例([webpack-chain](https://github.com/neutrinojs/webpack-chain))作为参数：
+
+```js
+api.chainWebpack(config => {
+  // ...
+})
 ```
 
 ### api.use()
