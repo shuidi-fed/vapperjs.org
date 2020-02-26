@@ -142,9 +142,7 @@ module.exports = (api) => {
     // The code for this file is only run on the client
     client: path.resolve(__dirname, './client.js'),
     // The code for this file is only run on the server
-    server: path.resolve(__dirname, './server.js'),
-    // clientModuleName is required, providing a module name
-    clientModuleName: 'cookie'
+    server: path.resolve(__dirname, './server.js')
   })
 }
 ```
@@ -218,8 +216,7 @@ You have noticed that the same code we wrote twice in `client.js` and `server.js
 module.exports = (api) => {
   api.addEnhanceFile({
     client: path.resolve(__dirname, './logger.js'),
-    server: path.resolve(__dirname, './logger.js'),
-    clientModuleName: 'logger'
+    server: path.resolve(__dirname, './logger.js')
   })
 }
 ```
@@ -282,8 +279,7 @@ module.exports = (api) => {
     client: path.resolve(__dirname, './logger.js'),
     clientOptions: { foo: 'foo-client' },
     server: path.resolve(__dirname, './logger.js'),
-    serverOptions: { foo: 'foo-server' },
-    clientModuleName: 'logger'
+    serverOptions: { foo: 'foo-server' }
   })
 }
 ```
@@ -315,8 +311,7 @@ module.exports = (api) => {
     client: path.resolve(__dirname, './logger.js'),
     clientOptions: { foo: 'foo-client' },
     server: path.resolve(__dirname, './logger.js'),
-    serverOptions: { foo: 'foo-server' },
-    clientModuleName: 'logger'
+    serverOptions: { foo: 'foo-server' }
   })
 }
 ```
@@ -476,9 +471,7 @@ module.exports = (api) => {
     // The code for this file is only run on the client
     client: path.resolve(__dirname, './client.js'),
     // The code for this file is only run on the server
-    server: path.resolve(__dirname, './server.js'),
-    // clientModuleName is required, providing a module name
-    clientModuleName: 'cookie'
+    server: path.resolve(__dirname, './server.js')
   })
 }
 ```

@@ -142,9 +142,7 @@ module.exports = (api) => {
     // 该文件的代码仅在客户端运行
     client: path.resolve(__dirname, './client.js'),
     // 该文件的代码仅在服务端运行
-    server: path.resolve(__dirname, './server.js'),
-    // clientModuleName 是必须得，提供一个模块名称
-    clientModuleName: 'cookie'
+    server: path.resolve(__dirname, './server.js')
   })
 }
 ```
@@ -218,8 +216,7 @@ export default function (ctx) {
 module.exports = (api) => {
   api.addEnhanceFile({
     client: path.resolve(__dirname, './logger.js'),
-    server: path.resolve(__dirname, './logger.js'),
-    clientModuleName: 'logger'
+    server: path.resolve(__dirname, './logger.js')
   })
 }
 ```
@@ -282,8 +279,7 @@ module.exports = (api) => {
     client: path.resolve(__dirname, './logger.js'),
     clientOptions: { foo: 'foo-client' },
     server: path.resolve(__dirname, './logger.js'),
-    serverOptions: { foo: 'foo-server' },
-    clientModuleName: 'logger'
+    serverOptions: { foo: 'foo-server' }
   })
 }
 ```
@@ -315,8 +311,7 @@ module.exports = (api) => {
     client: path.resolve(__dirname, './logger.js'),
     clientOptions: { foo: 'foo-client' },
     server: path.resolve(__dirname, './logger.js'),
-    serverOptions: { foo: 'foo-server' },
-    clientModuleName: 'logger'
+    serverOptions: { foo: 'foo-server' }
   })
 }
 ```
@@ -475,9 +470,7 @@ api.addEnhanceFile({
   // 该文件的代码仅在客户端运行
   client: path.resolve(__dirname, './client.js'),
   // 该文件的代码仅在服务端运行
-  server: path.resolve(__dirname, './server.js'),
-  // clientModuleName 是必须得，提供一个模块名称
-  clientModuleName: 'cookie'
+  server: path.resolve(__dirname, './server.js')
 })
 ```
 
