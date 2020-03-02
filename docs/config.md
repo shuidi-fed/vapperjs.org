@@ -89,6 +89,13 @@ The default template is:
 </html>
 ```
 
+## templatePath <Badge text="1.5.0+"/>
+
+- Type: `string`
+- Default: `''`
+
+Like the `template` option, `templatePath` is used to customize the template of the renderer, but the `template` option is used to specify the content of the template, and the `templatePath` option specifies the path to the template. The advantage of using `templatePath` is that changes to the template file content will take effect in real time in development mode.
+
 ## port
 
 - Type: `number`

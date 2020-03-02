@@ -29,7 +29,7 @@
 
 `SSR` 渲染的内容会替换 `<!--vue-ssr-outlet-->`。
 
-可以通过配置文件的 [template](/zh/config.html#template) 选项自定义模板。
+可以通过配置文件的 [template](/zh/config.html#template) 或 [templatePath](/zh/config.html#templatepath) 选项自定义模板。
 
 ## SPA 的页面模板
 

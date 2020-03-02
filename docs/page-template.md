@@ -27,7 +27,7 @@ The default template file content is as follows:
 </html>
 ```
 
-The content rendered by `Vapper` will replace `<!-Vue-ssr-outlet->`. You can customize the template through the [template](/config.html#template) option of the configuration file.
+The content rendered by `Vapper` will replace `<!-Vue-ssr-outlet->`. You can customize the template through the [template](/config.html#template) or the [templatePath](/config.html#templatepath) option of the configuration file.
 
 ## Page template for SPA
 

@@ -89,6 +89,13 @@ module.exports = {
 </html>
 ```
 
+## templatePath <Badge text="1.5.0+"/>
+
+- 类型：`string`
+- 默认值：`''`
+
+与 `template` 选项一样，用来自定义模板，不同的是 `template` 选项指定模板的内容，而 `templatePath` 选项指定模板的路径。使用 `templatePath` 的好处的是：在开发模式下，模板文件的改动会实时生效。
+
 ## port
 
 - 类型：`number`
