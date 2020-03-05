@@ -14,6 +14,21 @@ Some components are ssr-unfriendly components. When you use a third-party compon
 </template>
 ```
 
+You can specify a slot named `placeholder` to render the placeholder content, so that the server will render the placeholder content, and it will be replaced on the client with the content that is actually rendered:
+
+```html {4-6}
+<template>
+  <div>
+    <ClientOnly>
+      <template slot="placeholder">
+        <h1>Placeholder</h1>
+      </template>
+      <ConnotSSRComponent/>
+    </ClientOnly>
+  </div>
+</template>
+```
+
 ## Redirect - vm.$$redirect
 
 `Vapper` injects the `$$redirect` function on the component instance and the route instance for redirection, which is isomorphic.
@@ -63,6 +78,20 @@ export default {
   name: 'Foo',
   created () {
     console.log(this.$$type)  // 'server' | 'client'
+  }
+}
+```
+
+## `vm.$$req` and `vm.$$res` <Badge text="server only"/> <Badge text="1.6.0+"/>
+
+On the server side, you can access the current request object(`req`) and response object(`res`) through the component instance:
+
+```js {4-5}
+export default {
+  name: 'Foo',
+  created () {
+    this.$$req.headers
+    this.$$res.setHeader('x-custom-key', 'value')
   }
 }
 ```

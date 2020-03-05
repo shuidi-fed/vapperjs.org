@@ -14,6 +14,21 @@
 </template>
 ```
 
+可以指定名为 `placeholder` 的插槽来渲染占位内容，这样服务端会渲染占位内容，占位内容会在客户端被替换为真正要渲染的内容：
+
+```html {4-6}
+<template>
+  <div>
+    <ClientOnly>
+      <template slot="placeholder">
+        <h1>Placeholder</h1>
+      </template>
+      <ConnotSSRComponent/>
+    </ClientOnly>
+  </div>
+</template>
+```
+
 ## 重定向 vm.$$redirect
 
 `Vapper` 在组件实例和路由实例上分别注入了 `$$redirect` 函数，用来实现服务端和客户端的重定向功能。
@@ -63,6 +78,20 @@ export default {
   name: 'Foo',
   created () {
     console.log(this.$$type)  // 'server' | 'client'
+  }
+}
+```
+
+## vm.$$req 和 vm.$$res <Badge text="server only"/> <Badge text="1.6.0+"/>
+
+服务端渲染时，可以通过组件实例访问到当前的请求对象(`req`)和响应对象(`res`)：
+
+```js {4-5}
+export default {
+  name: 'Foo',
+  created () {
+    this.$$req.headers
+    this.$$res.setHeader('x-custom-key', 'value')
   }
 }
 ```
