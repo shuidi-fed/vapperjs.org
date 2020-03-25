@@ -270,4 +270,74 @@ export default {
 
 该选项仅在服务端生效，当使用 `$cookie.get` 函数读取 `cookie` 值得时候，是否读取响应对象(`res`)中的 `cookie`。
 
+### @vapper/plugin-platform
+
+该插件用于平台（`User-Agent`）断言，在浏览器中通过 `window.navigator.userAgent` 获取 `UA` 信息，在服务端从请求对象 `req.headers['user-agent']` 中获取 `UA` 信息。
+
+#### 安装
+
+```sh
+yarn add @vapper/plugin-platform
+```
+
+#### 使用
+
+```js
+// vapper.config.js
+module.exports = {
+  plugins: [
+    [
+      '@vapper/plugin-platform',
+      {/* options */}
+    ]
+  ]
+}
+```
+
+该插件会在 [Context](/zh/entry.html#context) 对象和组件实例上注入 `$browser` 对象，该对象包含了用户代理的信息，例如：
+
+```js
+// Home.vue
+export default {
+  created() {
+    console.log(this.$browser.name) // Chrome
+    console.log(this.$browser.version) // '80.0.3987.122'
+  }
+}
+```
+
+##### 自定义匹配规则
+
+有时你可能需要自定义 UA 检测规则，可以通过 `browsers` 插件选项达到这个目的：
+
+```js {7-19}
+// vapper.config.js
+module.exports = {
+  plugins: [
+    [
+      '@vapper/plugin-platform',
+      {
+        browsers: [
+          // 自定义规则
+          {
+            test: [/chrome/],
+            describe (ua) {
+              const browser = {
+                name: 'SupperChrome'
+              }
+        
+              return browser
+            }
+          }
+        ]
+      }
+    ]
+  ]
+}
+```
+
+`browsers` 选项是一个数组，因此可以定义多条规则。如上高亮代码所示，每条自定义规则都是一个包含 `test` 属性和 `describe` 属性对象，其中 `test` 属性是一个数组，指定一组匹配规则，这组规则将用于 `UA` 字符串，一旦规则匹配，将会执行 `describe` 函数，实际上 `describe` 函数的返回值可以通过 `this.$browser` 访问。
+
+另外 `describe(ua)` 函数接收 `UA` 字符串作为参数，你可以根据需要做相应的处理。
+
 ## 社区插件

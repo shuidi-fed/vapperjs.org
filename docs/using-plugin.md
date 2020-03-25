@@ -270,4 +270,74 @@ Where `options` is: [jshttp/cookie#options](https://github.com/jshttp/cookie#opt
 
 This option is only valid on the server side and is used to indicate whether the `cookie` in the response object(`res`) is read when the `cookie.get` function is used to read `cookie`.
 
+### @vapper/plugin-platform
+
+This plugin is used for platform(or `User-Agent`) assertion. In the browser, the `UA` information is obtained through `window.navigator.userAgent`, but in the server, it will obtained from the request object `req.headers['user-agent']`.
+
+#### Installation
+
+```sh
+yarn add @vapper/plugin-platform
+```
+
+#### Usage
+
+```js
+// vapper.config.js
+module.exports = {
+  plugins: [
+    [
+      '@vapper/plugin-platform',
+      {/* options */}
+    ]
+  ]
+}
+```
+
+The plugin injects the `$browser` object on the [Context](/entry.html#context) object and component instances, which contains information about the user agent, such as:
+
+```js
+// Home.vue
+export default {
+  created() {
+    console.log(this.$browser.name) // Chrome
+    console.log(this.$browser.version) // '80.0.3987.122'
+  }
+}
+```
+
+##### Custom detection rules
+
+Sometimes you may need to customize UA detection rules. You can do this through the `browsers` plugin option:
+
+```js {7-19}
+// vapper.config.js
+module.exports = {
+  plugins: [
+    [
+      '@vapper/plugin-platform',
+      {
+        browsers: [
+          // Custom detection rules
+          {
+            test: [/chrome/],
+            describe (ua) {
+              const browser = {
+                name: 'SupperChrome'
+              }
+        
+              return browser
+            }
+          }
+        ]
+      }
+    ]
+  ]
+}
+```
+
+`browsers` option is an array, so multiple rules can be defined. As shown in the highlighted code above, each custom rule is an object containing the `test` property and the `describe` property, where the `test` property is an array specifying a set of matching rules that will be used for` UA `String. Once the rules match, the `describe` function will be executed. In fact, the return value of the `describe` function can be accessed through `this.$Browser`.
+
+In addition, the `describe(ua)` function receives a `UA` string as a argument, and you can do the corresponding processing as needed.
+
 ## Community plugin
