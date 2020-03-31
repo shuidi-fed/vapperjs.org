@@ -110,7 +110,7 @@ Server port number.
 
 Server host.
 
-## https
+## https <Badge text="1.11.0+"/>
 
 - Type: `object`
 - Default: `{}`

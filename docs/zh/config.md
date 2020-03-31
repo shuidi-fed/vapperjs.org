@@ -110,7 +110,7 @@ module.exports = {
 
 服务器主机。
 
-## https
+## https <Badge text="1.11.0+"/>
 
 - 类型：`object`
 - 默认值：`{}`
