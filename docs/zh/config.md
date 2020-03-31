@@ -110,6 +110,25 @@ module.exports = {
 
 服务器主机。
 
+## https
+
+- 类型：`object`
+- 默认值：`{}`
+
+这个对象会作为 `options` 直接传递给 `nodejs` 的 `require('https').reateServer([options][, requestListener])`。
+
+例子：
+
+```js
+// vapper.config.js
+module.exports = {
+  https: {
+    key: fs.readFileSync('/path/to/server.key'),
+    cert: fs.readFileSync('/path/to/server.crt')
+  }
+}
+```
+
 ## logger
 
 - 类型：`function`

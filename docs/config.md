@@ -110,6 +110,25 @@ Server port number.
 
 Server host.
 
+## https
+
+- Type: `object`
+- Default: `{}`
+
+This object will be passed directly as `options` to `require('https').createServer([options][,requestListener])` of `nodejs`.
+
+An example:
+
+```js
+// vapper.config.js
+module.exports = {
+  https: {
+    key: fs.readFileSync('/path/to/server.key'),
+    cert: fs.readFileSync('/path/to/server.crt')
+  }
+}
+```
+
 ## logger
 
 - Type: `function`
