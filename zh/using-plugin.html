@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>使用插件 | Vapper</title>
+    <meta name="description" content="A Vue-based server-side rendering framework">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.02f63e62.css" as="style"><link rel="preload" href="/assets/js/app.75098c1e.js" as="script"><link rel="preload" href="/assets/js/2.d400e92f.js" as="script"><link rel="preload" href="/assets/js/47.a0463bd9.js" as="script"><link rel="prefetch" href="/assets/js/10.a238c216.js"><link rel="prefetch" href="/assets/js/11.93200388.js"><link rel="prefetch" href="/assets/js/12.8321d79b.js"><link rel="prefetch" href="/assets/js/13.f00c4fe6.js"><link rel="prefetch" href="/assets/js/14.803d8fbc.js"><link rel="prefetch" href="/assets/js/15.ab49d01f.js"><link rel="prefetch" href="/assets/js/16.e1f3442e.js"><link rel="prefetch" href="/assets/js/17.e3665905.js"><link rel="prefetch" href="/assets/js/18.6eba3bc8.js"><link rel="prefetch" href="/assets/js/19.fc099a71.js"><link rel="prefetch" href="/assets/js/20.cdd8ac45.js"><link rel="prefetch" href="/assets/js/21.eca1f057.js"><link rel="prefetch" href="/assets/js/22.cfcb0507.js"><link rel="prefetch" href="/assets/js/23.a66ea920.js"><link rel="prefetch" href="/assets/js/24.5f598cac.js"><link rel="prefetch" href="/assets/js/25.233c5492.js"><link rel="prefetch" href="/assets/js/26.c946b027.js"><link rel="prefetch" href="/assets/js/27.fe6c3a55.js"><link rel="prefetch" href="/assets/js/28.34c13167.js"><link rel="prefetch" href="/assets/js/29.c10b2bc3.js"><link rel="prefetch" href="/assets/js/3.ff3a75ea.js"><link rel="prefetch" href="/assets/js/30.8c7224f9.js"><link rel="prefetch" href="/assets/js/31.ce6d4e00.js"><link rel="prefetch" href="/assets/js/32.9afcbc22.js"><link rel="prefetch" href="/assets/js/33.7814c979.js"><link rel="prefetch" href="/assets/js/34.45c5f16b.js"><link rel="prefetch" href="/assets/js/35.f4e15fa6.js"><link rel="prefetch" href="/assets/js/36.feb10634.js"><link rel="prefetch" href="/assets/js/37.c2606191.js"><link rel="prefetch" href="/assets/js/38.e92c7e9d.js"><link rel="prefetch" href="/assets/js/39.147b66fc.js"><link rel="prefetch" href="/assets/js/4.6f1a593f.js"><link rel="prefetch" href="/assets/js/40.c35ff5fe.js"><link rel="prefetch" href="/assets/js/41.f62b8795.js"><link rel="prefetch" href="/assets/js/42.9c5935ab.js"><link rel="prefetch" href="/assets/js/43.aa4b86ba.js"><link rel="prefetch" href="/assets/js/44.8be6f2ee.js"><link rel="prefetch" href="/assets/js/45.50d7724e.js"><link rel="prefetch" href="/assets/js/46.7474df56.js"><link rel="prefetch" href="/assets/js/48.dc12d8a2.js"><link rel="prefetch" href="/assets/js/49.0ddc00d8.js"><link rel="prefetch" href="/assets/js/5.a70af778.js"><link rel="prefetch" href="/assets/js/6.d1383401.js"><link rel="prefetch" href="/assets/js/7.fd7915df.js"><link rel="prefetch" href="/assets/js/8.40b285d8.js"><link rel="prefetch" href="/assets/js/9.1e07b9c3.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.02f63e62.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/zh/" class="home-link router-link-active"><!----> <span class="site-name">Vapper</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/zh/introduction.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/zh/write-plugin.html" class="nav-link">Advanced</a></div><div class="nav-item"><a href="/zh/config.html" class="nav-link">配置文件</a></div><div class="nav-item"><a href="/zh/troubleshooting.html" class="nav-link">常见问题</a></div><div class="nav-item"><a href="/zh/migrating.html" class="nav-link">从 v0.x 迁移</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/using-plugin.html" class="nav-link">English</a></li><li class="dropdown-item"><!----> <a href="/zh/using-plugin.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li></ul></div></div> <a href="https://github.com/vapperjs/vapper" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/zh/introduction.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/zh/write-plugin.html" class="nav-link">Advanced</a></div><div class="nav-item"><a href="/zh/config.html" class="nav-link">配置文件</a></div><div class="nav-item"><a href="/zh/troubleshooting.html" class="nav-link">常见问题</a></div><div class="nav-item"><a href="/zh/migrating.html" class="nav-link">从 v0.x 迁移</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/using-plugin.html" class="nav-link">English</a></li><li class="dropdown-item"><!----> <a href="/zh/using-plugin.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li></ul></div></div> <a href="https://github.com/vapperjs/vapper" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/zh/introduction.html" class="sidebar-link">Introduction</a></li><li><a href="/zh/usage.html" class="sidebar-link">Usage</a></li><li><a href="/zh/entry.html" class="sidebar-link">入口文件</a></li><li><a href="/zh/data-prefetching.html" class="sidebar-link">数据预取</a></li><li><a href="/zh/routes-meta.html" class="sidebar-link">路由 Meta</a></li><li><a href="/zh/error-handling.html" class="sidebar-link">错误处理</a></li><li><a href="/zh/page-template.html" class="sidebar-link">页面模板</a></li><li><a href="/zh/management-head.html" class="sidebar-link">管理 &lt;head&gt;</a></li><li><a href="/zh/assets.html" class="sidebar-link">静态资源</a></li><li><a href="/zh/mode.html" class="sidebar-link">mode 和环境变量</a></li><li><a href="/zh/caching.html" class="sidebar-link">使用缓存</a></li><li><a href="/zh/using-plugin.html" class="active sidebar-link">使用插件</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#简介" class="sidebar-link">简介</a></li><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#基本使用" class="sidebar-link">基本使用</a></li><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#官方插件" class="sidebar-link">官方插件</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#vapper-plugin-prerender" class="sidebar-link">@vapper/plugin-prerender</a></li><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#vapper-plugin-cookie" class="sidebar-link">@vapper/plugin-cookie</a></li><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#vapper-plugin-platform" class="sidebar-link">@vapper/plugin-platform</a></li></ul></li><li class="sidebar-sub-header"><a href="/zh/using-plugin.html#社区插件" class="sidebar-link">社区插件</a></li></ul></li><li><a href="/zh/injection.html" class="sidebar-link">Vapper 注入</a></li><li><a href="/zh/typescript.html" class="sidebar-link">使用 TypeScript</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Advanced</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/zh/config.html" class="sidebar-link">配置文件</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="使用插件"><a href="#使用插件" aria-hidden="true" class="header-anchor">#</a> 使用插件</h1> <div class="tip custom-block"><p class="custom-block-title">提示</p> <p><code>Vapper</code> 的插件机制是它自身的脊梁，实际上 <code>Vapper</code> 自身的诸多能力也是基于插件的方式来实现的</p></div> <h2 id="简介"><a href="#简介" aria-hidden="true" class="header-anchor">#</a> 简介</h2> <p>插件可以扩展 <code>Vapper</code> 应用的运行时能力，例如 <a href="/zh/using-plugin.html#vapper-plugin-cookie">@vapper/plugin-cookie</a> 插件为 <a href="/zh/entry.html#context">Context</a> 注入了 <code>ctx.$cookie</code> 属性，用于操作 <code>cookie</code>。插件也可以扩展 <code>Vapper</code> 框架本身的能力，例如 <a href="/zh/using-plugin.html#vapper-plugin-prerender">@vapper/plugin-prerender</a> 插件为框架增加了新的 <code>CLI</code> 命令，用来完成预渲染的工作。插件还能做很多事情，添加 <code>server</code> 中间件、通过钩子介入 <code>Vapper</code> 启动的各个环节等等。</p> <h2 id="基本使用"><a href="#基本使用" aria-hidden="true" class="header-anchor">#</a> 基本使用</h2> <p>通过 <code>vapper.config.js</code> 中的 <code>plugins</code> 选项，指定你要使用的插件：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'vapper-plugin-do-something'</span><span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>plugins</code> 选项是一个数组，<code>'vapper-plugin-do-something'</code> 是插件的名称，<code>Vapper</code> 会根据该名称加载插件，因此你需要手动安装它。</p> <p>插件也可以是一个函数：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+<span class="token keyword">const</span> myPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'./myPlugin.js'</span><span class="token punctuation">)</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>myPlugin<span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如果要为插件传递参数，则需要使用嵌套的数组：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><div class="highlighted"> </div><br><br><br></div><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token string">'vapper-plugin-do-something'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> <span class="token comment">/* options */</span> <span class="token punctuation">}</span><span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如果一个插件扩展了 <code>Vapper</code> 应用的运行时能力，那么它可能需要在运行时获取参数，这时候我们需要像 <a href="/zh/entry.html#插件的运行时选项">插件的运行时选项</a> 中介绍的那样，使用 <code>pluginRuntimeOptions</code> 对象。如果一个插件在框架层面扩展了 <code>Vapper</code>，例如注册了新的命令，那么像如上代码那样做即可，这些参数在运行时是获取不到的。</p> <div class="tip custom-block"><p class="custom-block-title">提示</p> <p>一个插件需要清晰的文档，描述其接受参数的方式。</p></div> <h2 id="官方插件"><a href="#官方插件" aria-hidden="true" class="header-anchor">#</a> 官方插件</h2> <h3 id="vapper-plugin-prerender"><a href="#vapper-plugin-prerender" aria-hidden="true" class="header-anchor">#</a> @vapper/plugin-prerender</h3> <p>该插件是框架级插件，提供了预渲染能力，指定需要预渲染的路由，该插件会把匹配的路由渲染为相应的 <code>html</code> 文件，当请求到来时，如果匹配指定的路由，则将已经预渲染完成的 <code>html</code> 文件作为静态资源发送给客户端。</p> <p>预渲染相比于即时渲染有很多好处，它能够更快的将内容发送给客户端，同时也减少了服务器的负载。但并非所有页面都适合预渲染。</p> <h4 id="安装"><a href="#安装" aria-hidden="true" class="header-anchor">#</a> 安装</h4> <div class="language-sh extra-class"><pre class="language-sh"><code>yarn add @vapper/plugin-prerender
+</code></pre></div><h4 id="使用"><a href="#使用" aria-hidden="true" class="header-anchor">#</a> 使用</h4> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">'@vapper/plugin-prerender'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        routes<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token string">'/foo'</span><span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>添加 <code>npm</code> 脚本：</p> <div class="language-json extra-class"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;scripts&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;generate&quot;</span><span class="token operator">:</span> <span class="token string">&quot;vapper generate&quot;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>该插件注册了 <code>vapper generate</code> 命令，该命令等价于“构建 + 生成”。</p> <h3 id="vapper-plugin-cookie"><a href="#vapper-plugin-cookie" aria-hidden="true" class="header-anchor">#</a> @vapper/plugin-cookie</h3> <div class="tip custom-block"><p class="custom-block-title">提示</p> <p><code>@vapper/plugin-cookie</code> 内部使用了 <a href="https://github.com/jshttp/cookie" target="_blank" rel="noopener noreferrer">jshttp/cookie<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。</p></div> <p>该插件扩展了 <code>Vapper</code> 应用的运行时，在 <a href="/zh/entry.html#context">Context</a> 对象上添加了 <code>$cookie</code> 属性，用于同构操作 <code>cookie</code>。既可在服务端使用，又可以在客户端使用。</p> <h4 id="安装-2"><a href="#安装-2" aria-hidden="true" class="header-anchor">#</a> 安装</h4> <div class="language-sh extra-class"><pre class="language-sh"><code>yarn add @vapper/plugin-cookie
+</code></pre></div><h4 id="使用-2"><a href="#使用-2" aria-hidden="true" class="header-anchor">#</a> 使用</h4> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span><span class="token string">'@vapper/plugin-cookie'</span><span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>@vapper/plugin-cookie</code> 插件在应用层面扩展了 <code>Vapper</code>，因此它接收运行时参数，想要为其传递参数，需要在入口文件导出的工厂函数上添加 <code>pluginRuntimeOptions</code> 属性：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><br></div><pre class="language-js"><code><span class="token comment">// 入口文件</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">createApp</span> <span class="token punctuation">(</span>ctx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ......</span>
+<span class="token punctuation">}</span>
+
+createApp<span class="token punctuation">.</span>pluginRuntimeOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  cookie<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token comment">/* options */</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>@vapper/plugin-cookie</code> 插件会读取 <code>pluginRuntimeOptions.cookie</code> 对象作为选项参数。</p> <p>通过 <code>ctx</code> 访问 <code>$cookie</code> 对象：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token comment">// 入口文件</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">createApp</span> <span class="token punctuation">(</span>ctx<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">)</span> <span class="token comment">// Read cookie named `foo`</span>
+  ctx<span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// Set cookie named `foo`</span>
+<span class="token punctuation">}</span>
+
+createApp<span class="token punctuation">.</span>pluginRuntimeOptions <span class="token operator">=</span> <span class="token punctuation">{</span>
+  cookie<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token comment">/* options */</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>在组件内通过 <code>this</code> 访问 <code>$cookie</code>：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">)</span> <span class="token comment">// Read cookie named `foo`</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'foo'</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token comment">// Set cookie named `foo`</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h5 id="读取-cookie"><a href="#读取-cookie" aria-hidden="true" class="header-anchor">#</a> 读取 cookie</h5> <p>使用 <code>$cookie.get</code> 函数读取 <code>cookie</code>。</p> <ul><li><p>参数：</p> <ul><li><code>{string}</code> key</li></ul></li> <li><p>返回值：<code>{string | object}</code></p></li> <li><p>使用：</p></li></ul> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> token <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>当没有为 <code>$cookie.get</code> 函数传递任何参数时，将返回一个对象，包含全部的 <code>cookie</code>：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> cookies <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token comment">// cookies = { token: 'xxx', uid: 'xxx', .... }</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h5 id="设置-cookie"><a href="#设置-cookie" aria-hidden="true" class="header-anchor">#</a> 设置 cookie</h5> <p>使用 <code>$cookie.set</code> 函数设置一个或一组 <code>cookie</code>。</p> <ul><li><p>参数：</p> <ul><li><code>{string | array}</code> key</li> <li><code>{string}</code> value</li> <li><code>{object}</code> options</li></ul></li> <li><p>使用：</p></li></ul> <p>设置单个 <code>cookie</code></p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">,</span> <span class="token string">'token value'</span><span class="token punctuation">,</span> <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'/'</span> <span class="token punctuation">}</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>设置一组 <code>cookie</code>：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">set</span><span class="token punctuation">(</span><span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'token'</span><span class="token punctuation">,</span>
+        value<span class="token punctuation">:</span> <span class="token string">'token value'</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        name<span class="token punctuation">:</span> <span class="token string">'foo'</span><span class="token punctuation">,</span>
+        value<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+        options<span class="token punctuation">:</span> <span class="token punctuation">{</span> path<span class="token punctuation">:</span> <span class="token string">'/foo'</span> <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>所有可用的 <code>options</code> 可以查看：<a href="https://github.com/jshttp/cookie#options" target="_blank" rel="noopener noreferrer">jshttp/cookie#options<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h5 id="删除-cookie"><a href="#删除-cookie" aria-hidden="true" class="header-anchor">#</a> 删除 cookie</h5> <p>使用 <code>vm.$coookie.delete</code> 函数删除单个或全部 <code>cookie</code>。</p> <ul><li><p>参数：</p> <ul><li><code>{string}</code> key</li> <li><code>{object}</code> options</li></ul></li> <li><p>使用：</p></li></ul> <p>删除单个 <code>cookie</code>：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">delete</span><span class="token punctuation">(</span><span class="token string">'token'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>当没有传递任何参数给 <code>$cookie.delete</code> 函数时，会删除全部 <code>cookie</code>：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$cookie<span class="token punctuation">.</span><span class="token keyword">delete</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>其中 <code>options</code> 选项为：<a href="https://github.com/jshttp/cookie#options" target="_blank" rel="noopener noreferrer">jshttp/cookie#options<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p> <h4 id="插件选项："><a href="#插件选项：" aria-hidden="true" class="header-anchor">#</a> 插件选项：</h4> <h5 id="fromres"><a href="#fromres" aria-hidden="true" class="header-anchor">#</a> fromRes</h5> <ul><li>Type: <code>boolean</code></li> <li>Default: <code>false</code></li></ul> <p>该选项仅在服务端生效，当使用 <code>$cookie.get</code> 函数读取 <code>cookie</code> 值得时候，是否读取响应对象(<code>res</code>)中的 <code>cookie</code>。</p> <h3 id="vapper-plugin-platform"><a href="#vapper-plugin-platform" aria-hidden="true" class="header-anchor">#</a> @vapper/plugin-platform</h3> <p>该插件用于平台（<code>User-Agent</code>）断言，在浏览器中通过 <code>window.navigator.userAgent</code> 获取 <code>UA</code> 信息，在服务端从请求对象 <code>req.headers['user-agent']</code> 中获取 <code>UA</code> 信息。</p> <h4 id="安装-3"><a href="#安装-3" aria-hidden="true" class="header-anchor">#</a> 安装</h4> <div class="language-sh extra-class"><pre class="language-sh"><code>yarn add @vapper/plugin-platform
+</code></pre></div><h4 id="使用-3"><a href="#使用-3" aria-hidden="true" class="header-anchor">#</a> 使用</h4> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">'@vapper/plugin-platform'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span><span class="token comment">/* options */</span><span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>该插件会在 <a href="/zh/entry.html#context">Context</a> 对象和组件实例上注入 <code>$browser</code> 对象，该对象包含了用户代理的信息，例如：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// Home.vue</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$browser<span class="token punctuation">.</span>name<span class="token punctuation">)</span> <span class="token comment">// Chrome</span>
+    console<span class="token punctuation">.</span><span class="token function">log</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>$browser<span class="token punctuation">.</span>version<span class="token punctuation">)</span> <span class="token comment">// '80.0.3987.122'</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h5 id="自定义匹配规则"><a href="#自定义匹配规则" aria-hidden="true" class="header-anchor">#</a> 自定义匹配规则</h5> <p>有时你可能需要自定义 UA 检测规则，可以通过 <code>browsers</code> 插件选项达到这个目的：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br><br></div><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">'@vapper/plugin-platform'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        browsers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+          <span class="token comment">// 自定义规则</span>
+          <span class="token punctuation">{</span>
+            test<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token operator">/</span>chrome<span class="token operator">/</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token function">describe</span> <span class="token punctuation">(</span>ua<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> browser <span class="token operator">=</span> <span class="token punctuation">{</span>
+                name<span class="token punctuation">:</span> <span class="token string">'SupperChrome'</span>
+              <span class="token punctuation">}</span>
+        
+              <span class="token keyword">return</span> browser
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p><code>browsers</code> 选项是一个数组，因此可以定义多条规则。如上高亮代码所示，每条自定义规则都是一个包含 <code>test</code> 属性和 <code>describe</code> 属性对象，其中 <code>test</code> 属性是一个数组，指定一组匹配规则，这组规则将用于 <code>UA</code> 字符串，一旦规则匹配，将会执行 <code>describe</code> 函数，实际上 <code>describe</code> 函数的返回值可以通过 <code>this.$browser</code> 访问。</p> <p>另外 <code>describe(ua)</code> 函数接收 <code>UA</code> 字符串作为参数，你可以根据需要做相应的处理。</p> <h5 id="自定义快捷检查函数"><a href="#自定义快捷检查函数" aria-hidden="true" class="header-anchor">#</a> 自定义快捷检查函数</h5> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br><br></div><pre class="language-js"><code><span class="token comment">// vapper.config.js</span>
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
+  plugins<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">[</span>
+      <span class="token string">'@vapper/plugin-platform'</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        browsers<span class="token punctuation">:</span> <span class="token punctuation">[</span>
+          <span class="token comment">// 自定义规则</span>
+          <span class="token punctuation">{</span>
+            test<span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token operator">/</span>chrome<span class="token operator">/</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+            <span class="token function">describe</span> <span class="token punctuation">(</span>ua<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+              <span class="token keyword">const</span> browser <span class="token operator">=</span> <span class="token punctuation">{</span>
+                name<span class="token punctuation">:</span> <span class="token string">'SupperChrome'</span>
+              <span class="token punctuation">}</span>
+        
+              <span class="token keyword">return</span> browser
+            <span class="token punctuation">}</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        checkers<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+          <span class="token function">isChrome</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment">// 这里的 this 就是 this.$browser 对象</span>
+            <span class="token keyword">return</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">===</span> <span class="token string">'SupperChrome'</span>
+          <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">]</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如上高亮代码所示，<code>checkers</code> 选项是一个对象，可以自定义快捷函数，有了如上配置之后，我们可以向如下这样在组件中使用：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  <span class="token function">created</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>$browser<span class="token punctuation">.</span><span class="token function">isChrome</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment">// true or false</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="社区插件"><a href="#社区插件" aria-hidden="true" class="header-anchor">#</a> 社区插件</h2></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/vapperjs/vapper/edit/master/docs/zh/using-plugin.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/zh/caching.html" class="prev">
+          使用缓存
+        </a></span> <span class="next"><a href="/zh/injection.html">
+          Vapper 注入
+        </a>
+        →
+      </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/2.d400e92f.js" defer></script><script src="/assets/js/47.a0463bd9.js" defer></script><script src="/assets/js/app.75098c1e.js" defer></script>
+  </body>
+</html>

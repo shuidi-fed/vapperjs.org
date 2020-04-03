@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>数据预取 | Vapper</title>
+    <meta name="description" content="A Vue-based server-side rendering framework">
+    
+    
+    <link rel="preload" href="/assets/css/0.styles.02f63e62.css" as="style"><link rel="preload" href="/assets/js/app.75098c1e.js" as="script"><link rel="preload" href="/assets/js/2.d400e92f.js" as="script"><link rel="preload" href="/assets/js/35.f4e15fa6.js" as="script"><link rel="prefetch" href="/assets/js/10.a238c216.js"><link rel="prefetch" href="/assets/js/11.93200388.js"><link rel="prefetch" href="/assets/js/12.8321d79b.js"><link rel="prefetch" href="/assets/js/13.f00c4fe6.js"><link rel="prefetch" href="/assets/js/14.803d8fbc.js"><link rel="prefetch" href="/assets/js/15.ab49d01f.js"><link rel="prefetch" href="/assets/js/16.e1f3442e.js"><link rel="prefetch" href="/assets/js/17.e3665905.js"><link rel="prefetch" href="/assets/js/18.6eba3bc8.js"><link rel="prefetch" href="/assets/js/19.fc099a71.js"><link rel="prefetch" href="/assets/js/20.cdd8ac45.js"><link rel="prefetch" href="/assets/js/21.eca1f057.js"><link rel="prefetch" href="/assets/js/22.cfcb0507.js"><link rel="prefetch" href="/assets/js/23.a66ea920.js"><link rel="prefetch" href="/assets/js/24.5f598cac.js"><link rel="prefetch" href="/assets/js/25.233c5492.js"><link rel="prefetch" href="/assets/js/26.c946b027.js"><link rel="prefetch" href="/assets/js/27.fe6c3a55.js"><link rel="prefetch" href="/assets/js/28.34c13167.js"><link rel="prefetch" href="/assets/js/29.c10b2bc3.js"><link rel="prefetch" href="/assets/js/3.ff3a75ea.js"><link rel="prefetch" href="/assets/js/30.8c7224f9.js"><link rel="prefetch" href="/assets/js/31.ce6d4e00.js"><link rel="prefetch" href="/assets/js/32.9afcbc22.js"><link rel="prefetch" href="/assets/js/33.7814c979.js"><link rel="prefetch" href="/assets/js/34.45c5f16b.js"><link rel="prefetch" href="/assets/js/36.feb10634.js"><link rel="prefetch" href="/assets/js/37.c2606191.js"><link rel="prefetch" href="/assets/js/38.e92c7e9d.js"><link rel="prefetch" href="/assets/js/39.147b66fc.js"><link rel="prefetch" href="/assets/js/4.6f1a593f.js"><link rel="prefetch" href="/assets/js/40.c35ff5fe.js"><link rel="prefetch" href="/assets/js/41.f62b8795.js"><link rel="prefetch" href="/assets/js/42.9c5935ab.js"><link rel="prefetch" href="/assets/js/43.aa4b86ba.js"><link rel="prefetch" href="/assets/js/44.8be6f2ee.js"><link rel="prefetch" href="/assets/js/45.50d7724e.js"><link rel="prefetch" href="/assets/js/46.7474df56.js"><link rel="prefetch" href="/assets/js/47.a0463bd9.js"><link rel="prefetch" href="/assets/js/48.dc12d8a2.js"><link rel="prefetch" href="/assets/js/49.0ddc00d8.js"><link rel="prefetch" href="/assets/js/5.a70af778.js"><link rel="prefetch" href="/assets/js/6.d1383401.js"><link rel="prefetch" href="/assets/js/7.fd7915df.js"><link rel="prefetch" href="/assets/js/8.40b285d8.js"><link rel="prefetch" href="/assets/js/9.1e07b9c3.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.02f63e62.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/zh/" class="home-link router-link-active"><!----> <span class="site-name">Vapper</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/zh/introduction.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/zh/write-plugin.html" class="nav-link">Advanced</a></div><div class="nav-item"><a href="/zh/config.html" class="nav-link">配置文件</a></div><div class="nav-item"><a href="/zh/troubleshooting.html" class="nav-link">常见问题</a></div><div class="nav-item"><a href="/zh/migrating.html" class="nav-link">从 v0.x 迁移</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/data-prefetching.html" class="nav-link">English</a></li><li class="dropdown-item"><!----> <a href="/zh/data-prefetching.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li></ul></div></div> <a href="https://github.com/vapperjs/vapper" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/zh/introduction.html" class="nav-link">Guide</a></div><div class="nav-item"><a href="/zh/write-plugin.html" class="nav-link">Advanced</a></div><div class="nav-item"><a href="/zh/config.html" class="nav-link">配置文件</a></div><div class="nav-item"><a href="/zh/troubleshooting.html" class="nav-link">常见问题</a></div><div class="nav-item"><a href="/zh/migrating.html" class="nav-link">从 v0.x 迁移</a></div><div class="nav-item"><div class="dropdown-wrapper"><a class="dropdown-title"><span class="title">Languages</span> <span class="arrow right"></span></a> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/data-prefetching.html" class="nav-link">English</a></li><li class="dropdown-item"><!----> <a href="/zh/data-prefetching.html" class="nav-link router-link-exact-active router-link-active">简体中文</a></li></ul></div></div> <a href="https://github.com/vapperjs/vapper" target="_blank" rel="noopener noreferrer" class="repo-link">
+    GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></nav>  <ul class="sidebar-links"><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading open"><span>Guide</span> <span class="arrow down"></span></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/zh/introduction.html" class="sidebar-link">Introduction</a></li><li><a href="/zh/usage.html" class="sidebar-link">Usage</a></li><li><a href="/zh/entry.html" class="sidebar-link">入口文件</a></li><li><a href="/zh/data-prefetching.html" class="active sidebar-link">数据预取</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#needserialize-选项" class="sidebar-link">needSerialize 选项</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#不要忘记-await" class="sidebar-link">不要忘记 await</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#避免重复的数据预取" class="sidebar-link">避免重复的数据预取</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#store-vuex" class="sidebar-link">Store(Vuex)</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#避免状态单例" class="sidebar-link">避免状态单例</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#预取数据-dispatch" class="sidebar-link">预取数据 - dispatch</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#needprefetch-选项" class="sidebar-link">needPrefetch 选项</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#mapactions-函数" class="sidebar-link">mapActions 函数</a></li></ul></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#使用-apollo" class="sidebar-link">使用 Apollo</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#安装依赖" class="sidebar-link">安装依赖</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#createapolloclient" class="sidebar-link">createApolloClient</a></li><li class="sidebar-sub-header"><a href="/zh/data-prefetching.html#在入口文件中返回-apolloprovider" class="sidebar-link">在入口文件中返回 apolloProvider</a></li></ul></li></ul></li><li><a href="/zh/routes-meta.html" class="sidebar-link">路由 Meta</a></li><li><a href="/zh/error-handling.html" class="sidebar-link">错误处理</a></li><li><a href="/zh/page-template.html" class="sidebar-link">页面模板</a></li><li><a href="/zh/management-head.html" class="sidebar-link">管理 &lt;head&gt;</a></li><li><a href="/zh/assets.html" class="sidebar-link">静态资源</a></li><li><a href="/zh/mode.html" class="sidebar-link">mode 和环境变量</a></li><li><a href="/zh/caching.html" class="sidebar-link">使用缓存</a></li><li><a href="/zh/using-plugin.html" class="sidebar-link">使用插件</a></li><li><a href="/zh/injection.html" class="sidebar-link">Vapper 注入</a></li><li><a href="/zh/typescript.html" class="sidebar-link">使用 TypeScript</a></li></ul></section></li><li><section class="sidebar-group collapsable depth-0"><p class="sidebar-heading"><span>Advanced</span> <span class="arrow right"></span></p> <!----></section></li><li><a href="/zh/config.html" class="sidebar-link">配置文件</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="数据预取"><a href="#数据预取" aria-hidden="true" class="header-anchor">#</a> 数据预取</h1> <div class="tip custom-block"><p class="custom-block-title">提示</p> <p>请安装 <code>0.15.2+</code> 版本，以使用更强大的数据预取方式。</p></div> <p><code>Vapper</code> 提供更直观更强大的数据预取能力，它让你像开发 <code>SPA</code> 应用一样的进行数据预取。</p> <h2 id="needserialize-选项"><a href="#needserialize-选项" aria-hidden="true" class="header-anchor">#</a> needSerialize 选项</h2> <p>在开发 <code>SPA</code> 应用时，我们通常在组件的 <code>created</code> 或 <code>mounted</code> 钩子中进行数据的获取，例如：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// created 钩子</span>
+<span class="token keyword">async</span> <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 假设 `fetchApi` 函数的返回值是 `Promise` 实例</span>
+  <span class="token keyword">this</span><span class="token punctuation">.</span>res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">fetchApi</span><span class="token punctuation">(</span><span class="token string">'/list'</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>但这段代码不能正常的运行在 <code>SSR</code> 应用中，因为在服务端渲染的过程中，应用程序无法知道请求何时结束，也无法知道哪些数据需要序列化后发送给客户端。因此为了让上面的代码能够在 <code>SSR</code> 应用中运行，你只需要添加 <code>needSerialize: true</code> 选项即可：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><div class="highlighted"> </div><br><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  needSerialize<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token comment">// created 钩子</span>
+  <span class="token keyword">async</span> <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 假设 `fetchApi` 函数的返回值是 `Promise` 实例</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">fetchApi</span><span class="token punctuation">(</span><span class="token string">'/list'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如上代码就是 <code>Vapper</code> 应用预取数据的全部代码，是不是非常简单？</p> <div class="tip custom-block"><p class="custom-block-title">提示</p> <p>请注意：由于 <code>SSR</code> 的过程中，组件的 <code>mounted</code> 钩子函数不会被执行，因此你只能在 <code>created</code> 钩子中进行数据预取。</p></div> <h2 id="不要忘记-await"><a href="#不要忘记-await" aria-hidden="true" class="header-anchor">#</a> 不要忘记 await</h2> <p>如果忘记 <code>await</code>，将得不到预期的结果：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  needSerialize<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token comment">// created 钩子</span>
+  <span class="token keyword">async</span> <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 这里忘记了 await</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>  <span class="token comment">// 正确的做法是：await this.getData()</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token keyword">async</span> <span class="token function">getData</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span>res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">fetchApi</span><span class="token punctuation">(</span><span class="token string">'/list'</span><span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="避免重复的数据预取"><a href="#避免重复的数据预取" aria-hidden="true" class="header-anchor">#</a> 避免重复的数据预取</h2> <p>阅读上面的代码，你可能会产生疑问：“<code>created</code> 钩子函数内的代码难道不会分别在服务端和客户端执行吗？这样是否会导致重复的数据预取？”。其实不会，<code>Vapper</code> 自动帮助你避免了重复的数据预取，因此你什么都不用做。当然，如果是在客户端通过路由跳转来到某一个页面，那么仍然会进行正常的数据预取。这是符合预期的。</p> <h2 id="store-vuex"><a href="#store-vuex" aria-hidden="true" class="header-anchor">#</a> Store(Vuex)</h2> <h3 id="避免状态单例"><a href="#避免状态单例" aria-hidden="true" class="header-anchor">#</a> 避免状态单例</h3> <p><code>Vapper</code> 允许你可选的使用 <code>Vuex</code>，我们同样需要为每个请求都创建一个新的 <code>Store</code> 实例，通常我们会封装 <code>createStore</code> 工厂方法：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token comment">// store/index.js</span>
+
+<span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> Vuex <span class="token keyword">from</span> <span class="token string">'vuex'</span>
+<span class="token keyword">import</span> fetch <span class="token keyword">from</span> <span class="token string">'./fetch'</span>
+
+Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>Vuex<span class="token punctuation">)</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">createStore</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 返回新的 Store 实例</span>
+  <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Vuex<span class="token punctuation">.</span>Store</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    state<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    mutations<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    actions<span class="token punctuation">:</span> <span class="token punctuation">{</span> <span class="token comment">/* ... */</span> <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>接着在入口文件中创建 <code>store</code> 实例：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><div class="highlighted"> </div><br><br><br><br><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token comment">// src/main.js</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">createApp</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// ...</span>
+
+  <span class="token comment">// 创建 store 实例</span>
+  <span class="token keyword">const</span> store <span class="token operator">=</span> <span class="token function">createStore</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// Create a root component</span>
+  <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token punctuation">{</span>
+    router<span class="token punctuation">,</span>
+    store<span class="token punctuation">,</span>
+    <span class="token comment">// This is necessary, it is for vue-meta</span>
+    head<span class="token punctuation">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+    render<span class="token punctuation">:</span> h <span class="token operator">=&gt;</span> <span class="token function">h</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// return the root component</span>
+  <span class="token keyword">return</span> app
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="预取数据-dispatch"><a href="#预取数据-dispatch" aria-hidden="true" class="header-anchor">#</a> 预取数据 - dispatch</h3> <p><code>action</code> 需要返回 <code>Promise</code> 实例，之后我们可以像如下代码这样进行数据预取：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><div class="highlighted"> </div><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  needSerialize<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token comment">// created 钩子</span>
+  <span class="token keyword">async</span> <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'fetchData'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>如果我们使用 <code>async/await</code>，那么 <code>action</code> 的代码看上去像如下这样：</p> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">new</span> <span class="token class-name">Vuex<span class="token punctuation">.</span>Store</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+  actions<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token keyword">async</span> <span class="token function">fetchData</span><span class="token punctuation">(</span><span class="token punctuation">{</span> commit <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token comment">// 发送异步请求</span>
+      <span class="token keyword">const</span> res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token function">fetch</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+      <span class="token function">commit</span><span class="token punctuation">(</span><span class="token string">'setData'</span><span class="token punctuation">,</span> res<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span>
+</code></pre></div><h3 id="needprefetch-选项"><a href="#needprefetch-选项" aria-hidden="true" class="header-anchor">#</a> needPrefetch 选项</h3> <p>如果 <code>needSerialize</code> 选项设置为 <code>true</code>，那么它会做两件事情：</p> <ul><li>序列化该组件的 <code>data</code> 并发送给客户端</li> <li>等待异步的 <code>created</code> 钩子预取数据完成</li></ul> <p>但有时候异步的 <code>created</code> 钩子中仅包含 <code>store</code> 的数据预取，而不涉及组件自身的数据(<code>data</code> 选项)，这时，如果我们仍然序列化组件自身的数据并发送给客户端是没有意义的，并且会浪费流量。这时你可以使用 <code>needPrefetch: true</code> 选项，它与 <code>needSerialize</code> 区别是：</p> <ul><li>等待异步的 <code>created</code> 钩子预取数据完成，但不会序列化组件自身的数据。</li></ul> <p>因此，我们可以修改上例为：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><div class="highlighted"> </div><br><br><br><br><br><br><br></div><pre class="language-js"><code><span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  needPrefetch<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token comment">// created 钩子</span>
+  <span class="token keyword">async</span> <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 这里只涉及 store 中数据的预取</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>res <span class="token operator">=</span> <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span>$store<span class="token punctuation">.</span><span class="token function">dispatch</span><span class="token punctuation">(</span><span class="token string">'fetchData'</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><div class="tip custom-block"><p class="custom-block-title">提示</p> <p>实践：如果 <code>created</code> 钩子中仅涉及 <code>store</code> 数据的预取，则使用 <code>needPrefetch</code> 选项，否则使用 <code>needSerialize</code> 选项。</p></div> <h3 id="mapactions-函数"><a href="#mapactions-函数" aria-hidden="true" class="header-anchor">#</a> mapActions 函数</h3> <p>如果你使用 <code>mapActions</code> 函数将 <code>actions</code> 映射为组件的 <code>methods</code>，那么代码看起来将更直观：</p> <div class="language-js extra-class"><div class="highlight-lines"><br><br><br><br><br><br><div class="highlighted"> </div><br><div class="highlighted"> </div><br><br><br></div><pre class="language-js"><code><span class="token keyword">import</span> <span class="token punctuation">{</span> mapActions <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'vuex'</span>
+
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token punctuation">{</span>
+  methods<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    <span class="token operator">...</span><span class="token function">mapActions</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'fetchData'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  needSerialize<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+  <span class="token keyword">async</span> <span class="token function">created</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">await</span> <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">fetchData</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="使用-apollo"><a href="#使用-apollo" aria-hidden="true" class="header-anchor">#</a> 使用 Apollo</h2> <p><code>Vapper</code> 允许你使用 <a href="https://vue-apollo.netlify.com/" target="_blank" rel="noopener noreferrer">vue-apollo<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>，并自动支持 <code>SSR</code>。</p> <h3 id="安装依赖"><a href="#安装依赖" aria-hidden="true" class="header-anchor">#</a> 安装依赖</h3> <p>以下依赖是需要你手动安装的：</p> <div class="language-sh extra-class"><pre class="language-sh"><code>yarn add vue-apollo graphql apollo-client apollo-link apollo-link-http apollo-cache-inmemory graphql-tag
+</code></pre></div><p>详细信息可以查看：<a href="https://vue-apollo.netlify.com/guide/installation.html#manual-installation" target="_blank" rel="noopener noreferrer">vue-apollo Manual installation<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>。</p> <h3 id="createapolloclient"><a href="#createapolloclient" aria-hidden="true" class="header-anchor">#</a> createApolloClient</h3> <div class="language-js extra-class"><pre class="language-js"><code><span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> ApolloClient <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'apollo-client'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> HttpLink <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'apollo-link-http'</span>
+<span class="token keyword">import</span> <span class="token punctuation">{</span> InMemoryCache <span class="token punctuation">}</span> <span class="token keyword">from</span> <span class="token string">'apollo-cache-inmemory'</span>
+<span class="token keyword">import</span> VueApollo <span class="token keyword">from</span> <span class="token string">'vue-apollo'</span>
+<span class="token keyword">import</span> fetch <span class="token keyword">from</span> <span class="token string">'isomorphic-fetch'</span>
+
+<span class="token comment">// Install the vue plugin</span>
+Vue<span class="token punctuation">.</span><span class="token function">use</span><span class="token punctuation">(</span>VueApollo<span class="token punctuation">)</span>
+
+<span class="token comment">// Create the apollo client</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">createApolloClient</span> <span class="token punctuation">(</span><span class="token punctuation">{</span> type <span class="token punctuation">}</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> isServer <span class="token operator">=</span> type <span class="token operator">===</span> <span class="token string">'server'</span>
+  <span class="token keyword">const</span> httpLink <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HttpLink</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    fetch<span class="token punctuation">,</span>
+    <span class="token comment">// You should use an absolute URL here</span>
+    uri<span class="token punctuation">:</span> <span class="token string">'https://api.graph.cool/simple/v1/cixmkt2ul01q00122mksg82pn'</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">const</span> cache <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">InMemoryCache</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// If on the client, recover the injected state</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>isServer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token keyword">typeof</span> window <span class="token operator">!==</span> <span class="token string">'undefined'</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> state <span class="token operator">=</span> window<span class="token punctuation">.</span>__INITIAL_STATE__<span class="token punctuation">.</span>$$apolloState
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>state<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token comment">// If you have multiple clients, use `state.&lt;client_id&gt;`</span>
+        cache<span class="token punctuation">.</span><span class="token function">restore</span><span class="token punctuation">(</span>state<span class="token punctuation">.</span>defaultClient<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token keyword">const</span> apolloClient <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ApolloClient</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    link<span class="token punctuation">:</span> httpLink<span class="token punctuation">,</span>
+    cache<span class="token punctuation">,</span>
+    <span class="token operator">...</span><span class="token punctuation">(</span>isServer <span class="token operator">?</span> <span class="token punctuation">{</span>
+      <span class="token comment">// Set this on the server to optimize queries when SSR</span>
+      ssrMode<span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span> <span class="token punctuation">:</span> <span class="token punctuation">{</span>
+      <span class="token comment">// This will temporary disable query force-fetching</span>
+      ssrForceFetchDelay<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">return</span> apolloClient
+<span class="token punctuation">}</span>
+</code></pre></div><h3 id="在入口文件中返回-apolloprovider"><a href="#在入口文件中返回-apolloprovider" aria-hidden="true" class="header-anchor">#</a> 在入口文件中返回 apolloProvider</h3> <div class="language-js extra-class"><div class="highlight-lines"><br><br><div class="highlighted"> </div><br><div class="highlighted"> </div><br><br><br><br><br><br><br><br><br><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><div class="highlighted"> </div><br><br><br><div class="highlighted"> </div><br><br><br><br><br><div class="highlighted"> </div><br><br></div><pre class="language-js"><code><span class="token comment">// Entry file</span>
+<span class="token keyword">import</span> Vue <span class="token keyword">from</span> <span class="token string">'vue'</span>
+<span class="token keyword">import</span> VueApollo <span class="token keyword">from</span> <span class="token string">'vue-apollo'</span>
+<span class="token keyword">import</span> createRouter <span class="token keyword">from</span> <span class="token string">'./createRouter'</span>
+<span class="token keyword">import</span> createApolloClient <span class="token keyword">from</span> <span class="token string">'./createApolloClient'</span>
+<span class="token keyword">import</span> App <span class="token keyword">from</span> <span class="token string">'./App.vue'</span>
+
+Vue<span class="token punctuation">.</span>config<span class="token punctuation">.</span>productionTip <span class="token operator">=</span> <span class="token boolean">false</span>
+
+<span class="token comment">// Export factory function</span>
+<span class="token keyword">export</span> <span class="token keyword">default</span> <span class="token keyword">function</span> <span class="token function">createApp</span> <span class="token punctuation">(</span>context<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// 1. Create a router instance</span>
+  <span class="token keyword">const</span> router <span class="token operator">=</span> <span class="token function">createRouter</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">const</span> apolloClient <span class="token operator">=</span> <span class="token function">createApolloClient</span><span class="token punctuation">(</span>context<span class="token punctuation">)</span>
+  <span class="token keyword">const</span> apolloProvider <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">VueApollo</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    defaultClient<span class="token punctuation">:</span> apolloClient<span class="token punctuation">,</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// 2. Create a app instance</span>
+  <span class="token keyword">const</span> app <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Vue</span><span class="token punctuation">(</span><span class="token punctuation">{</span>
+    apolloProvider<span class="token punctuation">,</span>
+    router<span class="token punctuation">,</span>
+    render<span class="token punctuation">:</span> h <span class="token operator">=&gt;</span> <span class="token function">h</span><span class="token punctuation">(</span>App<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  <span class="token comment">// 3. return</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span> app<span class="token punctuation">,</span> router<span class="token punctuation">,</span> apolloProvider <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>可以查看并尝试运行这里例子：<a href="https://github.com/vapperjs/vapper/blob/master/examples/with-vue-apollo/README.md" target="_blank" rel="noopener noreferrer">examples/with-vue-apollo<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></p></div> <footer class="page-edit"><div class="edit-link"><a href="https://github.com/vapperjs/vapper/edit/master/docs/zh/data-prefetching.md" target="_blank" rel="noopener noreferrer">在 GitHub 上编辑此页</a> <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></div> <!----></footer> <div class="page-nav"><p class="inner"><span class="prev">
+        ←
+        <a href="/zh/entry.html" class="prev">
+          入口文件
+        </a></span> <span class="next"><a href="/zh/routes-meta.html">
+          路由 Meta
+        </a>
+        →
+      </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/2.d400e92f.js" defer></script><script src="/assets/js/35.f4e15fa6.js" defer></script><script src="/assets/js/app.75098c1e.js" defer></script>
+  </body>
+</html>
