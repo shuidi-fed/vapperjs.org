@@ -340,4 +340,49 @@ module.exports = {
 
 In addition, the `describe(ua)` function receives a `UA` string as a argument, and you can do the corresponding processing as needed.
 
+
+##### Custom checker function
+
+```js {20-25}
+// vapper.config.js
+module.exports = {
+  plugins: [
+    [
+      '@vapper/plugin-platform',
+      {
+        browsers: [
+          // Custom detection rules
+          {
+            test: [/chrome/],
+            describe (ua) {
+              const browser = {
+                name: 'SupperChrome'
+              }
+        
+              return browser
+            }
+          }
+        ],
+        checkers: {
+          isChrome() {
+            // The `this` is equivalent to the `this.$Browser` object
+            return this.name === 'SupperChrome'
+          }
+        }
+      }
+    ]
+  ]
+}
+```
+
+As shown in the highlighted code above, the `checkers` option is an object, and you can customize shortcut functions. With the above configuration, we can use it in the component as follows:
+
+```js
+export default {
+  created() {
+    this.$browser.isChrome() // true or false
+  }
+}
+```
+
 ## Community plugin

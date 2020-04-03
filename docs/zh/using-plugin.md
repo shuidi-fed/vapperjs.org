@@ -340,4 +340,48 @@ module.exports = {
 
 另外 `describe(ua)` 函数接收 `UA` 字符串作为参数，你可以根据需要做相应的处理。
 
+##### 自定义快捷检查函数
+
+```js {20-25}
+// vapper.config.js
+module.exports = {
+  plugins: [
+    [
+      '@vapper/plugin-platform',
+      {
+        browsers: [
+          // 自定义规则
+          {
+            test: [/chrome/],
+            describe (ua) {
+              const browser = {
+                name: 'SupperChrome'
+              }
+        
+              return browser
+            }
+          }
+        ],
+        checkers: {
+          isChrome() {
+            // 这里的 this 就是 this.$browser 对象
+            return this.name === 'SupperChrome'
+          }
+        }
+      }
+    ]
+  ]
+}
+```
+
+如上高亮代码所示，`checkers` 选项是一个对象，可以自定义快捷函数，有了如上配置之后，我们可以向如下这样在组件中使用：
+
+```js
+export default {
+  created() {
+    this.$browser.isChrome() // true or false
+  }
+}
+```
+
 ## 社区插件
